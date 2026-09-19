@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodLens</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 50%, #ffd3b6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            max-width: 950px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #2d6a4f;
+            font-size: 2.1em;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .emoji-row {
+            font-size: 1.8em;
+            margin: 10px 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #f1f8f4;
+            padding: 6px;
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 15px;
+            border: none;
+            background: transparent;
+            color: #2d6a4f;
+            font-weight: bold;
+            font-size: 0.95em;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-family: 'Comic Sans MS', sans-serif;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover { background: rgba(82, 183, 136, 0.15); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #52b788, #40916c);
+            color: white;
+            box-shadow: 0 4px 10px rgba(82, 183, 136, 0.3);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .age-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .age-btn {
+            flex: 1;
+            min-width: 130px;
+            padding: 14px 12px;
+            border: 3px solid #e0e0e0;
+            background: white;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Comic Sans MS', sans-serif;
+            text-align: center;
+        }
+
+        .age-btn:hover { border-color: #b7e4c7; transform: translateY(-2px); }
+        .age-btn.active {
+            border-color: #52b788;
+            background: #e8f7ee;
+            box-shadow: 0 4px 12px rgba(82, 183, 136, 0.2);
+        }
+
+        .age-btn .age-emoji { font-size: 1.5em; display: block; }
+        .age-btn .age-label { font-size: 0.95em; font-weight: bold; color: #2d6a4f; margin-top: 4px; }
+        .age-btn .age-sub { font-size: 0.75em; color: #666; margin-top: 2px; }
+
+        .input-section { margin-bottom: 20px; }
+
+        .input-section label {
+            display: block;
+            color: #2d6a4f;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 15px;
+            border: 3px solid #b7e4c7;
+            border-radius: 15px;
+            font-size: 1em;
+            resize: vertical;
+            font-family: 'Segoe UI', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #52b788;
+            box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button.primary-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.05em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Comic Sans MS', sans-serif;
+        }
+
+        button.primary-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+        button.primary-btn:active { transform: translateY(0); }
+
+        .btn-check { background: linear-gradient(135deg, #52b788, #40916c); color: white; }
+        .btn-clear { background: linear-gradient(135deg, #ffb4a2, #ff8c69); color: white; }
+        .btn-sample { background: linear-gradient(135deg, #a2d2ff, #6c9bcf); color: white; }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .legend-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dot-safe { background: #52b788; }
+        .dot-caution { background: #ffd166; }
+        .dot-harmful { background: #ff6b6b; }
+        .dot-unknown { background: #adb5bd; }
+
+        .results { margin-top: 20px; display: none; }
+        .results.show { display: block; animation: fadeIn 0.4s ease; }
+
+        .results h2 {
+            color: #2d6a4f;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .ingredient-card {
+            padding: 15px 18px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 6px solid;
+            transition: transform 0.2s;
+        }
+
+        .ingredient-card:hover { transform: translateX(4px); }
+
+        .ingredient-card.safe { background: #d8f3dc; border-color: #52b788; }
+        .ingredient-card.caution { background: #fff3cd; border-color: #ffd166; }
+        .ingredient-card.harmful { background: #ffd6d6; border-color: #ff6b6b; }
+        .ingredient-card.unknown { background: #e9ecef; border-color: #adb5bd; }
+        .ingredient-card.age-restricted { background: #ffe0e0; border-color: #c9184a; border-left-width: 8px; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .ingredient-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.05em;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .badge.safe { background: #52b788; }
+        .badge.caution { background: #e6a817; }
+        .badge.harmful { background: #ff6b6b; }
+        .badge.unknown { background: #adb5bd; }
+        .badge.age-restricted { background: #c9184a; }
+
+        .reason {
+            font-size: 0.9em;
+            color: #555;
+            font-style: italic;
+        }
+
+        .age-warning {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #ffe5ec;
+            border-radius: 10px;
+            border-left: 3px solid #c9184a;
+            font-size: 0.9em;
+            color: #800f2f;
+            font-weight: bold;
+        }
+
+        .age-warning-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            color: #c9184a;
+            font-size: 0.95em;
+        }
+
+        .alternatives {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border-left: 3px solid #52b788;
+        }
+
+        .alternatives-title {
+            font-size: 0.9em;
+            color: #2d6a4f;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .alternative-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .alt-chip {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #2d6a4f;
+            border: 1.5px solid #b7e4c7;
+            font-weight: bold;
+        }
+
+        .summary {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .summary.all-good { background: #d8f3dc; color: #2d6a4f; }
+        .summary.has-issues { background: #fff3cd; color: #8a6d00; }
+        .summary.has-harmful { background: #ffd6d6; color: #9d0208; }
+        .summary.age-critical { background: #ffe0e0; color: #800f2f; border: 2px solid #c9184a; }
+
+        .stats-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            background: white;
+            border: 2px solid #e9ecef;
+        }
+
+        .stat-chip.safe { color: #2d6a4f; border-color: #52b788; }
+        .stat-chip.caution { color: #8a6d00; border-color: #ffd166; }
+        .stat-chip.harmful { color: #9d0208; border-color: #ff6b6b; }
+        .stat-chip.unknown { color: #495057; border-color: #adb5bd; }
+        .stat-chip.age-restricted { color: #800f2f; border-color: #c9184a; }
+
+        .kid-tip {
+            background: linear-gradient(135deg, #e0fbfc, #c2e9fb);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: #1e6091;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .history-header h2 { color: #2d6a4f; font-size: 1.3em; }
+
+        .btn-clear-history {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #ffb4a2, #ff8c69);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+
+        .btn-clear-history:hover { transform: translateY(-2px); }
+
+        .history-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .history-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid #52b788;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover { background: #e8f7ee; transform: translateX(4px); }
+        .history-item.age-warn { border-left-color: #c9184a; }
+        .history-item.warn { border-left-color: #ffd166; }
+        .history-item.bad { border-left-color: #ff6b6b; }
+
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .history-time { font-size: 0.8em; color: #888; }
+
+        .history-age-badge {
+            padding: 3px 10px;
+            background: #c2e9fb;
+            color: #1e6091;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .history-ingredients {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 6px;
+            word-break: break-word;
+        }
+
+        .history-stats {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 0.8em;
+        }
+
+        .history-stat {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .history-stat.safe { background: #d8f3dc; color: #2d6a4f; }
+        .history-stat.caution { background: #fff3cd; color: #8a6d00; }
+        .history-stat.harmful { background: #ffd6d6; color: #9d0208; }
+        .history-stat.unknown { background: #e9ecef; color: #495057; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 1em;
+        }
+
+        .empty-state .empty-emoji { font-size: 3em; display: block; margin-bottom: 10px; }
+
+        .search-box { position: relative; margin-bottom: 15px; }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 45px 15px 45px;
+            border: 3px solid #b7e4c7;
+            border-radius: 15px;
+            font-size: 1em;
+            font-family: 'Segoe UI', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #52b788;
+            box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e9ecef;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            display: none;
+            font-size: 1em;
+        }
+
+        .search-clear.show { display: block; }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            font-family: 'Comic Sans MS', sans-serif;
+            transition: all 0.2s;
+            color: #555;
+        }
+
+        .filter-chip:hover { border-color: #b7e4c7; }
+        .filter-chip.active { color: white; }
+        .filter-chip.active[data-filter="all"] { background: #6c757d; border-color: #6c757d; }
+        .filter-chip.active[data-filter="safe"] { background: #52b788; border-color: #52b788; }
+        .filter-chip.active[data-filter="caution"] { background: #e6a817; border-color: #e6a817; }
+        .filter-chip.active[data-filter="harmful"] { background: #ff6b6b; border-color: #ff6b6b; }
+
+        .db-stats {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .db-list { max-height: 500px; overflow-y: auto; padding-right: 5px; }
+
+        .db-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .db-item.safe { background: #f0faf4; border-color: #52b788; }
+        .db-item.caution { background: #fffbea; border-color: #ffd166; }
+        .db-item.harmful { background: #fff0f0; border-color: #ff6b6b; }
+
+        .db-item-info { flex: 1; min-width: 200px; }
+
+        .db-item-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 3px;
+            text-transform: capitalize;
+        }
+
+        .db-item-reason {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .db-item-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+            align-self: flex-start;
+        }
+
+        .db-item-badge.safe { background: #52b788; }
+        .db-item-badge.caution { background: #e6a817; }
+        .db-item-badge.harmful { background: #ff6b6b; }
+
+        .no-results { text-align: center; padding: 30px; color: #888; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5em; }
+            .container { padding: 20px; }
+            .tab-btn { font-size: 0.85em; padding: 10px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="emoji-row">🧸 🍎 🔍</div>
+            <h1>FoodLens</h1>
+            <p>Check if ingredients are safe for your little ones!</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('checker', this)">🔍 Checker</button>
+            <button class="tab-btn" onclick="switchTab('history', this)">📜 History</button>
+            <button class="tab-btn" onclick="switchTab('database', this)">📚 Database</button>
+        </div>
+
+        <div class="tab-content active" id="tab-checker">
+            <label style="display:block; color:#2d6a4f; font-weight:bold; margin-bottom:10px; font-size:1.05em;">
+                👶 Select Child's Age Group:
+            </label>
+            <div class="age-selector">
+                <div class="age-btn active" data-age="all" onclick="selectAge('all', this)">
+                    <span class="age-emoji">👨‍👩‍👧</span>
+                    <div class="age-label">All Ages</div>
+                    <div class="age-sub">General check</div>
+                </div>
+                <div class="age-btn" data-age="infant" onclick="selectAge('infant', this)">
+                    <span class="age-emoji">🍼</span>
+                    <div class="age-label">Infant</div>
+                    <div class="age-sub">0–12 months</div>
+                </div>
+                <div class="age-btn" data-age="toddler" onclick="selectAge('toddler', this)">
+                    <span class="age-emoji">🧒</span>
+                    <div class="age-label">Toddler</div>
+                    <div class="age-sub">1–3 years</div>
+                </div>
+                <div class="age-btn" data-age="child" onclick="selectAge('child', this)">
+                    <span class="age-emoji">👦</span>
+                    <div class="age-label">Child</div>
+                    <div class="age-sub">4–12 years</div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <label for="ingredients">✏️ Enter ingredients (one per line or comma-separated):</label>
+                <textarea id="ingredients" placeholder="Example:
+Sugar
+Red 40
+Sodium Benzoate
+Water
+Natural Flavors"></textarea>
+
+                <div class="btn-row">
+                    <button class="primary-btn btn-check" onclick="checkIngredients()">🔍 Check Ingredients</button>
+                    <button class="primary-btn btn-sample" onclick="loadSample()">📋 Try Sample</button>
+                    <button class="primary-btn btn-clear" onclick="clearAll()">🧹 Clear</button>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot dot-safe"></div> Safe</div>
+                <div class="legend-item"><div class="legend-dot dot-caution"></div> Caution</div>
+                <div class="legend-item"><div class="legend-dot dot-harmful"></div> Harmful</div>
+                <div class="legend-item"><div class="legend-dot dot-unknown"></div> Unknown</div>
+            </div>
+
+            <div class="results" id="results">
+                <div class="summary" id="summary"></div>
+                <div class="stats-bar" id="statsBar"></div>
+                <h2>📋 Ingredient Breakdown:</h2>
+                <div id="ingredientList"></div>
+            </div>
+
+            <div class="kid-tip">
+                💡 Tip: This is a general guide. Always check with your pediatrician for specific concerns!
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-history">
+            <div class="history-header">
+                <h2>📜 Recent Checks</h2>
+                <button class="btn-clear-history" onclick="clearHistory()">🗑️ Clear All</button>
+            </div>
+            <div id="historyList" class="history-list"></div>
+        </div>
+
+        <div class="tab-content" id="tab-database">
+            <h2 style="color:#2d6a4f; margin-bottom:15px;">📚 Search Ingredient Database</h2>
+            
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="dbSearch" placeholder="Search ingredients..." oninput="renderDatabase()">
+                <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+            </div>
+
+            <div class="filter-chips">
+                <button class="filter-chip active" data-filter="all" onclick="filterDb('all', this)">All</button>
+                <button class="filter-chip" data-filter="safe" onclick="filterDb('safe', this)">✅ Safe</button>
+                <button class="filter-chip" data-filter="caution" onclick="filterDb('caution', this)">⚠️ Caution</button>
+                <button class="filter-chip" data-filter="harmful" onclick="filterDb('harmful', this)">🚫 Harmful</button>
+            </div>
+
+            <div class="db-stats" id="dbStats"></div>
+            <div class="db-list" id="dbList"></div>
+        </div>
+    </div>
+
+    <script>
+        const ageRules = {
+            infant: {
+                forbidden: {
+                    'honey': 'Botulism risk — NEVER give honey to infants under 12 months',
+                    'raw honey': 'Botulism risk — NEVER give honey to infants under 12 months',
+                    'corn syrup': 'May contain botulism spores — unsafe for infants',
+                    'maple syrup': 'Not recommended before 12 months',
+                    'molasses': 'Not recommended before 12 months',
+                    'agave': 'Not recommended before 12 months',
+                    'cow milk': 'Not a substitute for breastmilk/formula before 12 months',
+                    'milk': 'Whole cow milk not recommended before 12 months',
+                    'soy milk': 'Not recommended as main drink before 12 months',
+                    'almond milk': 'Not recommended as main drink before 12 months',
+                    'rice milk': 'Not recommended before 12 months',
+                    'egg white': 'Introduce carefully — potential allergen before 12 months',
+                    'peanut': 'High allergy risk — introduce only under doctor guidance',
+                    'peanuts': 'High allergy risk — introduce only under doctor guidance',
+                    'tree nuts': 'Choking + allergy risk for infants',
+                    'shellfish': 'Introduce only under doctor guidance',
+                    'whole nuts': 'Choking hazard for infants',
+                    'popcorn': 'Choking hazard for infants',
+                    'grapes': 'Choking hazard — cut into quarters for infants',
+                    'hot dog': 'Major choking hazard for infants',
+                    'raw carrot': 'Choking hazard for infants',
+                    'whole grapes': 'Choking hazard for infants',
+                    'salt': 'Avoid adding salt to infant food — kidneys can\'t handle it',
+                    'sea salt': 'Avoid added salt for infants',
+                    'sodium': 'Limit sodium strictly for infants',
+                    'sugar': 'Avoid added sugar for infants',
+                    'cane sugar': 'Avoid added sugar for infants',
+                    'caffeine': 'Never give caffeine to infants',
+                    'chocolate': 'Contains caffeine + sugar — avoid for infants',
+                    'cocoa': 'Contains stimulants — limit for infants',
+                    'chili powder': 'Too spicy for infant digestive system',
+                    'low-fat': 'Infants need healthy fats for brain development',
+                    'skim milk': 'Infants need whole fat — avoid skim',
+                },
+                warnings: {
+                    'strawberry': 'Introduce one at a time to watch for allergies',
+                    'kiwi': 'Common allergen — introduce slowly',
+                    'citrus': 'May cause diaper rash — introduce slowly',
+                    'orange': 'Acidic — introduce in small amounts',
+                    'tomato': 'Acidic — introduce in small amounts',
+                    'berries': 'Introduce one type at a time',
+                    'yogurt': 'Full-fat plain yogurt is best after 6 months',
+                    'cheese': 'Small amounts of pasteurized soft cheese after 6 months',
+                }
+            },
+            toddler: {
+                forbidden: {
+                    'whole nuts': 'Choking hazard for children under 4',
+                    'whole grapes': 'Choking hazard — cut into quarters',
+                    'popcorn': 'Choking hazard for children under 4',
+                    'hot dog': 'Choking hazard — cut lengthwise',
+                    'raw carrot': 'Choking hazard — cook until soft',
+                    'hard candy': 'Choking hazard for toddlers',
+                    'gum': 'Choking hazard for toddlers',
+                    'marshmallow': 'Choking hazard for toddlers',
+                    'caffeine': 'Not recommended for toddlers',
+                    'energy drink': 'Never give to toddlers',
+                    'low-fat': 'Toddlers need fat for brain development until age 2',
+                    'skim milk': 'Whole milk recommended until age 2',
+                },
+                warnings: {
+                    'honey': 'Safe after age 1 — small amounts only',
+                    'peanut': 'Watch for allergic reactions when introducing',
+                    'tree nuts': 'Nut butters are safer than whole nuts',
+                    'salt': 'Limit added salt for toddlers',
+                    'sugar': 'Limit added sugar — natural fruit is better',
+                    'juice': 'Limit juice to 4 oz/day, prefer whole fruit',
+                }
+            },
+            child: {
+                warnings: {
+                    'caffeine': 'Limit caffeine — max 45mg/day for kids 4-6',
+                    'sugar': 'Limit added sugar to 25g/day max',
+                    'salt': 'Limit sodium — max 1200mg/day for kids 4-8',
+                    'artificial color': 'Linked to hyperactivity in sensitive kids',
+                    'energy drink': 'Never appropriate for children',
+                }
+            }
+        };
+
+        const ingredientDB = {
+            'red 40': { level: 'harmful', reason: 'Artificial color linked to hyperactivity in children', alternatives: ['Beet juice concentrate', 'Paprika extract', 'Annatto'] },
+            'red 3': { level: 'harmful', reason: 'Artificial color, banned in some countries', alternatives: ['Beet juice', 'Strawberry powder'] },
+            'red 2': { level: 'harmful', reason: 'Artificial color, banned in the US', alternatives: ['Natural fruit juices'] },
+            'yellow 5': { level: 'harmful', reason: 'Artificial color (Tartrazine), can cause allergic reactions', alternatives: ['Turmeric', 'Annatto', 'Saffron'] },
+            'tartrazine': { level: 'harmful', reason: 'Artificial yellow color, linked to hyperactivity', alternatives: ['Turmeric extract', 'Beta carotene'] },
+            'yellow 6': { level: 'harmful', reason: 'Artificial color, may cause hyperactivity', alternatives: ['Annatto', 'Beta carotene'] },
+            'blue 1': { level: 'harmful', reason: 'Artificial color, possible allergic reactions', alternatives: ['Spirulina extract', 'Blueberry juice'] },
+            'blue 2': { level: 'harmful', reason: 'Artificial color, linked to behavioral issues', alternatives: ['Spirulina', 'Red cabbage extract'] },
+            'green 3': { level: 'harmful', reason: 'Artificial color, possible carcinogen', alternatives: ['Chlorophyll', 'Matcha powder'] },
+            'orange b': { level: 'harmful', reason: 'Artificial color, banned in many countries', alternatives: ['Annatto', 'Carrot juice'] },
+            'citrus red 2': { level: 'harmful', reason: 'Artificial color, possible carcinogen', alternatives: ['Natural citrus extracts'] },
+            'fd&c': { level: 'harmful', reason: 'Synthetic food dye - avoid for children', alternatives: ['Plant-based colors'] },
+            'artificial color': { level: 'harmful', reason: 'Synthetic dyes linked to behavioral issues', alternatives: ['Beet juice', 'Turmeric', 'Spirulina', 'Annatto'] },
+            'artificial colour': { level: 'harmful', reason: 'Synthetic dyes linked to behavioral issues', alternatives: ['Natural plant colors'] },
+            'aspartame': { level: 'harmful', reason: 'Artificial sweetener, not recommended for children', alternatives: ['Stevia', 'Monk fruit extract', 'Dates'] },
+            'saccharin': { level: 'harmful', reason: 'Artificial sweetener, avoid for kids', alternatives: ['Stevia', 'Honey (age 1+)'] },
+            'sucralose': { level: 'harmful', reason: 'Artificial sweetener, may affect gut health', alternatives: ['Stevia', 'Monk fruit'] },
+            'acesulfame': { level: 'harmful', reason: 'Artificial sweetener, poorly tested in kids', alternatives: ['Stevia', 'Maple syrup'] },
+            'acesulfame potassium': { level: 'harmful', reason: 'Artificial sweetener, avoid for children', alternatives: ['Monk fruit'] },
+            'ace-k': { level: 'harmful', reason: 'Artificial sweetener, avoid for kids', alternatives: ['Stevia'] },
+            'neotame': { level: 'harmful', reason: 'Artificial sweetener, not for children', alternatives: ['Dates', 'Fruit puree'] },
+            'advantame': { level: 'harmful', reason: 'Artificial sweetener, avoid for kids', alternatives: ['Stevia'] },
+            'cyclamate': { level: 'harmful', reason: 'Artificial sweetener, banned in the US', alternatives: ['Natural sweeteners'] },
+            'bha': { level: 'harmful', reason: 'Preservative, possible carcinogen', alternatives: ['Vitamin E (tocopherols)', 'Rosemary extract'] },
+            'bht': { level: 'harmful', reason: 'Preservative, may affect liver and thyroid', alternatives: ['Vitamin E', 'Citric acid'] },
+            'tbhq': { level: 'harmful', reason: 'Preservative, may cause health concerns', alternatives: ['Vitamin E', 'Rosemary extract'] },
+            'sodium benzoate': { level: 'harmful', reason: 'Preservative, can form benzene with vitamin C', alternatives: ['Vitamin C', 'Potassium sorbate (small amounts)'] },
+            'potassium benzoate': { level: 'harmful', reason: 'Preservative, may cause hyperactivity', alternatives: ['Citric acid', 'Vitamin E'] },
+            'benzoic acid': { level: 'harmful', reason: 'Preservative, can cause allergic reactions', alternatives: ['Natural fermentation'] },
+            'sodium nitrite': { level: 'harmful', reason: 'Preservative in processed meats, can form carcinogens', alternatives: ['Celery juice powder', 'Uncured meats'] },
+            'sodium nitrate': { level: 'harmful', reason: 'Preservative in processed meats', alternatives: ['Celery powder', 'Sea salt'] },
+            'potassium nitrite': { level: 'harmful', reason: 'Preservative, forms nitrosamines', alternatives: ['Uncured options'] },
+            'potassium nitrate': { level: 'harmful', reason: 'Preservative, avoid for kids', alternatives: ['Natural curing'] },
+            'propyl gallate': { level: 'harmful', reason: 'Preservative, possible endocrine disruptor', alternatives: ['Vitamin E'] },
+            'sodium erythorbate': { level: 'harmful', reason: 'Preservative in processed meats', alternatives: ['Vitamin C'] },
+            'edta': { level: 'harmful', reason: 'Preservative, can deplete minerals', alternatives: ['Natural antioxidants'] },
+            'calcium disodium edta': { level: 'harmful', reason: 'Preservative, may affect mineral absorption', alternatives: ['Citric acid'] },
+            'sodium metabisulfite': { level: 'harmful', reason: 'Sulfite preservative, can trigger asthma', alternatives: ['Vitamin C'] },
+            'sodium sulfite': { level: 'harmful', reason: 'Sulfite, allergic reactions common', alternatives: ['Natural preservation'] },
+            'potassium metabisulfite': { level: 'harmful', reason: 'Sulfite preservative, asthma trigger', alternatives: ['Vitamin C'] },
+            'sulfur dioxide': { level: 'harmful', reason: 'Sulfite preservative, can trigger asthma', alternatives: ['Ascorbic acid'] },
+            'sodium bisulfite': { level: 'harmful', reason: 'Sulfite, avoid for sensitive kids', alternatives: ['Natural methods'] },
+            'formaldehyde': { level: 'harmful', reason: 'Preservative, known carcinogen', alternatives: ['Natural preservation'] },
+            'formalin': { level: 'harmful', reason: 'Preservative, toxic - avoid', alternatives: ['Refrigeration'] },
+            'msg': { level: 'harmful', reason: 'Flavor enhancer, some children are sensitive', alternatives: ['Sea salt', 'Herbs', 'Nutritional yeast'] },
+            'monosodium glutamate': { level: 'harmful', reason: 'Flavor enhancer, can cause headaches', alternatives: ['Mushroom powder', 'Sea salt', 'Herbs'] },
+            'disodium inosinate': { level: 'harmful', reason: 'Flavor enhancer, often paired with MSG', alternatives: ['Natural broths'] },
+            'disodium guanylate': { level: 'harmful', reason: 'Flavor enhancer, often with MSG', alternatives: ['Kombu seaweed'] },
+            'autolyzed yeast': { level: 'harmful', reason: 'Hidden MSG source', alternatives: ['Nutritional yeast'] },
+            'hydrolyzed protein': { level: 'harmful', reason: 'Hidden MSG source', alternatives: ['Natural protein sources'] },
+            'hydrolyzed vegetable protein': { level: 'harmful', reason: 'Contains MSG-like compounds', alternatives: ['Whole foods'] },
+            'yeast extract': { level: 'harmful', reason: 'Can contain naturally occurring MSG', alternatives: ['Nutritional yeast'] },
+            'carrageenan': { level: 'harmful', reason: 'Thickener, may cause digestive issues', alternatives: ['Agar agar', 'Guar gum', 'Xanthan gum'] },
+            'brominated vegetable oil': { level: 'harmful', reason: 'Emulsifier, can accumulate in body', alternatives: ['Gum arabic', 'Natural emulsifiers'] },
+            'bvo': { level: 'harmful', reason: 'Brominated vegetable oil - avoid', alternatives: ['Gum arabic'] },
+            'propylene glycol': { level: 'harmful', reason: 'Additive, can cause skin and eye irritation', alternatives: ['Vegetable glycerin'] },
+            'titanium dioxide': { level: 'harmful', reason: 'Colorant, possible carcinogen', alternatives: ['Calcium carbonate', 'Rice starch'] },
+            'partially hydrogenated': { level: 'harmful', reason: 'Trans fat, bad for heart health', alternatives: ['Olive oil', 'Avocado oil', 'Coconut oil'] },
+            'hydrogenated oil': { level: 'harmful', reason: 'May contain trans fats', alternatives: ['Cold-pressed oils'] },
+            'hydrogenated vegetable oil': { level: 'harmful', reason: 'Trans fat source, avoid', alternatives: ['Extra virgin olive oil'] },
+            'sodium lauryl sulfate': { level: 'harmful', reason: 'Harsh detergent, can irritate skin', alternatives: ['Coconut-derived surfactants', 'Coco glucoside'] },
+            'sls': { level: 'harmful', reason: 'Sodium lauryl sulfate - skin irritant', alternatives: ['Coco glucoside'] },
+            'sles': { level: 'harmful', reason: 'Harsh detergent, skin irritant', alternatives: ['Coco betaine'] },
+            'sodium laureth sulfate': { level: 'harmful', reason: 'Detergent, can irritate skin and eyes', alternatives: ['Coconut-based cleansers'] },
+            'paraben': { level: 'harmful', reason: 'Preservative, possible hormone disruptor', alternatives: ['Vitamin E', 'Grapefruit seed extract'] },
+            'methylparaben': { level: 'harmful', reason: 'Paraben preservative, hormone concern', alternatives: ['Vitamin E'] },
+            'propylparaben': { level: 'harmful', reason: 'Paraben preservative, avoid', alternatives: ['Rosemary extract'] },
+            'butylparaben': { level: 'harmful', reason: 'Paraben, endocrine disruptor', alternatives: ['Natural preservatives'] },
+            'ethylparaben': { level: 'harmful', reason: 'Paraben preservative', alternatives: ['Vitamin E'] },
+            'phthalate': { level: 'harmful', reason: 'Chemical, possible hormone disruptor', alternatives: ['Glass containers', 'Phthalate-free packaging'] },
+            'diethyl phthalate': { level: 'harmful', reason: 'Phthalate, hormone disruptor', alternatives: ['Natural fragrances'] },
+            'dbp': { level: 'harmful', reason: 'Phthalate, avoid for children', alternatives: ['Phthalate-free'] },
+            'talc': { level: 'harmful', reason: 'May be contaminated with asbestos', alternatives: ['Arrowroot powder', 'Cornstarch'] },
+            'high fructose corn syrup': { level: 'harmful', reason: 'Added sugar linked to obesity and health issues', alternatives: ['Raw honey (age 1+)', 'Maple syrup', 'Dates'] },
+            'hfcs': { level: 'harmful', reason: 'High fructose corn syrup - added sugar', alternatives: ['Maple syrup', 'Coconut sugar'] },
+            'corn syrup': { level: 'harmful', reason: 'Added sugar, low nutritional value', alternatives: ['Brown rice syrup', 'Maple syrup'] },
+            'corn syrup solids': { level: 'harmful', reason: 'Processed sugar, low nutrition', alternatives: ['Date paste'] },
+            'glucose syrup': { level: 'harmful', reason: 'Added sugar, empty calories', alternatives: ['Raw honey (age 1+)'] },
+            'invert sugar': { level: 'harmful', reason: 'Added sugar, can spike blood sugar', alternatives: ['Coconut sugar'] },
+            'aspartame-acesulfame': { level: 'harmful', reason: 'Combined artificial sweeteners', alternatives: ['Stevia'] },
+            'polysorbate 80': { level: 'harmful', reason: 'Emulsifier, may affect gut bacteria', alternatives: ['Sunflower lecithin'] },
+            'polysorbate 60': { level: 'harmful', reason: 'Emulsifier, possible gut irritation', alternatives: ['Sunflower lecithin'] },
+            'carboxymethyl cellulose': { level: 'harmful', reason: 'Thickener, may affect gut health', alternatives: ['Guar gum', 'Xanthan gum'] },
+            'cmc': { level: 'harmful', reason: 'Thickener, possible gut inflammation', alternatives: ['Agar'] },
+            'polysorbate': { level: 'harmful', reason: 'Emulsifier, may disrupt gut bacteria', alternatives: ['Natural emulsifiers'] },
+            'azodicarbonamide': { level: 'harmful', reason: 'Dough conditioner, banned in EU', alternatives: ['Ascorbic acid'] },
+            'potassium bromate': { level: 'harmful', reason: 'Flour treatment, possible carcinogen', alternatives: ['Ascorbic acid'] },
+            'propylparaben sodium': { level: 'harmful', reason: 'Preservative, hormone concern', alternatives: ['Natural preservation'] },
+            'aluminum': { level: 'harmful', reason: 'Heavy metal, can accumulate in body', alternatives: ['Aluminum-free options'] },
+            'lead': { level: 'harmful', reason: 'Heavy metal, toxic to children', alternatives: ['Tested products only'] },
+            'mercury': { level: 'harmful', reason: 'Heavy metal, neurotoxin', alternatives: ['Low-mercury fish'] },
+            'arsenic': { level: 'harmful', reason: 'Heavy metal, avoid', alternatives: ['Rinsed rice', 'Variety of grains'] },
+            'cadmium': { level: 'harmful', reason: 'Heavy metal, toxic', alternatives: ['Tested sources'] },
+            'triclosan': { level: 'harmful', reason: 'Antibacterial, banned in some products', alternatives: ['Plain soap', 'Alcohol'] },
+            'triclocarban': { level: 'harmful', reason: 'Antibacterial, hormone concern', alternatives: ['Soap and water'] },
+            'oxybenzone': { level: 'harmful', reason: 'Sunscreen chemical, hormone disruptor', alternatives: ['Zinc oxide', 'Titanium dioxide (non-nano)'] },
+            'octinoxate': { level: 'harmful', reason: 'Sunscreen chemical, avoid for kids', alternatives: ['Mineral sunscreens'] },
+            'homosalate': { level: 'harmful', reason: 'Sunscreen chemical, hormone concern', alternatives: ['Zinc oxide'] },
+            'octocrylene': { level: 'harmful', reason: 'Sunscreen chemical, may cause allergies', alternatives: ['Mineral sunscreen'] },
+            'retinyl palmitate': { level: 'harmful', reason: 'Possible carcinogen in sunscreens', alternatives: ['Mineral sunscreens'] },
+            'coal tar': { level: 'harmful', reason: 'Known carcinogen', alternatives: ['Natural alternatives'] },
+            'hydroquinone': { level: 'harmful', reason: 'Skin lightener, avoid for kids', alternatives: ['Vitamin C'] },
+            'sugar': { level: 'caution', reason: 'Added sugar - limit intake for children', alternatives: ['Fresh fruit', 'Dates', 'Cinnamon'] },
+            'cane sugar': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Coconut sugar', 'Dates'] },
+            'glucose': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Natural sweeteners'] },
+            'fructose': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Whole fruit'] },
+            'dextrose': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Honey (age 1+)'] },
+            'maltose': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Date sugar'] },
+            'maltodextrin': { level: 'caution', reason: 'Processed carbohydrate, high glycemic index', alternatives: ['Tapioca starch'] },
+            'brown sugar': { level: 'caution', reason: 'Added sugar - limit intake', alternatives: ['Coconut sugar'] },
+            'powdered sugar': { level: 'caution', reason: 'Added sugar - limit', alternatives: ['Date powder'] },
+            'confectioners sugar': { level: 'caution', reason: 'Added sugar - limit', alternatives: ['Date sugar powder'] },
+            'raw sugar': { level: 'caution', reason: 'Still added sugar', alternatives: ['Dates'] },
+            'turbinado': { level: 'caution', reason: 'Added sugar', alternatives: ['Fruit'] },
+            'demerara': { level: 'caution', reason: 'Added sugar', alternatives: ['Maple syrup'] },
+            'coconut sugar': { level: 'caution', reason: 'Still sugar - limit for kids', alternatives: ['Dates', 'Fruit'] },
+            'maple syrup': { level: 'caution', reason: 'Added sugar - limit', alternatives: ['Cinnamon', 'Vanilla'] },
+            'agave': { level: 'caution', reason: 'High fructose, limit for kids', alternatives: ['Dates'] },
+            'agave syrup': { level: 'caution', reason: 'Added sugar - limit', alternatives: ['Fruit puree'] },
+            'molasses': { level: 'caution', reason: 'Added sugar, limit', alternatives: ['Small amounts'] },
+            'rice syrup': { level: 'caution', reason: 'Added sugar', alternatives: ['Fruit'] },
+            'brown rice syrup': { level: 'caution', reason: 'Added sugar', alternatives: ['Dates'] },
+            'salt': { level: 'caution', reason: 'Sodium - limit for children', alternatives: ['Herbs', 'Lemon juice', 'Garlic powder'] },
+            'sodium': { level: 'caution', reason: 'Watch sodium intake for kids', alternatives: ['Herbs', 'Spices'] },
+            'sea salt': { level: 'caution', reason: 'Sodium - limit for children', alternatives: ['Herbs'] },
+            'himalayan salt': { level: 'caution', reason: 'Still sodium - limit', alternatives: ['Herbs'] },
+            'kosher salt': { level: 'caution', reason: 'Sodium - limit', alternatives: ['Herbs'] },
+            'sodium chloride': { level: 'caution', reason: 'Table salt - limit for kids', alternatives: ['Herbs', 'Spices'] },
+            'monosodium': { level: 'caution', reason: 'Sodium - limit', alternatives: ['Natural flavors'] },
+            'caffeine': { level: 'caution', reason: 'Stimulant - not recommended for children', alternatives: ['Herbal tea', 'Water'] },
+            'guarana': { level: 'caution', reason: 'Natural caffeine, avoid for kids', alternatives: ['Rooibos tea'] },
+            'green tea extract': { level: 'caution', reason: 'Contains caffeine', alternatives: ['Chamomile'] },
+            'yerba mate': { level: 'caution', reason: 'Contains caffeine', alternatives: ['Herbal teas'] },
+            'theobromine': { level: 'caution', reason: 'Stimulant in chocolate', alternatives: ['Carob'] },
+            'natural flavor': { level: 'caution', reason: 'Vague term - could contain allergens', alternatives: ['Named spices', 'Real ingredients'] },
+            'natural flavour': { level: 'caution', reason: 'Vague term - could contain allergens', alternatives: ['Whole ingredients'] },
+            'artificial flavor': { level: 'caution', reason: 'Artificial flavors - prefer natural', alternatives: ['Real vanilla', 'Spices'] },
+            'artificial flavour': { level: 'caution', reason: 'Artificial flavors - prefer natural', alternatives: ['Real extracts'] },
+            'flavoring': { level: 'caution', reason: 'Vague - could be natural or artificial', alternatives: ['Named spices'] },
+            'spices': { level: 'caution', reason: 'Vague term - could hide allergens', alternatives: ['Named spices'] },
+            'seasoning': { level: 'caution', reason: 'Vague term - may contain additives', alternatives: ['Individual spices'] },
+            'citric acid': { level: 'caution', reason: 'Acidifier, generally safe but can erode teeth', alternatives: ['Lemon juice'] },
+            'phosphoric acid': { level: 'caution', reason: 'Acidifier, can affect bone health', alternatives: ['Citric acid'] },
+            'malic acid': { level: 'caution', reason: 'Acidifier, can erode enamel', alternatives: ['Natural fruit acids'] },
+            'lactic acid': { level: 'caution', reason: 'Generally safe but processed', alternatives: ['Yogurt cultures'] },
+            'acetic acid': { level: 'caution', reason: 'Vinegar acid, safe in small amounts', alternatives: ['Apple cider vinegar'] },
+            'tartaric acid': { level: 'caution', reason: 'Acidifier, can cause digestive upset', alternatives: ['Cream of tartar (small amounts)'] },
+            'modified corn starch': { level: 'caution', reason: 'Processed starch, low nutritional value', alternatives: ['Tapioca starch', 'Arrowroot'] },
+            'modified food starch': { level: 'caution', reason: 'Processed starch, low nutritional value', alternatives: ['Potato starch'] },
+            'modified starch': { level: 'caution', reason: 'Processed, low nutrition', alternatives: ['Arrowroot powder'] },
+            'corn starch': { level: 'caution', reason: 'Refined, low nutrition', alternatives: ['Tapioca starch'] },
+            'cornstarch': { level: 'caution', reason: 'Refined carbohydrate', alternatives: ['Arrowroot'] },
+            'maltitol': { level: 'caution', reason: 'Sugar alcohol, can cause digestive issues', alternatives: ['Stevia'] },
+            'sorbitol': { level: 'caution', reason: 'Sugar alcohol, can cause bloating', alternatives: ['Monk fruit'] },
+            'xylitol': { level: 'caution', reason: 'Sugar alcohol, safe for humans but toxic to pets', alternatives: ['Stevia'] },
+            'erythritol': { level: 'caution', reason: 'Sugar alcohol, may cause digestive issues', alternatives: ['Monk fruit'] },
+            'mannitol': { level: 'caution', reason: 'Sugar alcohol, laxative effect', alternatives: ['Stevia'] },
+            'isomalt': { level: 'caution', reason: 'Sugar alcohol, digestive issues', alternatives: ['Natural sweeteners'] },
+            'lactitol': { level: 'caution', reason: 'Sugar alcohol, may cause bloating', alternatives: ['Fruit'] },
+            'lecithin': { level: 'caution', reason: 'Emulsifier, usually safe but check source (soy)', alternatives: ['Sunflower lecithin'] },
+            'soy lecithin': { level: 'caution', reason: 'Common allergen for some children', alternatives: ['Sunflower lecithin'] },
+            'mono and diglycerides': { level: 'caution', reason: 'Emulsifier, may contain trans fats', alternatives: ['Lecithin'] },
+            'monoglycerides': { level: 'caution', reason: 'Emulsifier, processed', alternatives: ['Natural emulsifiers'] },
+            'diglycerides': { level: 'caution', reason: 'Emulsifier, may contain trans fats', alternatives: ['Sunflower lecithin'] },
+            'datem': { level: 'caution', reason: 'Emulsifier, processed additive', alternatives: ['Natural dough conditioners'] },
+            'sodium stearoyl lactylate': { level: 'caution', reason: 'Emulsifier, processed', alternatives: ['Lecithin'] },
+            'ssl': { level: 'caution', reason: 'Emulsifier, processed additive', alternatives: ['Natural alternatives'] },
+            'calcium propionate': { level: 'caution', reason: 'Preservative, may cause behavioral issues in some kids', alternatives: ['Fresh baked bread'] },
+            'sodium propionate': { level: 'caution', reason: 'Mold inhibitor, mild concern', alternatives: ['Fresh bread'] },
+            'soy': { level: 'caution', reason: 'Common allergen - check with doctor', alternatives: ['Oat', 'Coconut aminos'] },
+            'soybean': { level: 'caution', reason: 'Common allergen', alternatives: ['Pea protein'] },
+            'soy protein': { level: 'caution', reason: 'Common allergen', alternatives: ['Hemp protein'] },
+            'wheat': { level: 'caution', reason: 'Common allergen - contains gluten', alternatives: ['Brown rice', 'Quinoa', 'Oats (certified GF)'] },
+            'gluten': { level: 'caution', reason: 'Avoid if gluten sensitivity', alternatives: ['Rice', 'Quinoa', 'Buckwheat'] },
+            'barley': { level: 'caution', reason: 'Contains gluten', alternatives: ['Quinoa'] },
+            'rye': { level: 'caution', reason: 'Contains gluten', alternatives: ['Oats (GF)'] },
+            'spelt': { level: 'caution', reason: 'Contains gluten', alternatives: ['Millet'] },
+            'peanut': { level: 'caution', reason: 'Common severe allergen', alternatives: ['Sunflower seed butter'] },
+            'peanuts': { level: 'caution', reason: 'Common severe allergen', alternatives: ['Sunbutter'] },
+            'tree nuts': { level: 'caution', reason: 'Common allergen', alternatives: ['Seeds'] },
+            'tree nut': { level: 'caution', reason: 'Common allergen', alternatives: ['Sunflower seeds'] },
+            'almond': { level: 'caution', reason: 'Tree nut allergen (whole nuts are choking hazard under 4)', alternatives: ['Sunflower seed butter'] },
+            'almonds': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Sunflower seeds'] },
+            'walnut': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Pumpkin seeds'] },
+            'walnuts': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Chia seeds'] },
+            'cashew': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Sunflower seeds'] },
+            'cashews': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Pumpkin seeds'] },
+            'pecan': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Sunflower seeds'] },
+            'pistachio': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Pumpkin seeds'] },
+            'hazelnut': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Sunflower seeds'] },
+            'macadamia': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Seeds'] },
+            'brazil nut': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Sunflower seeds'] },
+            'dairy': { level: 'caution', reason: 'Common allergen', alternatives: ['Oat milk', 'Coconut milk'] },
+            'milk': { level: 'caution', reason: 'Common allergen', alternatives: ['Oat milk', 'Rice milk'] },
+            'cow milk': { level: 'caution', reason: 'Common allergen; whole milk recommended after 12 months', alternatives: ['Oat milk'] },
+            'lactose': { level: 'caution', reason: 'Milk sugar, allergen for some', alternatives: ['Lactose-free options'] },
+            'whey': { level: 'caution', reason: 'Milk protein, common allergen', alternatives: ['Pea protein'] },
+            'casein': { level: 'caution', reason: 'Milk protein, common allergen', alternatives: ['Hemp protein'] },
+            'egg': { level: 'caution', reason: 'Common allergen', alternatives: ['Flax egg', 'Chia egg'] },
+            'eggs': { level: 'caution', reason: 'Common allergen', alternatives: ['Banana in baking'] },
+            'egg white': { level: 'caution', reason: 'Common allergen', alternatives: ['Aquafaba'] },
+            'albumin': { level: 'caution', reason: 'Egg protein, allergen', alternatives: ['Aquafaba'] },
+            'shellfish': { level: 'caution', reason: 'Common allergen', alternatives: ['Fish (if not allergic)'] },
+            'shrimp': { level: 'caution', reason: 'Shellfish allergen', alternatives: ['Chicken'] },
+            'crab': { level: 'caution', reason: 'Shellfish allergen', alternatives: ['Fish'] },
+            'lobster': { level: 'caution', reason: 'Shellfish allergen', alternatives: ['Other proteins'] },
+            'fish': { level: 'caution', reason: 'Common allergen', alternatives: ['Chicken', 'Legumes'] },
+            'sesame': { level: 'caution', reason: 'Common allergen', alternatives: ['Sunflower seeds'] },
+            'sesame seeds': { level: 'caution', reason: 'Common allergen', alternatives: ['Pumpkin seeds'] },
+            'mustard': { level: 'caution', reason: 'Possible allergen', alternatives: ['Turmeric'] },
+            'celery': { level: 'caution', reason: 'Possible allergen', alternatives: ['Cucumber'] },
+            'lupin': { level: 'caution', reason: 'Legume allergen', alternatives: ['Chickpeas'] },
+            'mollusks': { level: 'caution', reason: 'Common allergen', alternatives: ['Other proteins'] },
+            'sulfites': { level: 'caution', reason: 'Can trigger asthma in sensitive kids', alternatives: ['Fresh foods'] },
+            'honey': { level: 'caution', reason: 'Safe after age 1 - avoid for infants (botulism risk)', alternatives: ['Maple syrup (age 1+)', 'Date syrup'] },
+            'raw honey': { level: 'caution', reason: 'Not for infants under 1 year', alternatives: ['Fruit puree'] },
+            'white flour': { level: 'caution', reason: 'Refined grain, low fiber', alternatives: ['Whole wheat flour', 'Oat flour'] },
+            'enriched flour': { level: 'caution', reason: 'Refined, stripped of nutrients', alternatives: ['Whole grain flour'] },
+            'bleached flour': { level: 'caution', reason: 'Chemically treated flour', alternatives: ['Unbleached flour'] },
+            'white rice': { level: 'caution', reason: 'Refined grain, low fiber', alternatives: ['Brown rice', 'Quinoa'] },
+            'white bread': { level: 'caution', reason: 'Refined, low nutrition', alternatives: ['Whole grain bread'] },
+            'palm oil': { level: 'caution', reason: 'High saturated fat, environmental concerns', alternatives: ['Olive oil', 'Avocado oil'] },
+            'palm kernel oil': { level: 'caution', reason: 'High saturated fat', alternatives: ['Coconut oil (in moderation)'] },
+            'canola oil': { level: 'caution', reason: 'Highly processed', alternatives: ['Olive oil', 'Avocado oil'] },
+            'vegetable oil': { level: 'caution', reason: 'Usually highly processed', alternatives: ['Olive oil'] },
+            'soybean oil': { level: 'caution', reason: 'Highly processed, may be GMO', alternatives: ['Olive oil'] },
+            'corn oil': { level: 'caution', reason: 'Highly processed', alternatives: ['Avocado oil'] },
+            'sunflower oil': { level: 'caution', reason: 'High omega-6, processed', alternatives: ['Olive oil'] },
+            'safflower oil': { level: 'caution', reason: 'Highly processed', alternatives: ['Avocado oil'] },
+            'cottonseed oil': { level: 'caution', reason: 'May contain pesticide residue', alternatives: ['Olive oil'] },
+            'grapeseed oil': { level: 'caution', reason: 'Highly processed', alternatives: ['Olive oil'] },
+            'margarine': { level: 'caution', reason: 'Processed, may contain trans fats', alternatives: ['Butter (in moderation)', 'Olive oil'] },
+            'shortening': { level: 'caution', reason: 'May contain trans fats', alternatives: ['Coconut oil'] },
+            'water': { level: 'safe', reason: 'Essential and safe', alternatives: [] },
+            'filtered water': { level: 'safe', reason: 'Safe and essential', alternatives: [] },
+            'purified water': { level: 'safe', reason: 'Safe and essential', alternatives: [] },
+            'spring water': { level: 'safe', reason: 'Safe and essential', alternatives: [] },
+            'mineral water': { level: 'safe', reason: 'Contains beneficial minerals', alternatives: [] },
+            'sparkling water': { level: 'safe', reason: 'Safe, hydrating', alternatives: [] },
+            'coconut water': { level: 'safe', reason: 'Natural electrolytes', alternatives: [] },
+            'carrot': { level: 'safe', reason: 'Vegetable, rich in vitamin A', alternatives: [] },
+            'carrots': { level: 'safe', reason: 'Vegetable, rich in vitamin A', alternatives: [] },
+            'spinach': { level: 'safe', reason: 'Leafy green, rich in iron', alternatives: [] },
+            'broccoli': { level: 'safe', reason: 'Vegetable, nutritious', alternatives: [] },
+            'sweet potato': { level: 'safe', reason: 'Vegetable, rich in vitamins', alternatives: [] },
+            'sweet potatoes': { level: 'safe', reason: 'Rich in vitamin A', alternatives: [] },
+            'potato': { level: 'safe', reason: 'Vegetable, potassium', alternatives: [] },
+            'potatoes': { level: 'safe', reason: 'Vegetable, potassium', alternatives: [] },
+            'tomato': { level: 'safe', reason: 'Fruit/vegetable, rich in lycopene', alternatives: [] },
+            'tomatoes': { level: 'safe', reason: 'Rich in lycopene', alternatives: [] },
+            'cucumber': { level: 'safe', reason: 'Vegetable, hydrating', alternatives: [] },
+            'lettuce': { level: 'safe', reason: 'Leafy green', alternatives: [] },
+            'kale': { level: 'safe', reason: 'Superfood, nutrient dense', alternatives: [] },
+            'cauliflower': { level: 'safe', reason: 'Vegetable, vitamin C', alternatives: [] },
+            'green beans': { level: 'safe', reason: 'Vegetable, fiber', alternatives: [] },
+            'peas': { level: 'safe', reason: 'Vegetable, protein', alternatives: [] },
+            'corn': { level: 'safe', reason: 'Whole grain vegetable', alternatives: [] },
+            'zucchini': { level: 'safe', reason: 'Vegetable, hydrating', alternatives: [] },
+            'bell pepper': { level: 'safe', reason: 'Vegetable, vitamin C', alternatives: [] },
+            'bell peppers': { level: 'safe', reason: 'Rich in vitamin C', alternatives: [] },
+            'onion': { level: 'safe', reason: 'Vegetable, nutritious', alternatives: [] },
+            'garlic': { level: 'safe', reason: 'Flavoring, health benefits', alternatives: [] },
+            'celery': { level: 'safe', reason: 'Vegetable, hydrating', alternatives: [] },
+            'beet': { level: 'safe', reason: 'Vegetable, rich in folate', alternatives: [] },
+            'beets': { level: 'safe', reason: 'Root vegetable, nutritious', alternatives: [] },
+            'cabbage': { level: 'safe', reason: 'Vegetable, vitamin C', alternatives: [] },
+            'brussels sprouts': { level: 'safe', reason: 'Vegetable, vitamin K', alternatives: [] },
+            'asparagus': { level: 'safe', reason: 'Vegetable, folate', alternatives: [] },
+            'mushroom': { level: 'safe', reason: 'Vegetable, vitamin D', alternatives: [] },
+            'mushrooms': { level: 'safe', reason: 'Rich in B vitamins', alternatives: [] },
+            'pumpkin': { level: 'safe', reason: 'Vegetable, vitamin A', alternatives: [] },
+            'butternut squash': { level: 'safe', reason: 'Vegetable, vitamin A', alternatives: [] },
+            'squash': { level: 'safe', reason: 'Vegetable, vitamins', alternatives: [] },
+            'eggplant': { level: 'safe', reason: 'Vegetable, fiber', alternatives: [] },
+            'artichoke': { level: 'safe', reason: 'Vegetable, fiber', alternatives: [] },
+            'leek': { level: 'safe', reason: 'Vegetable, vitamins', alternatives: [] },
+            'radish': { level: 'safe', reason: 'Vegetable, vitamin C', alternatives: [] },
+            'turnip': { level: 'safe', reason: 'Root vegetable', alternatives: [] },
+            'parsnip': { level: 'safe', reason: 'Root vegetable', alternatives: [] },
+            'okra': { level: 'safe', reason: 'Vegetable, fiber', alternatives: [] },
+            'snow peas': { level: 'safe', reason: 'Vegetable, vitamin C', alternatives: [] },
+            'watercress': { level: 'safe', reason: 'Leafy green, nutrients', alternatives: [] },
+            'arugula': { level: 'safe', reason: 'Leafy green', alternatives: [] },
+            'swiss chard': { level: 'safe', reason: 'Leafy green, vitamins', alternatives: [] },
+            'collard greens': { level: 'safe', reason: 'Leafy green, calcium', alternatives: [] },
+            'apple': { level: 'safe', reason: 'Fruit, nutritious', alternatives: [] },
+            'apples': { level: 'safe', reason: 'Fruit, nutritious', alternatives: [] },
+            'banana': { level: 'safe', reason: 'Fruit, rich in potassium', alternatives: [] },
+            'bananas': { level: 'safe', reason: 'Fruit, rich in potassium', alternatives: [] },
+            'orange': { level: 'safe', reason: 'Fruit, vitamin C', alternatives: [] },
+            'orange juice': { level: 'safe', reason: 'Vitamin C (watch sugar content)', alternatives: [] },
+            'lemon': { level: 'safe', reason: 'Fruit, vitamin C', alternatives: [] },
+            'lime': { level: 'safe', reason: 'Fruit, vitamin C', alternatives: [] },
+            'strawberry': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'strawberries': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'blueberry': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'blueberries': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'raspberry': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'raspberries': { level: 'safe', reason: 'Berry, fiber', alternatives: [] },
+            'blackberry': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'blackberries': { level: 'safe', reason: 'Berry, vitamins', alternatives: [] },
+            'cranberry': { level: 'safe', reason: 'Berry, urinary health', alternatives: [] },
+            'cranberries': { level: 'safe', reason: 'Berry, antioxidants', alternatives: [] },
+            'mango': { level: 'safe', reason: 'Fruit, vitamins A and C', alternatives: [] },
+            'papaya': { level: 'safe', reason: 'Fruit, digestive enzymes', alternatives: [] },
+            'pear': { level: 'safe', reason: 'Fruit, gentle on tummy', alternatives: [] },
+            'pears': { level: 'safe', reason: 'Fruit, fiber', alternatives: [] },
+            'peach': { level: 'safe', reason: 'Fruit, vitamins', alternatives: [] },
+            'peaches': { level: 'safe', reason: 'Fruit, vitamins', alternatives: [] },
+            'plum': { level: 'safe', reason: 'Fruit, fiber', alternatives: [] },
+            'plums': { level: 'safe', reason: 'Fruit, vitamins', alternatives: [] },
+            'grape': { level: 'safe', reason: 'Fruit (cut for young kids - choking hazard)', alternatives: [] },
+            'grapes': { level: 'safe', reason: 'Cut for young kids', alternatives: [] },
+            'watermelon': { level: 'safe', reason: 'Fruit, hydrating', alternatives: [] },
+            'cantaloupe': { level: 'safe', reason: 'Melon, vitamin A', alternatives: [] },
+            'honeydew': { level: 'safe', reason: 'Melon, hydrating', alternatives: [] },
+            'pineapple': { level: 'safe', reason: 'Fruit, vitamin C', alternatives: [] },
+            'kiwi': { level: 'safe', reason: 'Fruit, vitamin C', alternatives: [] },
+            'cherry': { level: 'safe', reason: 'Fruit (pit for young kids)', alternatives: [] },
+            'cherries': { level: 'safe', reason: 'Pit for young kids', alternatives: [] },
+            'apricot': { level: 'safe', reason: 'Fruit, vitamin A', alternatives: [] },
+            'apricots': { level: 'safe', reason: 'Fruit, fiber', alternatives: [] },
+            'fig': { level: 'safe', reason: 'Fruit, fiber', alternatives: [] },
+            'figs': { level: 'safe', reason: 'Fruit, calcium', alternatives: [] },
+            'date': { level: 'safe', reason: 'Natural sweetener, fiber', alternatives: [] },
+            'dates': { level: 'safe', reason: 'Natural sweetener, potassium', alternatives: [] },
+            'pomegranate': { level: 'safe', reason: 'Fruit, antioxidants', alternatives: [] },
+            'avocado': { level: 'safe', reason: 'Healthy fats, nutritious', alternatives: [] },
+            'avocados': { level: 'safe', reason: 'Healthy fats', alternatives: [] },
+            'guava': { level: 'safe', reason: 'Tropical fruit, vitamin C', alternatives: [] },
+            'passion fruit': { level: 'safe', reason: 'Fruit, fiber', alternatives: [] },
+            'dragon fruit': { level: 'safe', reason: 'Tropical fruit, antioxidants', alternatives: [] },
+            'lychee': { level: 'safe', reason: 'Tropical fruit', alternatives: [] },
+            'persimmon': { level: 'safe', reason: 'Fruit, vitamins', alternatives: [] },
+            'chicken': { level: 'safe', reason: 'Lean protein', alternatives: [] },
+            'turkey': { level: 'safe', reason: 'Lean protein', alternatives: [] },
+            'beef': { level: 'safe', reason: 'Protein, iron source', alternatives: [] },
+            'pork': { level: 'safe', reason: 'Protein source', alternatives: [] },
+            'lamb': { level: 'safe', reason: 'Protein, iron', alternatives: [] },
+            'salmon': { level: 'safe', reason: 'Rich in omega-3', alternatives: [] },
+            'tuna': { level: 'safe', reason: 'Protein, omega-3 (limit due to mercury)', alternatives: [] },
+            'sardines': { level: 'safe', reason: 'Omega-3, calcium', alternatives: [] },
+            'trout': { level: 'safe', reason: 'Omega-3, protein', alternatives: [] },
+            'cod': { level: 'safe', reason: 'Lean protein', alternatives: [] },
+            'tilapia': { level: 'safe', reason: 'Lean protein', alternatives: [] },
+            'tofu': { level: 'safe', reason: 'Plant protein (if no soy allergy)', alternatives: [] },
+            'tempeh': { level: 'safe', reason: 'Fermented soy protein', alternatives: [] },
+            'edamame': { level: 'safe', reason: 'Soybean, protein', alternatives: [] },
+            'lentils': { level: 'safe', reason: 'Plant protein, iron', alternatives: [] },
+            'chickpeas': { level: 'safe', reason: 'Plant protein, fiber', alternatives: [] },
+            'beans': { level: 'safe', reason: 'Plant protein, fiber', alternatives: [] },
+            'black beans': { level: 'safe', reason: 'Protein, fiber', alternatives: [] },
+            'kidney beans': { level: 'safe', reason: 'Protein, iron', alternatives: [] },
+            'pinto beans': { level: 'safe', reason: 'Protein, fiber', alternatives: [] },
+            'navy beans': { level: 'safe', reason: 'Protein, fiber', alternatives: [] },
+            'split peas': { level: 'safe', reason: 'Protein, fiber', alternatives: [] },
+            'oat': { level: 'safe', reason: 'Whole grain, nutritious', alternatives: [] },
+            'oats': { level: 'safe', reason: 'Whole grain, nutritious', alternatives: [] },
+            'oatmeal': { level: 'safe', reason: 'Whole grain, fiber', alternatives: [] },
+            'rolled oats': { level: 'safe', reason: 'Whole grain, fiber', alternatives: [] },
+            'steel cut oats': { level: 'safe', reason: 'Whole grain, fiber', alternatives: [] },
+            'rice': { level: 'safe', reason: 'Safe grain, easy to digest', alternatives: [] },
+            'brown rice': { level: 'safe', reason: 'Whole grain, nutritious', alternatives: [] },
+            'wild rice': { level: 'safe', reason: 'Whole grain, protein', alternatives: [] },
+            'quinoa': { level: 'safe', reason: 'Nutritious whole grain', alternatives: [] },
+            'millet': { level: 'safe', reason: 'Gluten-free grain', alternatives: [] },
+            'buckwheat': { level: 'safe', reason: 'Gluten-free grain', alternatives: [] },
+            'amaranth': { level: 'safe', reason: 'Ancient grain, protein', alternatives: [] },
+            'teff': { level: 'safe', reason: 'Gluten-free grain, iron', alternatives: [] },
+            'sorghum': { level: 'safe', reason: 'Gluten-free grain', alternatives: [] },
+            'whole wheat': { level: 'safe', reason: 'Whole grain, fiber', alternatives: [] },
+            'whole grain': { level: 'safe', reason: 'Fiber-rich', alternatives: [] },
+            'whole wheat flour': { level: 'safe', reason: 'Whole grain flour', alternatives: [] },
+            'oat flour': { level: 'safe', reason: 'Whole grain flour', alternatives: [] },
+            'coconut flour': { level: 'safe', reason: 'Gluten-free, fiber', alternatives: [] },
+            'brown rice flour': { level: 'safe', reason: 'Gluten-free flour', alternatives: [] },
+            'popcorn': { level: 'safe', reason: 'Whole grain snack (choking hazard under 4)', alternatives: [] },
+            'whole grain bread': { level: 'safe', reason: 'Fiber-rich', alternatives: [] },
+            'sourdough': { level: 'safe', reason: 'Fermented bread', alternatives: [] },
+            'yogurt': { level: 'safe', reason: 'Probiotics, calcium (if no dairy allergy)', alternatives: [] },
+            'greek yogurt': { level: 'safe', reason: 'Protein, probiotics', alternatives: [] },
+            'kefir': { level: 'safe', reason: 'Probiotics, calcium', alternatives: [] },
+            'cheese': { level: 'safe', reason: 'Calcium, protein (if no dairy allergy)', alternatives: [] },
+            'cottage cheese': { level: 'safe', reason: 'Protein, calcium', alternatives: [] },
+            'butter': { level: 'caution', reason: 'Saturated fat - use in moderation', alternatives: ['Olive oil'] },
+            'sunflower seed': { level: 'safe', reason: 'Seed, healthy fats (avoid whole for young kids)', alternatives: [] },
+            'sunflower seeds': { level: 'safe', reason: 'Healthy fats, vitamin E', alternatives: [] },
+            'sunflower seed butter': { level: 'safe', reason: 'Nut-free spread', alternatives: [] },
+            'pumpkin seeds': { level: 'safe', reason: 'Zinc, magnesium (avoid whole for young kids)', alternatives: [] },
+            'pepitas': { level: 'safe', reason: 'Pumpkin seeds, zinc', alternatives: [] },
+            'chia seeds': { level: 'safe', reason: 'Omega-3, fiber', alternatives: [] },
+            'flaxseed': { level: 'safe', reason: 'Omega-3, fiber', alternatives: [] },
+            'flax seeds': { level: 'safe', reason: 'Omega-3, fiber', alternatives: [] },
+            'hemp seeds': { level: 'safe', reason: 'Plant protein, omega-3', alternatives: [] },
+            'sesame seed butter': { level: 'caution', reason: 'Sesame allergen', alternatives: ['Sunflower butter'] },
+            'tahini': { level: 'caution', reason: 'Sesame allergen', alternatives: ['Sunflower seed butter'] },
+            'cinnamon': { level: 'safe', reason: 'Spice, generally safe', alternatives: [] },
+            'turmeric': { level: 'safe', reason: 'Spice, anti-inflammatory', alternatives: [] },
+            'ginger': { level: 'safe', reason: 'Spice, soothing', alternatives: [] },
+            'basil': { level: 'safe', reason: 'Herb, antioxidants', alternatives: [] },
+            'oregano': { level: 'safe', reason: 'Herb, antimicrobial', alternatives: [] },
+            'thyme': { level: 'safe', reason: 'Herb, vitamins', alternatives: [] },
+            'rosemary': { level: 'safe', reason: 'Herb, antioxidants', alternatives: [] },
+            'parsley': { level: 'safe', reason: 'Herb, vitamin K', alternatives: [] },
+            'cilantro': { level: 'safe', reason: 'Herb, vitamins', alternatives: [] },
+            'dill': { level: 'safe', reason: 'Herb, flavor', alternatives: [] },
+            'mint': { level: 'safe', reason: 'Herb, soothing', alternatives: [] },
+            'peppermint': { level: 'safe', reason: 'Herb, digestive aid', alternatives: [] },
+            'sage': { level: 'safe', reason: 'Herb, antioxidants', alternatives: [] },
+            'vanilla': { level: 'safe', reason: 'Natural flavor', alternatives: [] },
+            'vanilla extract': { level: 'safe', reason: 'Natural flavor', alternatives: [] },
+            'cocoa': { level: 'safe', reason: 'Antioxidants (small amounts)', alternatives: [] },
+            'cacao': { level: 'safe', reason: 'Antioxidants, minerals', alternatives: [] },
+            'carob': { level: 'safe', reason: 'Caffeine-free chocolate alternative', alternatives: [] },
+            'cinnamon powder': { level: 'safe', reason: 'Spice', alternatives: [] },
+            'nutmeg': { level: 'safe', reason: 'Spice (small amounts)', alternatives: [] },
+            'clove': { level: 'safe', reason: 'Spice', alternatives: [] },
+            'cardamom': { level: 'safe', reason: 'Spice', alternatives: [] },
+            'cumin': { level: 'safe', reason: 'Spice, digestion', alternatives: [] },
+            'coriander': { level: 'safe', reason: 'Spice', alternatives: [] },
+            'paprika': { level: 'safe', reason: 'Spice, vitamin A', alternatives: [] },
+            'chili powder': { level: 'caution', reason: 'Spicy - use mild for kids', alternatives: ['Sweet paprika'] },
+            'black pepper': { level: 'safe', reason: 'Spice (mild amounts)', alternatives: [] },
+            'olive oil': { level: 'safe', reason: 'Healthy fat', alternatives: [] },
+            'extra virgin olive oil': { level: 'safe', reason: 'Heart-healthy fat', alternatives: [] },
+            'coconut oil': { level: 'safe', reason: 'Healthy fat', alternatives: [] },
+            'avocado oil': { level: 'safe', reason: 'Healthy fat', alternatives: [] },
+            'sesame oil': { level: 'caution', reason: 'Sesame allergen', alternatives: ['Olive oil'] },
+            'flaxseed oil': { level: 'safe', reason: 'Omega-3 fats', alternatives: [] },
+            'walnut oil': { level: 'caution', reason: 'Tree nut allergen', alternatives: ['Olive oil'] },
+            'vitamin c': { level: 'safe', reason: 'Essential vitamin', alternatives: [] },
+            'ascorbic acid': { level: 'safe', reason: 'Vitamin C, antioxidant', alternatives: [] },
+            'vitamin d': { level: 'safe', reason: 'Essential vitamin', alternatives: [] },
+            'vitamin e': { level: 'safe', reason: 'Antioxidant vitamin', alternatives: [] },
+            'vitamin a': { level: 'safe', reason: 'Essential vitamin', alternatives: [] },
+            'vitamin b12': { level: 'safe', reason: 'Essential vitamin', alternatives: [] },
+            'niacin': { level: 'safe', reason: 'Vitamin B3', alternatives: [] },
+            'riboflavin': { level: 'safe', reason: 'Vitamin B2', alternatives: [] },
+            'thiamine': { level: 'safe', reason: 'Vitamin B1', alternatives: [] },
+            'folate': { level: 'safe', reason: 'Vitamin B9', alternatives: [] },
+            'folic acid': { level: 'safe', reason: 'Vitamin B9', alternatives: [] },
+            'calcium': { level: 'safe', reason: 'Essential mineral', alternatives: [] },
+            'iron': { level: 'safe', reason: 'Essential mineral', alternatives: [] },
+            'zinc': { level: 'safe', reason: 'Essential mineral', alternatives: [] },
+            'potassium': { level: 'safe', reason: 'Essential mineral', alternatives: [] },
+            'magnesium': { level: 'safe', reason: 'Essential mineral', alternatives: [] },
+            'fiber': { level: 'safe', reason: 'Healthy digestive aid', alternatives: [] },
+            'probiotics': { level: 'safe', reason: 'Good bacteria for gut health', alternatives: [] },
+            'inulin': { level: 'safe', reason: 'Prebiotic fiber', alternatives: [] },
+            'baking soda': { level: 'safe', reason: 'Leavening agent, safe in small amounts', alternatives: [] },
+            'baking powder': { level: 'safe', reason: 'Leavening agent, contains sodium', alternatives: [] },
+            'yeast': { level: 'safe', reason: 'Natural leavening', alternatives: [] },
+            'nutritional yeast': { level: 'safe', reason: 'B vitamins, cheesy flavor', alternatives: [] },
+            'vinegar': { level: 'safe', reason: 'Acidifier, generally safe', alternatives: [] },
+            'apple cider vinegar': { level: 'safe', reason: 'Generally safe', alternatives: [] },
+            'balsamic vinegar': { level: 'safe', reason: 'Generally safe', alternatives: [] },
+            'coconut': { level: 'safe', reason: 'Fruit, healthy fats', alternatives: [] },
+            'coconut milk': { level: 'safe', reason: 'Dairy alternative', alternatives: [] },
+            'oat milk': { level: 'safe', reason: 'Dairy alternative', alternatives: [] },
+            'rice milk': { level: 'safe', reason: 'Dairy alternative (watch arsenic levels)', alternatives: [] },
+            'hemp milk': { level: 'safe', reason: 'Dairy alternative, omega-3', alternatives: [] },
+            'pea milk': { level: 'safe', reason: 'Dairy alternative, protein', alternatives: [] },
+            'almond milk': { level: 'caution', reason: 'Tree nut allergen - check labels', alternatives: ['Oat milk'] },
+            'soy milk': { level: 'caution', reason: 'Soy allergen', alternatives: ['Oat milk'] },
+            'seaweed': { level: 'safe', reason: 'Iodine, minerals', alternatives: [] },
+            'nori': { level: 'safe', reason: 'Seaweed, minerals', alternatives: [] },
+            'kelp': { level: 'safe', reason: 'Iodine source', alternatives: [] },
+            'spirulina': { level: 'safe', reason: 'Algae, protein, natural color', alternatives: [] },
+            'chlorella': { level: 'safe', reason: 'Algae, nutrients', alternatives: [] },
+            'gelatin': { level: 'safe', reason: 'Protein from collagen', alternatives: ['Agar for vegetarian'] },
+            'agar': { level: 'safe', reason: 'Plant-based thickener', alternatives: [] },
+            'agar agar': { level: 'safe', reason: 'Vegan gelatin alternative', alternatives: [] },
+            'pectin': { level: 'safe', reason: 'Fruit thickener', alternatives: [] },
+            'guar gum': { level: 'safe', reason: 'Natural thickener', alternatives: [] },
+            'xanthan gum': { level: 'safe', reason: 'Fermentation-derived thickener', alternatives: [] },
+            'tapioca starch': { level: 'safe', reason: 'Gluten-free starch', alternatives: [] },
+            'arrowroot': { level: 'safe', reason: 'Natural thickener', alternatives: [] },
+            'potato starch': { level: 'safe', reason: 'Gluten-free starch', alternatives: [] },
+            'stevia': { level: 'safe', reason: 'Natural plant sweetener', alternatives: [] },
+            'monk fruit': { level: 'safe', reason: 'Natural zero-calorie sweetener', alternatives: [] },
+            'monk fruit extract': { level: 'safe', reason: 'Natural sweetener', alternatives: [] },
+            'rosemary extract': { level: 'safe', reason: 'Natural preservative', alternatives: [] },
+            'tocopherols': { level: 'safe', reason: 'Vitamin E preservative', alternatives: [] },
+            'mixed tocopherols': { level: 'safe', reason: 'Natural vitamin E', alternatives: [] },
+            'beet juice': { level: 'safe', reason: 'Natural red color', alternatives: [] },
+            'beet juice concentrate': { level: 'safe', reason: 'Natural food coloring', alternatives: [] },
+            'annatto': { level: 'safe', reason: 'Natural yellow/orange color', alternatives: [] },
+            'paprika extract': { level: 'safe', reason: 'Natural red color', alternatives: [] },
+            'turmeric extract': { level: 'safe', reason: 'Natural yellow color', alternatives: [] },
+            'beta carotene': { level: 'safe', reason: 'Natural color and vitamin A', alternatives: [] },
+            'carrot juice': { level: 'safe', reason: 'Natural color', alternatives: [] },
+            'blueberry juice': { level: 'safe', reason: 'Natural color', alternatives: [] },
+            'red cabbage extract': { level: 'safe', reason: 'Natural color', alternatives: [] },
+            'chlorophyll': { level: 'safe', reason: 'Natural green color', alternatives: [] },
+            'matcha': { level: 'safe', reason: 'Natural green color (small caffeine)', alternatives: [] },
+            'cocoa powder': { level: 'safe', reason: 'Natural brown color, antioxidants', alternatives: [] },
+            'caramel color': { level: 'caution', reason: 'Some types may contain 4-MEI', alternatives: ['Molasses', 'Cocoa'] },
+        };
+
+        let currentAge = 'all';
+        let currentFilter = 'all';
+        const HISTORY_KEY = 'foodlens_history_v1';
+        const MAX_HISTORY = 30;
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            btn.classList.add('active');
+            if (tabName === 'history') renderHistory();
+            if (tabName === 'database') renderDatabase();
+        }
+
+        function selectAge(age, btn) {
+            currentAge = age;
+            document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            try { localStorage.setItem('foodlens_last_age', age); } catch(e) {}
+        }
+
+        function applyAgeRules(name, level) {
+            const normalized = normalizeIngredient(name);
+            const result = { level, ageWarning: null, forceLevel: null };
+            if (currentAge === 'all') return result;
+            const rules = ageRules[currentAge];
+            if (!rules) return result;
+            for (const [key, warning] of Object.entries(rules.forbidden)) {
+                if (normalized === key || normalized.includes(key) || key.includes(normalized)) {
+                    result.ageWarning = warning;
+                    result.forceLevel = 'age-restricted';
+                    return result;
+                }
+            }
+            for (const [key, warning] of Object.entries(rules.warnings)) {
+                if (normalized === key || normalized.includes(key) || key.includes(normalized)) {
+                    result.ageWarning = warning;
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        function getAlternatives(ingredientName, level, dbEntry) {
+            if (dbEntry && dbEntry.alternatives && dbEntry.alternatives.length > 0) return dbEntry.alternatives;
+            const normalized = normalizeIngredient(ingredientName);
+            const categoryAlts = getCategoryAlternatives(normalized, level);
+            if (categoryAlts.length > 0) return categoryAlts;
+            if (level === 'harmful') return ['Look for organic/clean-label version', 'Choose whole-food alternative'];
+            if (level === 'caution') return ['Consume in moderation', 'Choose organic version'];
+            return [];
+        }
+
+        function getCategoryAlternatives(name, level) {
+            if (/(red|yellow|blue|green|orange)\s*\d+/.test(name) || name.includes('color')) return ['Beet juice', 'Turmeric', 'Spirulina', 'Annatto', 'Beta carotene'];
+            if (/sugar|syrup|sweet|ose$|ol$/.test(name)) return ['Dates', 'Fresh fruit', 'Stevia', 'Monk fruit'];
+            if (/benzoate|nitrite|nitrate|sulfite|bha|bht|tbhq|propionate/.test(name)) return ['Vitamin C', 'Vitamin E', 'Rosemary extract', 'Fresh foods'];
+            if (/oil|fat|shortening|margarine/.test(name)) return ['Olive oil', 'Avocado oil', 'Coconut oil'];
+            if (/flour|starch|grain/.test(name)) return ['Whole wheat flour', 'Oat flour', 'Brown rice flour', 'Quinoa'];
+            if (/gum|carrageenan|cellulose|starch/.test(name)) return ['Agar agar', 'Guar gum', 'Xanthan gum', 'Arrowroot'];
+            if (/lecithin|polysorbate|mono|diglyceride|stearoyl/.test(name)) return ['Sunflower lecithin', 'Egg yolk (if no allergy)'];
+            if (/flavor|flavour|msg|glutamate|inosinate|guanylate/.test(name)) return ['Sea salt', 'Herbs', 'Real spices', 'Mushroom powder'];
+            return [];
+        }
+
+        function normalizeIngredient(str) {
+            return str.trim().toLowerCase().replace(/\(.*?\)/g, '').replace(/[0-9%]/g, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function findPartialMatch(normalized) {
+            let bestMatch = null, bestLength = 0;
+            for (const [key, value] of Object.entries(ingredientDB)) {
+                if (normalized.includes(key) && key.length > bestLength) {
+                    bestMatch = value;
+                    bestLength = key.length;
+                }
+            }
+            return bestMatch;
+        }
+
+        function findIngredient(rawName) {
+            const normalized = normalizeIngredient(rawName);
+            if (ingredientDB[normalized]) return ingredientDB[normalized];
+            const partial = findPartialMatch(normalized);
+            if (partial) return partial;
+            for (const [key, value] of Object.entries(ingredientDB)) {
+                if (key.includes(normalized) && normalized.length > 3) return value;
+            }
+            return null;
+        }
+
+        function checkIngredients() {
+            const input = document.getElementById('ingredients').value;
+            if (!input.trim()) { alert('Please enter some ingredients to check! 🧐'); return; }
+            const rawIngredients = input.split(/[\n,;]+/).map(s => s.trim()).filter(s => s.length > 0);
+            const results = rawIngredients.map(name => {
+                const found = findIngredient(name);
+                const baseLevel = found ? found.level : 'unknown';
+                const baseReason = found ? found.reason : 'Not in our database - check with pediatrician if unsure';
+                const dbAlternatives = found ? (found.alternatives || []) : [];
+                const ageResult = applyAgeRules(name, baseLevel);
+                const finalLevel = ageResult.forceLevel || baseLevel;
+                return { name, level: finalLevel, originalLevel: baseLevel, reason: baseReason, ageWarning: ageResult.ageWarning, alternatives: dbAlternatives, dbEntry: found };
+            });
+            displayResults(results);
+            saveToHistory(results);
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            const summaryDiv = document.getElementById('summary');
+            const statsBar = document.getElementById('statsBar');
+            const listDiv = document.getElementById('ingredientList');
+            const harmfulCount = results.filter(r => r.level === 'harmful').length;
+            const cautionCount = results.filter(r => r.level === 'caution').length;
+            const safeCount = results.filter(r => r.level === 'safe').length;
+            const unknownCount = results.filter(r => r.level === 'unknown').length;
+            const ageRestrictedCount = results.filter(r => r.level === 'age-restricted').length;
+            const ageLabel = { all: '', infant: '👶 Infant', toddler: '🧒 Toddler', child: '👦 Child' }[currentAge];
+
+            if (ageRestrictedCount > 0) {
+                summaryDiv.className = 'summary age-critical';
+                summaryDiv.innerHTML = `🚨 ${ageRestrictedCount} ingredient${ageRestrictedCount > 1 ? 's' : ''} UNSAFE for ${ageLabel}! Do not give this to your child.`;
+            } else if (harmfulCount > 0) {
+                summaryDiv.className = 'summary has-harmful';
+                summaryDiv.innerHTML = `⚠️ Found ${harmfulCount} harmful ingredient${harmfulCount > 1 ? 's' : ''}! Consider safer alternatives below.`;
+            } else if (cautionCount > 0) {
+                summaryDiv.className = 'summary has-issues';
+                summaryDiv.innerHTML = `🤔 ${cautionCount} ingredient${cautionCount > 1 ? 's' : ''} to watch. Check the suggested alternatives!`;
+            } else if (safeCount === results.length) {
+                summaryDiv.className = 'summary all-good';
+                summaryDiv.innerHTML = `✅ All ${safeCount} ingredients look safe${ageLabel ? ' for ' + ageLabel : ''}! Great choice!`;
+            } else {
+                summaryDiv.className = 'summary has-issues';
+                summaryDiv.innerHTML = `📊 ${safeCount} safe · ${unknownCount} unknown · ${cautionCount} caution`;
+            }
+
+            statsBar.innerHTML = `
+                ${safeCount > 0 ? `<div class="stat-chip safe">✅ ${safeCount} Safe</div>` : ''}
+                ${cautionCount > 0 ? `<div class="stat-chip caution">⚠️ ${cautionCount} Caution</div>` : ''}
+                ${harmfulCount > 0 ? `<div class="stat-chip harmful">🚫 ${harmfulCount} Harmful</div>` : ''}
+                ${ageRestrictedCount > 0 ? `<div class="stat-chip age-restricted">🚨 ${ageRestrictedCount} Age-Unsafe</div>` : ''}
+                ${unknownCount > 0 ? `<div class="stat-chip unknown">❓ ${unknownCount} Unknown</div>` : ''}
+            `;
+
+            listDiv.innerHTML = '';
+            results.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `ingredient-card ${item.level}`;
+                const emoji = { safe: '✅', caution: '⚠️', harmful: '🚫', unknown: '❓', 'age-restricted': '🚨' }[item.level];
+                const badgeLabel = item.level === 'age-restricted' ? 'AGE UNSAFE' : item.level.toUpperCase();
+                const alts = item.alternatives && item.alternatives.length > 0 ? item.alternatives : getAlternatives(item.name, item.level, item.dbEntry);
+                const showAlts = (item.level === 'harmful' || item.level === 'caution' || item.level === 'age-restricted') && alts.length > 0;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="ingredient-name">${emoji} ${escapeHtml(item.name)}</div>
+                        <span class="badge ${item.level}">${badgeLabel}</span>
+                    </div>
+                    <div class="reason">${escapeHtml(item.reason)}</div>
+                    ${item.ageWarning ? `
+                        <div class="age-warning">
+                            <div class="age-warning-title">${ageEmoji(currentAge)} ${ageLabel} Warning:</div>
+                            ${escapeHtml(item.ageWarning)}
+                        </div>
+                    ` : ''}
+                    ${showAlts ? `
+                        <div class="alternatives">
+                            <div class="alternatives-title">💚 Try these safer alternatives:</div>
+                            <div class="alternative-list">
+                                ${alts.map(a => `<span class="alt-chip">${escapeHtml(a)}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+                listDiv.appendChild(card);
+            });
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function ageEmoji(age) { return { all: '👨‍👩‍👧', infant: '👶', toddler: '🧒', child: '👦' }[age] || ''; }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function saveToHistory(results) {
+            try {
+                const history = getHistory();
+                const now = new Date();
+                const harmfulCount = results.filter(r => r.level === 'harmful').length;
+                const ageRestrictedCount = results.filter(r => r.level === 'age-restricted').length;
+                const cautionCount = results.filter(r => r.level === 'caution').length;
+                const safeCount = results.filter(r => r.level === 'safe').length;
+                const unknownCount = results.filter(r => r.level === 'unknown').length;
+                const entry = {
+                    id: Date.now(),
+                    timestamp: now.toISOString(),
+                    age: currentAge,
+                    ingredients: results.map(r => r.name),
+                    counts: { harmful: harmfulCount, caution: cautionCount, safe: safeCount, unknown: unknownCount, ageRestricted: ageRestrictedCount }
+                };
+                history.unshift(entry);
+                if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            } catch (e) { console.warn('Could not save history:', e); }
+        }
+
+        function getHistory() {
+            try {
+                const raw = localStorage.getItem(HISTORY_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) { return []; }
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const history = getHistory();
+            if (history.length === 0) {
+                list.innerHTML = `<div class="empty-state"><span class="empty-emoji">📭</span>No checks yet. Your recent ingredient checks will appear here.</div>`;
+                return;
+            }
+            list.innerHTML = history.map(item => {
+                const date = new Date(item.timestamp);
+                const timeStr = formatTime(date);
+                const ageEmojiVal = ageEmoji(item.age);
+                const ageLabel = { all: 'All Ages', infant: 'Infant', toddler: 'Toddler', child: 'Child' }[item.age];
+                let borderClass = '';
+                if (item.counts.ageRestricted > 0) borderClass = 'age-warn';
+                else if (item.counts.harmful > 0) borderClass = 'bad';
+                else if (item.counts.caution > 0) borderClass = 'warn';
+                return `
+                    <div class="history-item ${borderClass}" onclick='loadHistoryItem(${item.id})'>
+                        <div class="history-top">
+                            <span class="history-age-badge">${ageEmojiVal} ${ageLabel}</span>
+                            <span class="history-time">${timeStr}</span>
+                        </div>
+                        <div class="history-ingredients">${escapeHtml(item.ingredients.join(', '))}</div>
+                        <div class="history-stats">
+                            ${item.counts.safe > 0 ? `<span class="history-stat safe">✅ ${item.counts.safe}</span>` : ''}
+                            ${item.counts.caution > 0 ? `<span class="history-stat caution">⚠️ ${item.counts.caution}</span>` : ''}
+                            ${item.counts.harmful > 0 ? `<span class="history-stat harmful">🚫 ${item.counts.harmful}</span>` : ''}
+                            ${item.counts.unknown > 0 ? `<span class="history-stat unknown">❓ ${item.counts.unknown}</span>` : ''}
+                            ${item.counts.ageRestricted > 0 ? `<span class="history-stat harmful">🚨 ${item.counts.ageRestricted}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatTime(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMin = Math.floor(diffMs / 60000);
+            const diffHr = Math.floor(diffMs / 3600000);
+            const diffDay = Math.floor(diffMs / 86400000);
+            if (diffMin < 1) return 'Just now';
+            if (diffMin < 60) return `${diffMin}m ago`;
+            if (diffHr < 24) return `${diffHr}h ago`;
+            if (diffDay < 7) return `${diffDay}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        function loadHistoryItem(id) {
+            const history = getHistory();
+            const item = history.find(h => h.id === id);
+            if (!item) return;
+            currentAge = item.age;
+            document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b.dataset.age === item.age));
+            document.getElementById('ingredients').value = item.ingredients.join('\n');
+            switchTab('checker', document.querySelector('.tab-btn'));
+            checkIngredients();
+        }
+
+        function clearHistory() {
+            if (!confirm('Clear all history? This cannot be undone.')) return;
+            localStorage.removeItem(HISTORY_KEY);
+            renderHistory();
+        }
+
+        function renderDatabase() {
+            const searchInput = document.getElementById('dbSearch');
+            const clearBtn = document.getElementById('searchClear');
+            const query = searchInput.value.trim().toLowerCase();
+            const listDiv = document.getElementById('dbList');
+            const statsDiv = document.getElementById('dbStats');
+            clearBtn.classList.toggle('show', query.length > 0);
+
+            let entries = Object.entries(ingredientDB).map(([name, data]) => ({ name, level: data.level, reason: data.reason, alternatives: data.alternatives || [] }));
+            if (currentFilter !== 'all') entries = entries.filter(e => e.level === currentFilter);
+            if (query) entries = entries.filter(e => e.name.includes(query) || e.reason.toLowerCase().includes(query));
+
+            const levelOrder = { harmful: 0, caution: 1, safe: 2 };
+            entries.sort((a, b) => {
+                const orderDiff = levelOrder[a.level] - levelOrder[b.level];
+                if (orderDiff !== 0) return orderDiff;
+                return a.name.localeCompare(b.name);
+            });
+
+            const total = Object.keys(ingredientDB).length;
+            statsDiv.textContent = `Showing ${entries.length} of ${total} ingredients`;
+
+            if (entries.length === 0) {
+                listDiv.innerHTML = `<div class="no-results"><div style="font-size:2.5em;">🔍</div><p style="margin-top:10px;">No ingredients match your search.</p></div>`;
+                return;
+            }
+
+            listDiv.innerHTML = entries.map(e => `
+                <div class="db-item ${e.level}">
+                    <div class="db-item-info">
+                        <div class="db-item-name">${escapeHtml(e.name)}</div>
+                        <div class="db-item-reason">${escapeHtml(e.reason)}</div>
+                    </div>
+                    <span class="db-item-badge ${e.level}">${e.level.toUpperCase()}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterDb(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            renderDatabase();
+        }
+
+        function clearSearch() {
+            document.getElementById('dbSearch').value = '';
+            renderDatabase();
+        }
+
+        function loadSample() {
+            document.getElementById('ingredients').value = `Sugar
+Red 40
+Sodium Benzoate
+Water
+Natural Flavors
+Oat Flour
+Honey
+Titanium Dioxide
+Citric Acid
+Aspartame
+High Fructose Corn Syrup
+BHA`;
+        }
+
+        function clearAll() {
+            document.getElementById('ingredients').value = '';
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('ingredients').focus();
+        }
+
+        document.getElementById('ingredients').addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') checkIngredients();
+        });
+
+        try {
+            const savedAge = localStorage.getItem('foodlens_last_age');
+            if (savedAge && ['all','infant','toddler','child'].includes(savedAge)) {
+                currentAge = savedAge;
+                document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b.dataset.age === savedAge));
+            }
+        } catch (e) {}
+    </script>
+</body>
+</html>
