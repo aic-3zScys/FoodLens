@@ -1421,9 +1421,26 @@ Natural Flavors"></textarea>
             return [];
         }
 
-        function normalizeIngredient(str) {
-            return str.trim().toLowerCase().replace(/\(.*?\)/g, '').replace(/[0-9%]/g, '').replace(/\s+/g, ' ').trim();
-        }
+       function normalizeIngredient(str) {
+    let s = str.trim().toLowerCase();
+    
+    // Convert INS or E numbers to E-number format
+    // "INS 102" -> "e102"
+    // "E 102"   -> "e102"
+    // "e-102"   -> "e102"
+    // "E102"    -> "e102"
+    const insMatch = s.match(/^(ins|e)[\s\-]?(\d{3,4}[a-z]?)$/i);
+    if (insMatch) {
+        return 'e' + insMatch[2].toLowerCase();
+    }
+    
+    // Strip parentheses, percentages, and extra spaces
+    return s
+        .replace(/\(.*?\)/g, '')
+        .replace(/[0-9%]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
 
         function findPartialMatch(normalized) {
             let bestMatch = null, bestLength = 0;
@@ -1436,16 +1453,34 @@ Natural Flavors"></textarea>
             return bestMatch;
         }
 
-        function findIngredient(rawName) {
-            const normalized = normalizeIngredient(rawName);
-            if (ingredientDB[normalized]) return ingredientDB[normalized];
-            const partial = findPartialMatch(normalized);
-            if (partial) return partial;
-            for (const [key, value] of Object.entries(ingredientDB)) {
-                if (key.includes(normalized) && normalized.length > 3) return value;
-            }
-            return null;
+       function findIngredient(rawName) {
+    const normalized = normalizeIngredient(rawName);
+    
+    // Direct match (handles normalized INS/E numbers and plain names)
+    if (ingredientDB[normalized]) return ingredientDB[normalized];
+    
+    // If it looks like an E-number, try matching against DB keys that start with 'e'
+    const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
+    if (eMatch) {
+        // Try exact E-number first
+        if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
+        
+        // Then try any key containing the E-number
+        for (const [key, value] of Object.entries(ingredientDB)) {
+            if (key.includes('e' + eMatch[1])) return value;
         }
+    }
+    
+    // Partial match
+    const partial = findPartialMatch(normalized);
+    if (partial) return partial;
+    
+    // Fallback: key contains normalized
+    for (const [key, value] of Object.entries(ingredientDB)) {
+        if (key.includes(normalized) && normalized.length > 3) return value;
+    }
+    return null;
+}
 
         function checkIngredients() {
             const input = document.getElementById('ingredients').value;
