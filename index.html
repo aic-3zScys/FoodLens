@@ -208,6 +208,28 @@ Natural Flavors"></textarea>
                 <button class="filter-chip" data-filter="caution" onclick="filterDb('caution', this)">⚠️ Caution</button>
                 <button class="filter-chip" data-filter="harmful" onclick="filterDb('harmful', this)">🚫 Harmful</button>
             </div>
+            <div class="category-filter" style="margin-bottom: 15px;">
+                <label for="categorySelect" style="font-weight: bold; color: #2d6a4f; margin-right: 10px;">Category:</label>
+                <select id="categorySelect" onchange="renderDatabase()" style="padding: 8px 12px; border-radius: 10px; border: 2px solid #b7e4c7; font-family: 'Comic Sans MS', sans-serif; font-size: 0.9em; color: #2d6a4f; background: white;">
+                    <option value="all">All Categories</option>
+                    <option value="color">Colors</option>
+                    <option value="preservative">Preservatives</option>
+                    <option value="sweetener">Sweeteners</option>
+                    <option value="flavor_enhancer">Flavor Enhancers</option>
+                    <option value="emulsifier">Emulsifiers</option>
+                    <option value="thickener">Thickeners</option>
+                    <option value="phosphate">Phosphates</option>
+                    <option value="starch">Modified Starches</option>
+                    <option value="antioxidant">Antioxidants</option>
+                    <option value="acid">Acids & Regulators</option>
+                    <option value="allergen">Allergens</option>
+                    <option value="sugar">Sugars</option>
+                    <option value="sodium">Sodium</option>
+                    <option value="caffeine">Caffeine</option>
+                    <option value="trans_fat">Trans Fats</option>
+                    <option value="other">Other Additives</option>
+                </select>
+            </div>
             <div class="db-stats" id="dbStats"></div>
             <div class="db-list" id="dbList"></div>
         </div>
@@ -654,6 +676,7 @@ Natural Flavors"></textarea>
             'datem': { level: 'caution', reason: 'Also called E472e. Processed additive.', alternatives: ['Natural dough conditioners'] },
             'sodium stearoyl lactylate': { level: 'caution', reason: 'Also called E481 or INS 481. Processed.', alternatives: ['Lecithin'] },
             'ssl': { level: 'caution', reason: 'Also called E481 or INS 481. Processed additive.', alternatives: ['Natural alternatives'] },
+            'pgpr': { level: 'caution', reason: 'Polyglycerol Polyricinoleate (E476). Emulsifier in chocolate. Generally safe but processed.', alternatives: ['Cocoa butter'] },
 
             // ============================================================
             // CAUTION: ALLERGENS
@@ -789,6 +812,7 @@ Natural Flavors"></textarea>
             'e464': { level: 'caution', reason: 'Hydroxypropyl Methyl Cellulose (INS 464). Synthetic.', alternatives: ['Guar gum'] },
             'e471': { level: 'caution', reason: 'Mono- and Diglycerides (INS 471). May contain trans fats.', alternatives: ['Sunflower lecithin'] },
             'e472e': { level: 'caution', reason: 'DATEM (INS 472e). Processed emulsifier.', alternatives: ['Natural dough conditioners'] },
+            'e476': { level: 'caution', reason: 'PGPR (INS 476). Emulsifier in chocolate. Processed.', alternatives: ['Cocoa butter'] },
             'e481': { level: 'caution', reason: 'Sodium Stearoyl Lactylate (INS 481). Processed.', alternatives: ['Lecithin'] },
             'e500': { level: 'safe', reason: 'Sodium Bicarbonate or Baking Soda (INS 500). Safe.', alternatives: [] },
             'baking soda': { level: 'safe', reason: 'Also called E500 or INS 500. Safe leavening.', alternatives: [] },
@@ -1189,38 +1213,38 @@ Natural Flavors"></textarea>
         }
 
         function findIngredient(rawName) {
-    const raw = rawName.trim().toLowerCase();
-    const normalized = normalizeIngredient(rawName);
+            const raw = rawName.trim().toLowerCase();
+            const normalized = normalizeIngredient(rawName);
 
-    // 1. Try RAW exact match first (this fixes "red 40", "yellow 5", etc.)
-    if (ingredientDB[raw]) return ingredientDB[raw];
+            // 1. Try RAW exact match first (this fixes "red 40", "yellow 5", etc.)
+            if (ingredientDB[raw]) return ingredientDB[raw];
 
-    // 2. Try normalized exact match
-    if (ingredientDB[normalized]) return ingredientDB[normalized];
+            // 2. Try normalized exact match
+            if (ingredientDB[normalized]) return ingredientDB[normalized];
 
-    // 3. E-number matching
-    const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
-    if (eMatch) {
-        if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
-        for (const [key, value] of Object.entries(ingredientDB)) {
-            if (key.includes('e' + eMatch[1])) return value;
-        }
-    }
+            // 3. E-number matching
+            const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
+            if (eMatch) {
+                if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
+                for (const [key, value] of Object.entries(ingredientDB)) {
+                    if (key.includes('e' + eMatch[1])) return value;
+                }
+            }
 
-    // 4. Partial match against RAW input (handles "red 40" -> "red 40")
-    for (const [key, value] of Object.entries(ingredientDB)) {
-        if (raw === key) return value;
-        if (raw.includes(key)) return value;
-        if (key.includes(raw) && raw.length >= 4) return value;
-    }
+            // 4. Partial match against RAW input (handles "red 40" -> "red 40")
+            for (const [key, value] of Object.entries(ingredientDB)) {
+                if (raw === key) return value;
+                if (raw.includes(key)) return value;
+                if (key.includes(raw) && raw.length >= 4) return value;
+            }
 
-    // 5. Fall back to normalized partial (handles "sugar" inside longer strings)
-    for (const [key, value] of Object.entries(ingredientDB)) {
-        if (normalized.includes(key)) return value;
-        if (key.includes(normalized) && normalized.length >= 3) return value;
-    }
+            // 5. Fall back to normalized partial (handles "sugar" inside longer strings)
+            for (const [key, value] of Object.entries(ingredientDB)) {
+                if (normalized.includes(key)) return value;
+                if (key.includes(normalized) && normalized.length >= 3) return value;
+            }
 
-    return null;
+            return null;
         }
 
         function checkIngredients() {
@@ -1412,6 +1436,7 @@ Natural Flavors"></textarea>
             let entries = Object.entries(ingredientDB).map(([name, data]) => ({ name, level: data.level, reason: data.reason, alternatives: data.alternatives || [] }));
             if (currentFilter !== 'all') entries = entries.filter(e => e.level === currentFilter);
 
+            // Apply search with normalization
             if (query) {
                 const cleanQuery = query.replace(/[\s\-_]/g, '');
                 const insMatch = query.match(/^(ins|e)[\s\-]?(\d{3,4}[a-z]?)$/i);
