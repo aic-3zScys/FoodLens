@@ -1369,11 +1369,13 @@ Preservative (250)`
             try { localStorage.setItem('foodlens_last_age', age); } catch(e) {}
         }
 
-        function loadPreset(key) {
-            if (!key) return;
-            const ta = document.getElementById('ingredients');
-            ta.value = presets[key];
-            ta.focus();
+       function loadPreset(key) {
+    if (!key) return;
+    const ta = document.getElementById('ingredients');
+    ta.value = presets[key];
+    ta.focus();
+    // Explicitly keep the dropdown on the selected option
+    document.getElementById('presetSelect').value = key;
         }
 
         function applyAgeRules(name, level) {
