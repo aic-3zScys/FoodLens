@@ -14,9 +14,11 @@
         .header p { color: #666; font-size: 1em; }
         .emoji-row { font-size: 1.8em; margin: 10px 0; }
         .tabs { display: flex; gap: 8px; margin-bottom: 20px; background: #f1f8f4; padding: 6px; border-radius: 15px; overflow-x: auto; }
-        .tab-btn { flex: 1; min-width: 100px; padding: 12px 12px; border: none; background: transparent; color: #2d6a4f; font-weight: bold; font-size: 0.9em; cursor: pointer; border-radius: 10px; transition: all 0.2s; font-family: 'Comic Sans MS', sans-serif; white-space: nowrap; }
+        .tab-btn { flex: 1; min-width: 90px; padding: 12px 10px; border: none; background: transparent; color: #2d6a4f; font-weight: bold; font-size: 0.85em; cursor: pointer; border-radius: 10px; transition: all 0.2s; font-family: 'Comic Sans MS', sans-serif; white-space: nowrap; }
         .tab-btn:hover { background: rgba(82, 183, 136, 0.15); }
         .tab-btn.active { background: linear-gradient(135deg, #52b788, #40916c); color: white; box-shadow: 0 4px 10px rgba(82, 183, 136, 0.3); }
+        .tab-btn.banned-tab.active { background: linear-gradient(135deg, #7a0b1b, #4d0011); box-shadow: 0 4px 10px rgba(122, 11, 27, 0.3); }
+        .tab-btn.banned-tab:hover { background: rgba(122, 11, 27, 0.15); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -49,6 +51,7 @@
         .dot-caution { background: #ffd166; }
         .dot-harmful { background: #ff6b6b; }
         .dot-unknown { background: #adb5bd; }
+        .dot-adulterant { background: #4d0011; }
         .results { margin-top: 20px; display: none; }
         .results.show { display: block; animation: fadeIn 0.4s ease; }
         .results h2 { color: #2d6a4f; margin-bottom: 15px; font-size: 1.3em; }
@@ -59,6 +62,7 @@
         .ingredient-card.harmful { background: #ffd6d6; border-color: #ff6b6b; }
         .ingredient-card.unknown { background: #e9ecef; border-color: #adb5bd; }
         .ingredient-card.age-restricted { background: #ffe0e0; border-color: #c9184a; border-left-width: 8px; }
+        .ingredient-card.adulterant { background: linear-gradient(135deg, #f9e0e5 0%, #f0ccd4 100%); border-color: #4d0011; border-left-width: 10px; box-shadow: 0 3px 12px rgba(122, 11, 27, 0.25); }
         .card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 6px; }
         .ingredient-name { font-weight: bold; color: #333; font-size: 1.05em; flex: 1; min-width: 150px; }
         .badge { padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: bold; color: white; white-space: nowrap; }
@@ -67,9 +71,11 @@
         .badge.harmful { background: #ff6b6b; }
         .badge.unknown { background: #adb5bd; }
         .badge.age-restricted { background: #c9184a; }
+        .badge.adulterant { background: linear-gradient(135deg, #7a0b1b, #4d0011); }
         .reason { font-size: 0.9em; color: #555; font-style: italic; }
         .age-warning { margin-top: 10px; padding: 10px 14px; background: #ffe5ec; border-radius: 10px; border-left: 3px solid #c9184a; font-size: 0.9em; color: #800f2f; font-weight: bold; }
         .age-warning-title { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: #c9184a; font-size: 0.95em; }
+        .adulterant-warning { margin-top: 10px; padding: 12px 14px; background: #fff0f3; border-radius: 10px; border-left: 4px solid #4d0011; font-size: 0.9em; color: #4d0011; font-weight: bold; }
         .alternatives { margin-top: 10px; padding: 10px 14px; background: rgba(255, 255, 255, 0.7); border-radius: 10px; border-left: 3px solid #52b788; }
         .alternatives-title { font-size: 0.9em; color: #2d6a4f; font-weight: bold; margin-bottom: 6px; }
         .alternative-list { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -79,6 +85,7 @@
         .summary.has-issues { background: #fff3cd; color: #8a6d00; }
         .summary.has-harmful { background: #ffd6d6; color: #9d0208; }
         .summary.age-critical { background: #ffe0e0; color: #800f2f; border: 2px solid #c9184a; }
+        .summary.adulterant-critical { background: linear-gradient(135deg, #7a0b1b, #4d0011); color: white; border: 3px solid #4d0011; }
         .stats-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
         .stat-chip { padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9em; background: white; border: 2px solid #e9ecef; }
         .stat-chip.safe { color: #2d6a4f; border-color: #52b788; }
@@ -86,6 +93,7 @@
         .stat-chip.harmful { color: #9d0208; border-color: #ff6b6b; }
         .stat-chip.unknown { color: #495057; border-color: #adb5bd; }
         .stat-chip.age-restricted { color: #800f2f; border-color: #c9184a; }
+        .stat-chip.adulterant { color: white; background: linear-gradient(135deg, #7a0b1b, #4d0011); border-color: #4d0011; }
         .kid-tip { background: linear-gradient(135deg, #e0fbfc, #c2e9fb); padding: 15px; border-radius: 15px; margin-top: 20px; text-align: center; color: #1e6091; font-weight: bold; font-size: 0.95em; }
         .offender-intro { background: #fff0f0; padding: 18px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #ff6b6b; color: #800f2f; font-weight: bold; font-size: 0.95em; line-height: 1.5; }
         .offender-card { background: #fff5f5; border-radius: 12px; padding: 15px 18px; margin-bottom: 10px; border-left: 5px solid #ff6b6b; display: flex; gap: 15px; align-items: flex-start; transition: transform 0.2s; }
@@ -97,6 +105,14 @@
         .offender-why { font-size: 0.9em; color: #555; font-style: italic; }
         .offender-where { font-size: 0.85em; color: #666; margin-top: 6px; }
         .offender-where strong { color: #2d6a4f; }
+        .banned-intro { background: linear-gradient(135deg, #7a0b1b, #4d0011); padding: 20px; border-radius: 15px; margin-bottom: 20px; color: white; font-weight: bold; font-size: 0.95em; line-height: 1.6; }
+        .banned-intro h3 { margin-bottom: 10px; font-size: 1.15em; }
+        .banned-card { background: linear-gradient(135deg, #f9e0e5 0%, #f0ccd4 100%); border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; border-left: 6px solid #4d0011; display: flex; gap: 15px; align-items: flex-start; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(122, 11, 27, 0.15); }
+        .banned-card:hover { transform: translateX(4px); }
+        .banned-card .offender-rank { color: #7a0b1b; }
+        .banned-card .offender-aliases { color: #7a0b1b; }
+        .banned-card .offender-why { color: #4d0011; }
+        .banned-card .offender-where strong { color: #7a0b1b; }
         .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .history-header h2 { color: #2d6a4f; font-size: 1.3em; }
         .btn-clear-history { padding: 10px 18px; background: linear-gradient(135deg, #ffb4a2, #ff8c69); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Comic Sans MS', sans-serif; font-size: 0.9em; transition: transform 0.2s; }
@@ -107,6 +123,7 @@
         .history-item.age-warn { border-left-color: #c9184a; }
         .history-item.warn { border-left-color: #ffd166; }
         .history-item.bad { border-left-color: #ff6b6b; }
+        .history-item.adulterant-warn { border-left-color: #4d0011; }
         .history-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
         .history-time { font-size: 0.8em; color: #888; }
         .history-age-badge { padding: 3px 10px; background: #c2e9fb; color: #1e6091; border-radius: 12px; font-size: 0.75em; font-weight: bold; }
@@ -117,6 +134,7 @@
         .history-stat.caution { background: #fff3cd; color: #8a6d00; }
         .history-stat.harmful { background: #ffd6d6; color: #9d0208; }
         .history-stat.unknown { background: #e9ecef; color: #495057; }
+        .history-stat.adulterant { background: #7a0b1b; color: white; }
         .empty-state { text-align: center; padding: 40px 20px; color: #888; font-size: 1em; }
         .empty-state .empty-emoji { font-size: 3em; display: block; margin-bottom: 10px; }
         .search-box { position: relative; margin-bottom: 15px; }
@@ -133,12 +151,14 @@
         .filter-chip.active[data-filter="safe"] { background: #52b788; border-color: #52b788; }
         .filter-chip.active[data-filter="caution"] { background: #e6a817; border-color: #e6a817; }
         .filter-chip.active[data-filter="harmful"] { background: #ff6b6b; border-color: #ff6b6b; }
+        .filter-chip.active[data-filter="adulterant"] { background: linear-gradient(135deg, #7a0b1b, #4d0011); border-color: #4d0011; }
         .db-stats { font-size: 0.9em; color: #666; margin-bottom: 10px; text-align: center; font-weight: bold; }
         .db-list { max-height: 500px; overflow-y: auto; padding-right: 5px; }
         .db-item { padding: 12px 15px; margin-bottom: 8px; border-radius: 10px; border-left: 5px solid; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
         .db-item.safe { background: #f0faf4; border-color: #52b788; }
         .db-item.caution { background: #fffbea; border-color: #ffd166; }
         .db-item.harmful { background: #fff0f0; border-color: #ff6b6b; }
+        .db-item.adulterant { background: linear-gradient(135deg, #f9e0e5 0%, #f0ccd4 100%); border-color: #4d0011; border-left-width: 6px; }
         .db-item-info { flex: 1; min-width: 200px; }
         .db-item-name { font-weight: bold; color: #333; font-size: 1em; margin-bottom: 3px; text-transform: capitalize; }
         .db-item-reason { font-size: 0.85em; color: #666; font-style: italic; }
@@ -146,11 +166,12 @@
         .db-item-badge.safe { background: #52b788; }
         .db-item-badge.caution { background: #e6a817; }
         .db-item-badge.harmful { background: #ff6b6b; }
+        .db-item-badge.adulterant { background: linear-gradient(135deg, #7a0b1b, #4d0011); }
         .no-results { text-align: center; padding: 30px; color: #888; }
         @media (max-width: 600px) {
             .header h1 { font-size: 1.5em; }
             .container { padding: 20px; }
-            .tab-btn { font-size: 0.75em; padding: 10px 6px; }
+            .tab-btn { font-size: 0.7em; padding: 10px 6px; min-width: 70px; }
             .preset-row { flex-direction: column; align-items: stretch; }
         }
     </style>
@@ -163,8 +184,9 @@
             <p>Check if ingredients are safe for your little ones!</p>
         </div>
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('checker', this)">🔍 Checker</button>
-            <button class="tab-btn" onclick="switchTab('worst', this)">🚨 Top Offenders</button>
+            <button class="tab-btn active" onclick="switchTab('checker', this)">🔍 Check</button>
+            <button class="tab-btn" onclick="switchTab('worst', this)">🚨 Offenders</button>
+            <button class="tab-btn banned-tab" onclick="switchTab('banned', this)">☠️ Banned</button>
             <button class="tab-btn" onclick="switchTab('history', this)">📜 History</button>
             <button class="tab-btn" onclick="switchTab('database', this)">📚 Database</button>
         </div>
@@ -181,50 +203,50 @@
             <div class="preset-row">
                 <label for="presetSelect">⚡ Quick check:</label>
                 <select id="presetSelect" onchange="loadPreset(this.value)">
-    <option value="">-- Pick a common product type --</option>
-    <optgroup label="🍜 Packaged Snacks">
-        <option value="noodles">🍜 Instant Noodles</option>
-        <option value="chips">🍟 Chips / Namkeen</option>
-        <option value="extruded">🥨 Extruded Snacks (Kurkure-type)</option>
-        <option value="cereal">🥣 Breakfast Cereal</option>
-    </optgroup>
-    <optgroup label="🍪 Biscuits & Rusks (Category)">
-        <option value="glucose_biscuit">🍪 Glucose Biscuit</option>
-        <option value="marie_biscuit">🍪 Marie Biscuit</option>
-        <option value="cream_biscuit">🍪 Cream Biscuit (Any flavour)</option>
-        <option value="bourbon_biscuit">🍫 Bourbon / Chocolate Cream</option>
-        <option value="choco_chip_cookie">🍪 Cookies (Butter / Choco Chip)</option>
-        <option value="digestive_biscuit">🌾 Digestive Biscuit</option>
-        <option value="cracker_salt">🧂 Cracker / Salt Biscuit</option>
-        <option value="rusk">🍞 Rusk / Toast</option>
-        <option value="choco_pie">🥮 Choco Pie / Cream-filled Cake</option>
-        <option value="wafer_biscuit">🍫 Wafer Biscuit</option>
-    </optgroup>
-    <optgroup label="🥤 Beverages">
-        <option value="juice">🧃 Fruit Juice</option>
-        <option value="softdrink">🥤 Soft Drink / Cola</option>
-        <option value="healthdrink">🥛 Health Drink (Malt-based)</option>
-        <option value="flavored_milk">🍫 Flavored Milk</option>
-    </optgroup>
-    <optgroup label="🍨 Dairy & Desserts">
-        <option value="icecream">🍨 Ice Cream</option>
-        <option value="yogurt">🥣 Flavored Yogurt</option>
-        <option value="candy">🍬 Candy / Toffee</option>
-    </optgroup>
-    <optgroup label="🧊 Frozen Foods for Kids">
-        <option value="fries">🍟 Frozen French Fries</option>
-        <option value="alootikki">🥔 Aloo Tikki</option>
-        <option value="cutlet">🥔 Veg Cutlet</option>
-        <option value="samosa">🥟 Frozen Samosa</option>
-        <option value="momos">🥟 Frozen Momos</option>
-        <option value="paratha">🫓 Frozen Paratha</option>
-        <option value="nuggets">🍗 Chicken Nuggets</option>
-        <option value="kebab">🍢 Frozen Kebabs</option>
-        <option value="sausages">🌭 Sausages</option>
-        <option value="fishfingers">🐟 Fish Fingers</option>
-        <option value="pizza">🍕 Frozen Pizza</option>
-    </optgroup>
-</select>            
+                    <option value="">-- Pick a common product type --</option>
+                    <optgroup label="🍜 Packaged Snacks">
+                        <option value="noodles">🍜 Instant Noodles</option>
+                        <option value="chips">🍟 Chips / Namkeen</option>
+                        <option value="extruded">🥨 Extruded Snacks (Kurkure-type)</option>
+                        <option value="cereal">🥣 Breakfast Cereal</option>
+                    </optgroup>
+                    <optgroup label="🍪 Biscuits & Rusks (Category)">
+                        <option value="glucose_biscuit">🍪 Glucose Biscuit</option>
+                        <option value="marie_biscuit">🍪 Marie Biscuit</option>
+                        <option value="cream_biscuit">🍪 Cream Biscuit (Any flavour)</option>
+                        <option value="bourbon_biscuit">🍫 Bourbon / Chocolate Cream</option>
+                        <option value="choco_chip_cookie">🍪 Cookies (Butter / Choco Chip)</option>
+                        <option value="digestive_biscuit">🌾 Digestive Biscuit</option>
+                        <option value="cracker_salt">🧂 Cracker / Salt Biscuit</option>
+                        <option value="rusk">🍞 Rusk / Toast</option>
+                        <option value="choco_pie">🥮 Choco Pie / Cream-filled Cake</option>
+                        <option value="wafer_biscuit">🍫 Wafer Biscuit</option>
+                    </optgroup>
+                    <optgroup label="🥤 Beverages">
+                        <option value="juice">🧃 Fruit Juice</option>
+                        <option value="softdrink">🥤 Soft Drink / Cola</option>
+                        <option value="healthdrink">🥛 Health Drink (Malt-based)</option>
+                        <option value="flavored_milk">🍫 Flavored Milk</option>
+                    </optgroup>
+                    <optgroup label="🍨 Dairy & Desserts">
+                        <option value="icecream">🍨 Ice Cream</option>
+                        <option value="yogurt">🥣 Flavored Yogurt</option>
+                        <option value="candy">🍬 Candy / Toffee</option>
+                    </optgroup>
+                    <optgroup label="🧊 Frozen Foods for Kids">
+                        <option value="fries">🍟 Frozen French Fries</option>
+                        <option value="alootikki">🥔 Aloo Tikki</option>
+                        <option value="cutlet">🥔 Veg Cutlet</option>
+                        <option value="samosa">🥟 Frozen Samosa</option>
+                        <option value="momos">🥟 Frozen Momos</option>
+                        <option value="paratha">🫓 Frozen Paratha</option>
+                        <option value="nuggets">🍗 Chicken Nuggets</option>
+                        <option value="kebab">🍢 Frozen Kebabs</option>
+                        <option value="sausages">🌭 Sausages</option>
+                        <option value="fishfingers">🐟 Fish Fingers</option>
+                        <option value="pizza">🍕 Frozen Pizza</option>
+                    </optgroup>
+                </select>
             </div>
 
             <div class="input-section">
@@ -237,7 +259,7 @@ Water
 Natural Flavors"></textarea>
                 <div class="btn-row">
                     <button class="primary-btn btn-check" onclick="checkIngredients()">🔍 Check Ingredients</button>
-                    <button class="primary-btn btn-worst" onclick="switchTab('worst', document.querySelectorAll('.tab-btn')[1])">🚨 Top Offenders</button>
+                    <button class="primary-btn btn-worst" onclick="switchTab('banned', document.querySelectorAll('.tab-btn')[2])">☠️ Banned List</button>
                     <button class="primary-btn btn-clear" onclick="clearAll()">🧹 Clear</button>
                 </div>
             </div>
@@ -246,6 +268,7 @@ Natural Flavors"></textarea>
                 <div class="legend-item"><div class="legend-dot dot-safe"></div> Safe</div>
                 <div class="legend-item"><div class="legend-dot dot-caution"></div> Caution</div>
                 <div class="legend-item"><div class="legend-dot dot-harmful"></div> Harmful</div>
+                <div class="legend-item"><div class="legend-dot dot-adulterant"></div> Banned/Non-Food</div>
                 <div class="legend-item"><div class="legend-dot dot-unknown"></div> Unknown</div>
             </div>
             <div class="results" id="results">
@@ -264,6 +287,16 @@ Natural Flavors"></textarea>
             </div>
             <div id="offenderList"></div>
             <div class="kid-tip" style="margin-top:20px;">💡 Want details? Search any of these in the <strong>Database</strong> tab.</div>
+        </div>
+
+        <div class="tab-content" id="tab-banned">
+            <h2 style="color:#4d0011; margin-bottom:15px;">☠️ Banned & Non-Food Substances Found in India</h2>
+            <div class="banned-intro">
+                <h3>⚠️ DANGER ZONE</h3>
+                These are substances that are <strong>strictly prohibited</strong> in food by FSSAI and other regulators. They are industrial chemicals, textile dyes, or fertilizers that have no place in food. Their presence indicates <strong>adulteration</strong>. If you spot any of these on a label or suspect them in a product, <strong>do not buy or consume it</strong> — and report it to FSSAI.
+            </div>
+            <div id="bannedList"></div>
+            <div class="kid-tip" style="margin-top:20px;">📞 Report adulteration to FSSAI: <strong>1800-11-2100</strong> · <strong>complaints@fssai.gov.in</strong></div>
         </div>
 
         <div class="tab-content" id="tab-history">
@@ -286,11 +319,13 @@ Natural Flavors"></textarea>
                 <button class="filter-chip" data-filter="safe" onclick="filterDb('safe', this)">✅ Safe</button>
                 <button class="filter-chip" data-filter="caution" onclick="filterDb('caution', this)">⚠️ Caution</button>
                 <button class="filter-chip" data-filter="harmful" onclick="filterDb('harmful', this)">🚫 Harmful</button>
+                <button class="filter-chip" data-filter="adulterant" onclick="filterDb('adulterant', this)">☠️ Banned</button>
             </div>
             <div class="category-filter" style="margin-bottom: 15px;">
                 <label for="categorySelect" style="font-weight: bold; color: #2d6a4f; margin-right: 10px;">Category:</label>
                 <select id="categorySelect" onchange="renderDatabase()" style="padding: 8px 12px; border-radius: 10px; border: 2px solid #b7e4c7; font-family: 'Comic Sans MS', sans-serif; font-size: 0.9em; color: #2d6a4f; background: white;">
                     <option value="all">All Categories</option>
+                    <option value="adulterant">☠️ Banned / Non-Food</option>
                     <option value="color">Colors</option>
                     <option value="preservative">Preservatives</option>
                     <option value="sweetener">Sweeteners</option>
@@ -417,9 +452,25 @@ Natural Flavors"></textarea>
             { name: 'Propylparaben', aliases: 'E216 · INS 216', why: 'Endocrine disruptor. Banned in EU food.', where: 'Baked goods, jellies, sauces' }
         ];
 
+        const bannedList = [
+            { name: 'Auramine O', aliases: 'Auramine · Industrial Yellow Dye', why: 'Industrial dye for textiles and leather. Linked to liver and kidney damage. Classified as a possible carcinogen. Strictly prohibited by FSSAI.', where: 'Roasted chana, sweets, snacks (to mimic saffron/turmeric color)' },
+            { name: 'Metanil Yellow', aliases: 'Metanil Yellow · Orange II', why: 'Non-permitted dye toxic to liver, brain, and reproductive organs. Neurotoxic, especially dangerous for children. FSSAI prohibited.', where: 'Turmeric powder, ladoo, besan, cereals, beverages, candies' },
+            { name: 'Rhodamine B', aliases: 'Rhodamine B · Red Dye', why: 'Textile and paper dye. FSSAI has classified it as CARCINOGENIC. Causes liver damage and memory loss — extremely dangerous for children.', where: 'Cotton candy, gobi manchurian, tomato/chilli sauces, kebabs' },
+            { name: 'Sudan Dyes (I-IV)', aliases: 'Sudan Red · Sudan I, II, III, IV', why: 'Synthetic chemical dyes used in plastics and oils. Considered possible carcinogens. Can cause DNA damage. Prohibited in food.', where: 'Chilli powder, ketchup, samosa fillings, sauces' },
+            { name: 'Malachite Green', aliases: 'Malachite Green', why: 'Illegal dye and antifungal agent. Toxic to humans. Banned in aquaculture and food in India.', where: 'Seafood, sometimes found as adulterant in sweets' },
+            { name: 'Lead Chromate', aliases: 'Lead Chromate', why: 'Illegal yellow dye adulterant found in turmeric. Lead is a potent neurotoxin — there is NO safe level for children. Causes irreversible brain damage.', where: 'Turmeric powder' },
+            { name: 'Calcium Carbide', aliases: 'Masala · Carbide', why: 'Industrial chemical used to artificially ripen fruits. Releases acetylene gas containing traces of arsenic and phosphorus. Banned by FSSAI.', where: 'Mangoes, bananas, papayas (artificially ripened)' },
+            { name: 'Urea', aliases: 'Urea Fertiliser', why: 'Industrial fertilizer used to thicken milk and increase its Solid-Not-Fat (SNF) content. Can cause digestive system damage and renal failure.', where: 'Milk, paneer, curd' },
+            { name: 'Non-Permitted Colour', aliases: 'Non-Permitted Colour', why: 'Any color NOT on the FSSAI permitted list is illegal in food. Often industrial-grade dye.', where: 'Various snacks, sweets, beverages' },
+            { name: 'Industrial Dye', aliases: 'Industrial Dye · Textile Dye · Paper Dye', why: 'Any industrial-grade dye found in food is illegal. Potential carcinogen and neurotoxin.', where: 'Sweets, snacks, cotton candy' },
+            { name: 'Formalin', aliases: 'Formaldehyde Solution', why: 'A formaldehyde solution — used illegally to preserve fish and meat. Known human carcinogen. Extremely toxic.', where: 'Fish, meat, sometimes milk' },
+            { name: 'Detergent', aliases: 'Detergent · Surfactant', why: 'Sometimes found in milk as an adulterant to create froth. Toxic to digestive system.', where: 'Milk' },
+            { name: 'Starch Adulterant', aliases: 'Starch Powder (in milk)', why: 'Refined starch added to thicken milk. Not a health hazard on its own, but indicates milk dilution with water.', where: 'Milk, paneer' },
+            { name: 'Sawdust', aliases: 'Wood Dust · Sawdust', why: 'Wood dust used as a filler in spices and tea. Not digestible and can cause intestinal damage.', where: 'Chilli powder, tea, coriander powder' }
+        ];
+
         const presets = {
-    // ==================== PACKAGED SNACKS ====================
-    noodles: `Refined Wheat Flour (Maida)
+            noodles: `Refined Wheat Flour (Maida)
 Palm Oil
 Salt
 Wheat Gluten
@@ -436,7 +487,7 @@ Maltodextrin
 Monosodium Glutamate (621)
 Disodium Inosinate (627)
 Disodium Guanylate (631)`,
-    chips: `Potato
+            chips: `Potato
 Edible Vegetable Oil (Palm)
 Spices & Condiments
 Salt
@@ -448,7 +499,7 @@ Silicon Dioxide (551)
 Maltodextrin
 Artificial Flavouring Substances
 Colour (110, 102, 160c)`,
-    extruded: `Corn Meal
+            extruded: `Corn Meal
 Rice Meal
 Edible Vegetable Oil (Palm)
 Spices & Condiments
@@ -460,10 +511,7 @@ Antioxidant (319)
 Colour (110, 102, 160c)
 Artificial Flavouring Substances
 Maltodextrin`,
-    // ==================== BISCUITS (Category-Based) ====================
-    // Each preset contains ingredients commonly found across all brands in that category.
-    // Use as a checklist: match against your actual pack.
-    glucose_biscuit: `Refined Wheat Flour (Maida)
+            glucose_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Invert Sugar Syrup
@@ -479,7 +527,7 @@ Vitamins
 Calcium Salt
 Ferrous Salt
 Malt Extract`,
-    marie_biscuit: `Refined Wheat Flour (Maida)
+            marie_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Invert Sugar Syrup
@@ -493,7 +541,7 @@ Vitamins
 Ferrous Salt
 Potassium Iodate
 Malt Extract`,
-    cream_biscuit: `Refined Wheat Flour (Maida)
+            cream_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Invert Sugar Syrup
@@ -511,7 +559,7 @@ Artificial Flavouring Substances
 Nature-Identical Flavouring Substances
 Synthetic Food Colours (102, 110, 122, 124, 129, 133)
 Caramel Colour (150a, 150d)`,
-    bourbon_biscuit: `Refined Wheat Flour (Maida)
+            bourbon_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Refined Palm Oil
 Edible Starch
@@ -524,11 +572,11 @@ Caramel Colour (150a)
 Artificial Flavouring Substances
 Nature-Identical Flavouring Substances
 Invert Sugar Syrup`,
-    choco_chip_cookie: `Refined Wheat Flour (Maida)
+            choco_chip_cookie: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Butter
-Chocolate Chips [Sugar, Cocoa Solids, Cocoa Butter, Dextrose, Emulsifier (322)]
+Chocolate Chips
 Invert Sugar Syrup
 Raising Agents (503, 500, 450)
 Cocoa Solids
@@ -537,7 +585,7 @@ Emulsifiers (322, 472e)
 Milk Solids
 Artificial Flavouring Substances
 Nature-Identical Flavouring Substances`,
-    digestive_biscuit: `Whole Wheat Flour
+            digestive_biscuit: `Whole Wheat Flour
 Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
@@ -551,7 +599,7 @@ Malt Extract
 Vitamins
 Minerals
 Dough Conditioner (223)`,
-    cracker_salt: `Refined Wheat Flour (Maida)
+            cracker_salt: `Refined Wheat Flour (Maida)
 Edible Vegetable Oils (Palm, Palmolein)
 Sugar
 Raising Agents (503, 500, 341)
@@ -561,9 +609,9 @@ Yeast
 Acidity Regulators (270, 296)
 Emulsifier (472e)
 Dough Conditioner (223)
-Improver (Amylase, Papain-1101)
+Improver
 Malt Extract`,
-    rusk: `Refined Wheat Flour (Maida)
+            rusk: `Refined Wheat Flour (Maida)
 Sugar
 Refined Palm Oil
 Yeast
@@ -576,9 +624,9 @@ Stabilizer (472e)
 Nature-Identical Flavouring Substances
 Invert Sugar Syrup
 Emulsifier (322)`,
-    choco_pie: `Refined Wheat Flour (Maida)
+            choco_pie: `Refined Wheat Flour (Maida)
 Sugar
-Choco Covering [Sugar, Hydrogenated Vegetable Fat, Cocoa Solids, Milk Solids, Emulsifier (322)]
+Choco Covering
 Liquid Glucose
 Humectant (422)
 Dextrose
@@ -591,7 +639,7 @@ Acidity Regulator (341)
 Nature Identical Flavour (Vanillin)
 Skimmed Milk Powder
 Cocoa Powder`,
-    wafer_biscuit: `Refined Wheat Flour (Maida)
+            wafer_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Cocoa Solids
@@ -604,9 +652,7 @@ Artificial Flavouring Substances
 Nature-Identical Flavouring Substances
 Caramel Colour (150a)
 Skimmed Milk Powder`,
-
-    // ==================== BEVERAGES ====================
-    juice: `Water
+            juice: `Water
 Sugar
 Concentrated Fruit Juice
 Acidity Regulator (330)
@@ -618,7 +664,7 @@ Colour (102, 110)
 Glucose-Fructose Syrup
 High Fructose Corn Syrup
 Citric Acid`,
-    softdrink: `Carbonated Water
+            softdrink: `Carbonated Water
 Sugar
 Acidity Regulators (338, 330)
 Caffeine
@@ -630,7 +676,7 @@ Glucose-Fructose Syrup
 Aspartame (951)
 Acesulfame Potassium (950)
 Sucralose (955)`,
-    healthdrink: `Malt Extract
+            healthdrink: `Malt Extract
 Sugar
 Cocoa Solids
 Milk Solids
@@ -643,7 +689,7 @@ Artificial Flavour
 Maltodextrin
 Glucose Syrup
 Soy Lecithin`,
-    flavored_milk: `Milk
+            flavored_milk: `Milk
 Sugar
 Milk Solids
 Cocoa Solids
@@ -653,9 +699,7 @@ Artificial Flavour
 Colour (150d, 155, 102)
 Preservative (202)
 Maltodextrin`,
-
-    // ==================== DAIRY & DESSERTS ====================
-    icecream: `Milk
+            icecream: `Milk
 Sugar
 Milk Solids
 Edible Vegetable Fat
@@ -667,7 +711,7 @@ Permitted Synthetic Food Colours
 Cocoa Solids
 Vanilla Extract
 Maltodextrin`,
-    yogurt: `Milk
+            yogurt: `Milk
 Sugar
 Milk Solids
 Modified Starch (1442, 1422)
@@ -678,7 +722,7 @@ Preservative (202)
 Added Cultures
 Pectin
 Fruit Preparation`,
-    candy: `Sugar
+            candy: `Sugar
 Glucose Syrup
 Liquid Glucose
 Edible Vegetable Fat
@@ -690,9 +734,7 @@ Antioxidant (319)
 Gelatin
 Pectin
 Starch`,
-
-    // ==================== CEREALS ====================
-    cereal: `Whole Wheat Flour
+            cereal: `Whole Wheat Flour
 Refined Wheat Flour (Maida)
 Sugar
 Corn Flour
@@ -708,9 +750,7 @@ Artificial Flavour
 Malt Extract
 Maltodextrin
 Glucose Syrup`,
-
-    // ==================== FROZEN FOODS ====================
-    fries: `Potato
+            fries: `Potato
 Edible Vegetable Oil (Palm)
 Dextrose
 Sodium Acid Pyrophosphate (450)
@@ -719,7 +759,7 @@ Salt
 Colour (160c)
 Glucose
 Sodium Phosphates (339)`,
-    alootikki: `Potato
+            alootikki: `Potato
 Edible Vegetable Oil (Palm)
 Refined Wheat Flour
 Salt
@@ -732,7 +772,7 @@ Antioxidant (319)
 Sodium Phosphates (451)
 Emulsifier (471)
 Flavour Enhancer (621)`,
-    cutlet: `Potato
+            cutlet: `Potato
 Edible Vegetable Oil (Palm)
 Refined Wheat Flour
 Breadcrumbs
@@ -744,7 +784,7 @@ Antioxidant (319)
 Sodium Phosphates (451)
 Flavour Enhancer (621)
 Colour (160c)`,
-    samosa: `Refined Wheat Flour (Maida)
+            samosa: `Refined Wheat Flour (Maida)
 Potato
 Edible Vegetable Oil (Palm)
 Water
@@ -755,7 +795,7 @@ Preservative (282)
 Emulsifier (471)
 Antioxidant (319)
 Flavour Enhancer (621)`,
-    momos: `Refined Wheat Flour (Maida)
+            momos: `Refined Wheat Flour (Maida)
 Water
 Cabbage
 Carrot
@@ -768,7 +808,7 @@ Stabilizer (412)
 Preservative (211)
 Sodium Phosphates (451)
 Emulsifier (471)`,
-    paratha: `Refined Wheat Flour (Maida)
+            paratha: `Refined Wheat Flour (Maida)
 Water
 Edible Vegetable Oil (Palm)
 Salt
@@ -778,7 +818,7 @@ Emulsifier (471)
 Acidity Regulator (297)
 Interesterified Vegetable Fat
 Dough Conditioner (223)`,
-    nuggets: `Chicken
+            nuggets: `Chicken
 Water
 Sodium Phosphates (451)
 Salt
@@ -791,7 +831,7 @@ Colour (160c)
 Soy Protein
 Emulsifier (471)
 Preservative (250)`,
-    kebab: `Chicken
+            kebab: `Chicken
 Edible Vegetable Oil (Palm)
 Water
 Salt
@@ -803,7 +843,7 @@ Stabilizer (415)
 Preservative (250)
 Sodium Erythorbate (316)
 Colour (160c)`,
-    sausages: `Chicken
+            sausages: `Chicken
 Water
 Edible Common Salt
 Spices & Condiments
@@ -815,7 +855,7 @@ Sugar
 Soy Protein
 Colour (160c)
 Potassium Nitrate (252)`,
-    fishfingers: `Fish
+            fishfingers: `Fish
 Refined Wheat Flour
 Edible Vegetable Oil (Palm)
 Water
@@ -827,7 +867,7 @@ Colour (160c)
 Stabilizer (412)
 Emulsifier (471)
 Antioxidant (319)`,
-    pizza: `Refined Wheat Flour
+            pizza: `Refined Wheat Flour
 Water
 Tomato Paste
 Mozzarella Cheese
@@ -842,9 +882,33 @@ Antioxidant (319)
 Processed Cheese
 Flavour Enhancer (621)
 Colour (160c)`
-};
+        };
 
         const ingredientDB = {
+            // ============ ADULTERANT: NON-FOOD / BANNED SUBSTANCES ============
+            'auramine o': { level: 'adulterant', reason: '☠️ ILLEGAL industrial dye for textiles/leather. Linked to liver and kidney damage. Possible carcinogen. Strictly prohibited by FSSAI.', alternatives: ['Report to FSSAI', 'Do not consume'] },
+            'auramine': { level: 'adulterant', reason: '☠️ Illegal industrial dye. Possible carcinogen. Prohibited in food.', alternatives: ['Report to FSSAI'] },
+            'metanil yellow': { level: 'adulterant', reason: '☠️ Illegal non-permitted dye. Neurotoxic. Toxic to liver and reproductive organs. FSSAI prohibited.', alternatives: ['Pure turmeric', 'Natural colors'] },
+            'rhodamine b': { level: 'adulterant', reason: '☠️ Illegal textile/paper dye. FSSAI classified as CARCINOGENIC. Causes liver damage and memory loss. Extremely dangerous for children.', alternatives: ['Beet juice', 'Report to FSSAI'] },
+            'sudan dyes': { level: 'adulterant', reason: '☠️ Illegal synthetic dyes. Possible carcinogens. Can cause DNA damage.', alternatives: ['Paprika extract', 'Report to FSSAI'] },
+            'sudan red': { level: 'adulterant', reason: '☠️ Illegal red dye. Possible carcinogen.', alternatives: ['Paprika extract'] },
+            'sudan i': { level: 'adulterant', reason: '☠️ Illegal red dye. Possible carcinogen.', alternatives: ['Paprika extract'] },
+            'malachite green': { level: 'adulterant', reason: '☠️ Illegal dye and antifungal. Toxic to humans. Banned in food and aquaculture.', alternatives: ['Natural green colors'] },
+            'lead chromate': { level: 'adulterant', reason: '☠️ Illegal yellow dye adulterant in turmeric. Lead is a potent neurotoxin with NO safe level for children.', alternatives: ['Pure turmeric', 'Tested brands'] },
+            'calcium carbide': { level: 'adulterant', reason: '☠️ Industrial chemical used to ripen fruits. Releases acetylene with arsenic and phosphorus traces. Banned by FSSAI.', alternatives: ['Naturally ripened fruit'] },
+            'urea': { level: 'adulterant', reason: '☠️ Industrial fertilizer used to thicken milk. Can cause renal failure. Illegal in food.', alternatives: ['Pure milk', 'Tested brands'] },
+            'industrial dye': { level: 'adulterant', reason: '☠️ Any industrial-grade dye found in food is illegal. Potential carcinogen and neurotoxin.', alternatives: ['Report to FSSAI'] },
+            'textile dye': { level: 'adulterant', reason: '☠️ Textile-grade dye. Illegal in food. Toxic.', alternatives: ['Natural colors'] },
+            'paper dye': { level: 'adulterant', reason: '☠️ Paper-grade dye. Illegal in food. Toxic.', alternatives: ['Natural colors'] },
+            'non-permitted colour': { level: 'adulterant', reason: '☠️ Color NOT on the FSSAI permitted list. Illegal in food. Often industrial-grade.', alternatives: ['Permitted natural colors', 'Report to FSSAI'] },
+            'non permitted colour': { level: 'adulterant', reason: '☠️ Non-FSSAI-permitted color. Illegal in food.', alternatives: ['Natural colors'] },
+            'non-permitted color': { level: 'adulterant', reason: '☠️ Non-FSSAI-permitted color. Illegal in food.', alternatives: ['Natural colors'] },
+            'non permitted color': { level: 'adulterant', reason: '☠️ Non-FSSAI-permitted color. Illegal in food.', alternatives: ['Natural colors'] },
+            'formalin': { level: 'adulterant', reason: '☠️ Formaldehyde solution used illegally to preserve fish/meat. Known carcinogen. Extremely toxic.', alternatives: ['Fresh fish', 'Report to FSSAI'] },
+            'detergent': { level: 'adulterant', reason: '☠️ Found in milk as an adulterant to create froth. Toxic to digestive system.', alternatives: ['Tested milk brands'] },
+            'sawdust': { level: 'adulterant', reason: '☠️ Wood dust used as filler in spices and tea. Not digestible. Can cause intestinal damage.', alternatives: ['Whole spices', 'Tested brands'] },
+
+            // ============ HARMFUL: ARTIFICIAL COLORS ============
             'red 40': { level: 'harmful', reason: 'Also called E129, Allura Red, or INS 129. Synthetic petroleum dye linked to hyperactivity. Banned in Denmark, Switzerland.', alternatives: ['Beet juice concentrate', 'Paprika extract', 'Annatto'] },
             'red 3': { level: 'harmful', reason: 'Also called E127, Erythrosine, or INS 127. FDA banned in food in 2025.', alternatives: ['Beet juice', 'Strawberry powder'] },
             'red 2': { level: 'harmful', reason: 'Also called Amaranth or INS 123. Banned in the US since 1976.', alternatives: ['Natural fruit juices'] },
@@ -865,15 +929,12 @@ Colour (160c)`
             'fd&c': { level: 'harmful', reason: 'Synthetic petroleum-based colors linked to hyperactivity.', alternatives: ['Plant-based colors'] },
             'artificial color': { level: 'harmful', reason: 'Synthetic dyes linked to hyperactivity.', alternatives: ['Beet juice', 'Turmeric', 'Spirulina'] },
             'artificial colour': { level: 'harmful', reason: 'Synthetic dyes linked to hyperactivity.', alternatives: ['Natural plant colors'] },
-            'rhodamine b': { level: 'harmful', reason: 'Illegal synthetic dye. Toxic and possibly carcinogenic. Adulterant in sweets and chilli powder.', alternatives: ['Beet juice', 'Paprika extract'] },
-            'metanil yellow': { level: 'harmful', reason: 'Illegal non-permitted dye. Neurotoxic and possible carcinogen.', alternatives: ['Turmeric (pure)', 'Annatto'] },
-            'malachite green': { level: 'harmful', reason: 'Illegal dye and antifungal. Toxic.', alternatives: ['Natural green colors'] },
-            'sudan dyes': { level: 'harmful', reason: 'Illegal red dyes. Possible carcinogens.', alternatives: ['Paprika extract'] },
-            'lead chromate': { level: 'harmful', reason: 'Illegal yellow dye adulterant in turmeric. Lead is a neurotoxin.', alternatives: ['Pure turmeric'] },
             '4-mei': { level: 'harmful', reason: '4-Methylimidazole — byproduct in some caramel colors. Possible carcinogen.', alternatives: ['Natural caramel from molasses'] },
             'acrylamide': { level: 'harmful', reason: 'Forms when starchy foods are fried/baked at high temps. Possible carcinogen.', alternatives: ['Baked at lower temps'] },
             'furan': { level: 'harmful', reason: 'Forms during heat processing of canned foods. Possible carcinogen.', alternatives: ['Fresh or frozen foods'] },
-            'aspartame': { level: 'harmful', reason: 'Also called E951 or INS 951. WHO classified "possibly carcinogenic" (2023).', alternatives: ['Stevia', 'Monk fruit extract', 'Dates'] },
+
+            // ============ HARMFUL: SWEETENERS ============
+            'aspartame': { level: 'harmful', reason: 'Also called E951 or INS 951. WHO classified "possibly carcinogenic" (2023). FSSAI mandates label: "Not recommended for children".', alternatives: ['Stevia', 'Monk fruit extract', 'Dates'] },
             'saccharin': { level: 'harmful', reason: 'Also called E954 or INS 954. Linked to bladder cancer in animals.', alternatives: ['Stevia', 'Honey (age 1+)'] },
             'sucralose': { level: 'harmful', reason: 'Also called E955 or INS 955. May harm gut bacteria.', alternatives: ['Stevia', 'Monk fruit'] },
             'acesulfame': { level: 'harmful', reason: 'Also called E950 or INS 950. Poorly tested in children.', alternatives: ['Stevia', 'Maple syrup'] },
@@ -883,6 +944,8 @@ Colour (160c)`
             'advantame': { level: 'harmful', reason: 'Similar to aspartame. Limited safety data.', alternatives: ['Stevia'] },
             'cyclamate': { level: 'harmful', reason: 'Also called E952 or INS 952. Banned in US since 1970.', alternatives: ['Natural sweeteners'] },
             'aspartame-acesulfame': { level: 'harmful', reason: 'Also called E962 or INS 962.', alternatives: ['Stevia'] },
+
+            // ============ HARMFUL: PRESERVATIVES ============
             'bha': { level: 'harmful', reason: 'Also called E320 or INS 320. "Reasonably anticipated human carcinogen."', alternatives: ['Vitamin E', 'Rosemary extract'] },
             'bht': { level: 'harmful', reason: 'Also called E321 or INS 321.', alternatives: ['Vitamin E', 'Citric acid'] },
             'tbhq': { level: 'harmful', reason: 'Also called E319 or INS 319. DNA damage in animals.', alternatives: ['Vitamin E', 'Rosemary extract'] },
@@ -902,11 +965,12 @@ Colour (160c)`
             'potassium metabisulfite': { level: 'harmful', reason: 'Also called E224 or INS 224.', alternatives: ['Vitamin C'] },
             'sulfur dioxide': { level: 'harmful', reason: 'Also called E220 or INS 220.', alternatives: ['Ascorbic acid'] },
             'sodium bisulfite': { level: 'harmful', reason: 'Also called E222 or INS 222.', alternatives: ['Natural methods'] },
-            'formaldehyde': { level: 'harmful', reason: 'Known human carcinogen.', alternatives: ['Natural preservation'] },
-            'formalin': { level: 'harmful', reason: 'Formaldehyde solution — toxic.', alternatives: ['Refrigeration'] },
+            'formaldehyde': { level: 'harmful', reason: 'Known human carcinogen. Illegal in food.', alternatives: ['Natural preservation'] },
             'calcium propionate': { level: 'harmful', reason: 'Also called E282 or INS 282.', alternatives: ['Fresh baked bread'] },
             'sodium propionate': { level: 'harmful', reason: 'Also called E281 or INS 281.', alternatives: ['Fresh bread'] },
-            'titanium dioxide': { level: 'harmful', reason: 'Also called E171 or INS 171. Banned in EU (2022).', alternatives: ['Calcium carbonate', 'Rice starch'] },
+            'titanium dioxide': { level: 'harmful', reason: 'Also called E171 or INS 171. Banned in EU (2022). Found as adulterant in ginger-garlic paste in India.', alternatives: ['Calcium carbonate', 'Rice starch'] },
+
+            // ============ HARMFUL: FLAVOR ENHANCERS ============
             'msg': { level: 'harmful', reason: 'Also called E621, Monosodium Glutamate, or INS 621.', alternatives: ['Sea salt', 'Herbs', 'Nutritional yeast'] },
             'monosodium glutamate': { level: 'harmful', reason: 'Also called E621 or INS 621.', alternatives: ['Mushroom powder', 'Sea salt'] },
             'disodium inosinate': { level: 'harmful', reason: 'Also called E627 or INS 627.', alternatives: ['Natural broths'] },
@@ -915,7 +979,10 @@ Colour (160c)`
             'autolyzed yeast': { level: 'harmful', reason: 'Hidden MSG source.', alternatives: ['Nutritional yeast'] },
             'hydrolyzed protein': { level: 'harmful', reason: 'Hidden MSG source.', alternatives: ['Natural protein sources'] },
             'hydrolyzed vegetable protein': { level: 'harmful', reason: 'Contains MSG-like compounds.', alternatives: ['Whole foods'] },
+            'hydrolyzed pea protein': { level: 'harmful', reason: 'A "hidden MSG" source. May trigger sensitivity.', alternatives: ['Whole pea protein'] },
             'yeast extract': { level: 'harmful', reason: 'Can contain naturally occurring MSG.', alternatives: ['Nutritional yeast'] },
+
+            // ============ HARMFUL: THICKENERS & EMULSIFIERS ============
             'carrageenan': { level: 'harmful', reason: 'Also called E407 or INS 407.', alternatives: ['Agar agar', 'Guar gum', 'Xanthan gum'] },
             'brominated vegetable oil': { level: 'harmful', reason: 'BVO. Banned in EU and Japan.', alternatives: ['Gum arabic'] },
             'bvo': { level: 'harmful', reason: 'Brominated Vegetable Oil.', alternatives: ['Gum arabic'] },
@@ -928,27 +995,18 @@ Colour (160c)`
             'cmc': { level: 'harmful', reason: 'Carboxymethyl cellulose.', alternatives: ['Agar'] },
             'cellulose gum': { level: 'harmful', reason: 'Also called E466 or INS 466.', alternatives: ['Guar gum', 'Xanthan gum'] },
             'konjac': { level: 'harmful', reason: 'Also called E425 or INS 425.', alternatives: ['Agar agar'] },
+
+            // ============ HARMFUL: TRANS FATS & OTHER ============
             'partially hydrogenated': { level: 'harmful', reason: 'Main source of trans fats.', alternatives: ['Olive oil', 'Avocado oil'] },
             'hydrogenated oil': { level: 'harmful', reason: 'May contain trans fats.', alternatives: ['Cold-pressed oils'] },
             'hydrogenated vegetable oil': { level: 'harmful', reason: 'Main source of trans fats.', alternatives: ['Extra virgin olive oil'] },
-            'sodium lauryl sulfate': { level: 'harmful', reason: 'SLS. Harsh detergent.', alternatives: ['Coconut-derived surfactants'] },
-            'sls': { level: 'harmful', reason: 'Sodium Lauryl Sulfate.', alternatives: ['Coco glucoside'] },
-            'sles': { level: 'harmful', reason: 'Sodium Laureth Sulfate.', alternatives: ['Coco betaine'] },
-            'sodium laureth sulfate': { level: 'harmful', reason: 'Synthetic detergent.', alternatives: ['Coconut-based cleansers'] },
-            'paraben': { level: 'harmful', reason: 'Possible hormone disruptors.', alternatives: ['Vitamin E'] },
-            'methylparaben': { level: 'harmful', reason: 'Also called E218 or INS 218.', alternatives: ['Vitamin E'] },
-            'propylparaben': { level: 'harmful', reason: 'Also called E216 or INS 216.', alternatives: ['Rosemary extract'] },
-            'butylparaben': { level: 'harmful', reason: 'Stronger hormone disruptor.', alternatives: ['Natural preservatives'] },
-            'ethylparaben': { level: 'harmful', reason: 'Also called E214 or INS 214.', alternatives: ['Vitamin E'] },
-            'phthalate': { level: 'harmful', reason: 'Endocrine disruptors.', alternatives: ['Glass containers'] },
-            'diethyl phthalate': { level: 'harmful', reason: 'Hormone disruptor.', alternatives: ['Natural fragrances'] },
-            'dbp': { level: 'harmful', reason: 'Dibutyl Phthalate.', alternatives: ['Phthalate-free'] },
-            'talc': { level: 'harmful', reason: 'May be contaminated with asbestos.', alternatives: ['Arrowroot powder'] },
+            'hydrogenated vegetable fat': { level: 'harmful', reason: 'Source of artificial trans fats. Banned or restricted in many countries.', alternatives: ['Cocoa butter'] },
             'high fructose corn syrup': { level: 'harmful', reason: 'Linked to obesity, fatty liver.', alternatives: ['Raw honey (age 1+)', 'Maple syrup'] },
             'hfcs': { level: 'harmful', reason: 'High Fructose Corn Syrup.', alternatives: ['Maple syrup', 'Coconut sugar'] },
             'corn syrup': { level: 'harmful', reason: 'Highly refined sweetener.', alternatives: ['Brown rice syrup', 'Maple syrup'] },
             'corn syrup solids': { level: 'harmful', reason: 'Dried corn syrup.', alternatives: ['Date paste'] },
             'glucose syrup': { level: 'harmful', reason: 'Highly refined sugar syrup.', alternatives: ['Raw honey (age 1+)'] },
+            'glucose-fructose syrup': { level: 'harmful', reason: 'Similar to HFCS. Linked to obesity in children.', alternatives: ['Dates', 'Maple syrup'] },
             'invert sugar': { level: 'harmful', reason: 'Processed sugar that spikes blood sugar.', alternatives: ['Coconut sugar'] },
             'azodicarbonamide': { level: 'harmful', reason: 'Also called E927a.', alternatives: ['Ascorbic acid'] },
             'potassium bromate': { level: 'harmful', reason: 'Also called E924 or INS 924.', alternatives: ['Ascorbic acid'] },
@@ -957,34 +1015,19 @@ Colour (160c)`
             'mercury': { level: 'harmful', reason: 'Neurotoxin.', alternatives: ['Low-mercury fish'] },
             'arsenic': { level: 'harmful', reason: 'Heavy metal.', alternatives: ['Rinsed rice'] },
             'cadmium': { level: 'harmful', reason: 'Toxic heavy metal.', alternatives: ['Tested sources'] },
-            'triclosan': { level: 'harmful', reason: 'Banned from US soaps (2016).', alternatives: ['Plain soap'] },
-            'triclocarban': { level: 'harmful', reason: 'Hormone concern.', alternatives: ['Soap and water'] },
-            'oxybenzone': { level: 'harmful', reason: 'Hormone disruptor.', alternatives: ['Zinc oxide'] },
-            'octinoxate': { level: 'harmful', reason: 'Banned in Hawaii.', alternatives: ['Mineral sunscreens'] },
-            'homosalate': { level: 'harmful', reason: 'Hormone concern.', alternatives: ['Zinc oxide'] },
-            'octocrylene': { level: 'harmful', reason: 'Can cause allergic reactions.', alternatives: ['Mineral sunscreen'] },
-            'retinyl palmitate': { level: 'harmful', reason: 'May form harmful free radicals.', alternatives: ['Mineral sunscreens'] },
-            'coal tar': { level: 'harmful', reason: 'Known human carcinogen.', alternatives: ['Natural alternatives'] },
-            'hydroquinone': { level: 'harmful', reason: 'Skin-lightening chemical.', alternatives: ['Vitamin C'] },
+
+            // ============ HARMFUL: PHOSPHATES ============
             'sodium phosphates': { level: 'harmful', reason: 'Also called INS 339.', alternatives: ['Unprocessed fresh meats'] },
             'potassium phosphates': { level: 'harmful', reason: 'Also called INS 340.', alternatives: ['Fresh meats'] },
             'disodium phosphate': { level: 'harmful', reason: 'Also called E339ii or INS 339ii.', alternatives: ['Fresh foods'] },
             'sodium tripolyphosphate': { level: 'harmful', reason: 'Also called STPP or INS 451(i).', alternatives: ['Fresh seafood'] },
             'sodium hexametaphosphate': { level: 'harmful', reason: 'Also called INS 452(i).', alternatives: ['Natural alternatives'] },
             'disodium diphosphate': { level: 'harmful', reason: 'Also called INS 450(i).', alternatives: ['Baking soda (moderation)'] },
+            'sodium acid pyrophosphate': { level: 'harmful', reason: 'Also called E450(i) or INS 450(i). Phosphate used in frozen fries.', alternatives: ['Fresh potatoes'] },
+            'disodium dihydrogen pyrophosphate': { level: 'harmful', reason: 'Also called E450 or INS 450.', alternatives: ['Fresh potatoes'] },
             'calcium phosphate': { level: 'caution', reason: 'Also called E341 or INS 341.', alternatives: ['Natural alternatives'] },
-            'acetylated distarch adipate': { level: 'caution', reason: 'Also called E1422 or INS 1422.', alternatives: ['Tapioca starch'] },
-            'hydroxypropyl distarch phosphate': { level: 'caution', reason: 'Also called E1442 or INS 1442.', alternatives: ['Potato starch'] },
-            'phosphated distarch phosphate': { level: 'caution', reason: 'Also called E1413 or INS 1413.', alternatives: ['Arrowroot'] },
-            'acetylated starch': { level: 'caution', reason: 'Also called E1420 or INS 1420.', alternatives: ['Arrowroot'] },
-            'hydroxypropyl starch': { level: 'caution', reason: 'Also called E1440 or INS 1440.', alternatives: ['Agar agar'] },
-            'propylene glycol alginate': { level: 'caution', reason: 'Also called E405 or INS 405.', alternatives: ['Sunflower lecithin'] },
-            'methyl cellulose': { level: 'caution', reason: 'Also called E461 or INS 461.', alternatives: ['Agar agar'] },
-            'hydroxypropyl methyl cellulose': { level: 'caution', reason: 'Also called E464 or INS 464.', alternatives: ['Guar gum'] },
-            'calcium silicate': { level: 'caution', reason: 'Also called E552 or INS 552.', alternatives: ['Natural alternatives'] },
-            'magnesium carbonate': { level: 'caution', reason: 'Also called E504 or INS 504.', alternatives: ['Natural alternatives'] },
-            'ammonium carbonate': { level: 'caution', reason: 'Also called E503 or INS 503.', alternatives: ['Baking powder'] },
-            'sodium carbonate': { level: 'caution', reason: 'Also called E500 or INS 500.', alternatives: ['Baking soda'] },
+
+            // ============ E-NUMBER: HARMFUL ============
             'e102': { level: 'harmful', reason: 'Tartrazine (INS 102).', alternatives: ['Turmeric', 'Annatto'] },
             'e104': { level: 'harmful', reason: 'Quinoline Yellow (INS 104).', alternatives: ['Turmeric', 'Annatto'] },
             'e110': { level: 'harmful', reason: 'Sunset Yellow (INS 110).', alternatives: ['Annatto', 'Beta carotene'] },
@@ -1003,9 +1046,6 @@ Colour (160c)`
             'e211': { level: 'harmful', reason: 'Sodium Benzoate (INS 211).', alternatives: ['Vitamin C'] },
             'e212': { level: 'harmful', reason: 'Potassium Benzoate (INS 212).', alternatives: ['Citric acid'] },
             'e213': { level: 'harmful', reason: 'Calcium Benzoate (INS 213).', alternatives: ['Natural preservation'] },
-            'e214': { level: 'harmful', reason: 'Ethylparaben (INS 214).', alternatives: ['Vitamin E'] },
-            'e216': { level: 'harmful', reason: 'Propylparaben (INS 216).', alternatives: ['Rosemary extract'] },
-            'e218': { level: 'harmful', reason: 'Methylparaben (INS 218).', alternatives: ['Vitamin E'] },
             'e220': { level: 'harmful', reason: 'Sulfur Dioxide (INS 220).', alternatives: ['Vitamin C'] },
             'e221': { level: 'harmful', reason: 'Sodium Sulfite (INS 221).', alternatives: ['Vitamin C'] },
             'e222': { level: 'harmful', reason: 'Sodium Bisulfite (INS 222).', alternatives: ['Natural methods'] },
@@ -1024,8 +1064,8 @@ Colour (160c)`
             'e250': { level: 'harmful', reason: 'Sodium Nitrite (INS 250).', alternatives: ['Celery juice powder'] },
             'e251': { level: 'harmful', reason: 'Sodium Nitrate (INS 251).', alternatives: ['Celery powder'] },
             'e252': { level: 'harmful', reason: 'Potassium Nitrate (INS 252).', alternatives: ['Natural curing'] },
-            'e282': { level: 'harmful', reason: 'Calcium Propionate (INS 282).', alternatives: ['Fresh baked bread'] },
             'e281': { level: 'harmful', reason: 'Sodium Propionate (INS 281).', alternatives: ['Fresh bread'] },
+            'e282': { level: 'harmful', reason: 'Calcium Propionate (INS 282).', alternatives: ['Fresh baked bread'] },
             'e316': { level: 'harmful', reason: 'Sodium Erythorbate (INS 316).', alternatives: ['Vitamin C'] },
             'e319': { level: 'harmful', reason: 'TBHQ (INS 319).', alternatives: ['Vitamin E'] },
             'e320': { level: 'harmful', reason: 'BHA (INS 320).', alternatives: ['Vitamin E'] },
@@ -1057,6 +1097,8 @@ Colour (160c)`
             'e957': { level: 'harmful', reason: 'Thaumatin (INS 957).', alternatives: ['Stevia'] },
             'e961': { level: 'harmful', reason: 'Neotame (INS 961).', alternatives: ['Dates'] },
             'e962': { level: 'harmful', reason: 'Aspartame-Acesulfame Salt (INS 962).', alternatives: ['Stevia'] },
+
+            // ============ CAUTION: SUGARS ============
             'sugar': { level: 'caution', reason: 'Added sugar — limit for children.', alternatives: ['Fresh fruit', 'Dates'] },
             'cane sugar': { level: 'caution', reason: 'Added sugar.', alternatives: ['Coconut sugar'] },
             'glucose': { level: 'caution', reason: 'Added sugar.', alternatives: ['Natural sweeteners'] },
@@ -1077,36 +1119,96 @@ Colour (160c)`
             'molasses': { level: 'caution', reason: 'Added sugar.', alternatives: ['Small amounts'] },
             'rice syrup': { level: 'caution', reason: 'Added sugar.', alternatives: ['Fruit'] },
             'brown rice syrup': { level: 'caution', reason: 'Added sugar.', alternatives: ['Dates'] },
+            'invert sugar syrup': { level: 'caution', reason: 'Liquid sugar made from cane or beet.', alternatives: ['Dates'] },
+            'liquid glucose': { level: 'caution', reason: 'Refined sugar syrup. Adds empty calories.', alternatives: ['Dates'] },
+            'malt extract': { level: 'caution', reason: 'Sugar from malted barley. Adds to sugar intake.', alternatives: ['Whole grains'] },
+
+            // ============ CAUTION: SODIUM ============
             'salt': { level: 'caution', reason: 'Sodium — limit for children.', alternatives: ['Herbs', 'Lemon juice'] },
             'sodium': { level: 'caution', reason: 'Watch sodium intake.', alternatives: ['Herbs'] },
             'sea salt': { level: 'caution', reason: 'Sodium — limit.', alternatives: ['Herbs'] },
             'himalayan salt': { level: 'caution', reason: 'Still sodium.', alternatives: ['Herbs'] },
             'kosher salt': { level: 'caution', reason: 'Sodium — limit.', alternatives: ['Herbs'] },
             'sodium chloride': { level: 'caution', reason: 'Table salt.', alternatives: ['Herbs'] },
+            'iodised salt': { level: 'caution', reason: 'Table salt with iodine added.', alternatives: ['Herbs', 'Spices'] },
             'monosodium': { level: 'caution', reason: 'Sodium — limit.', alternatives: ['Natural flavors'] },
+            'soy sauce': { level: 'caution', reason: 'High sodium — often 900mg+ per tablespoon.', alternatives: ['Coconut aminos'] },
+
+            // ============ CAUTION: CAFFEINE ============
             'caffeine': { level: 'caution', reason: 'Stimulant — not for children.', alternatives: ['Herbal tea'] },
             'guarana': { level: 'caution', reason: 'Natural caffeine.', alternatives: ['Rooibos tea'] },
             'green tea extract': { level: 'caution', reason: 'Contains caffeine.', alternatives: ['Chamomile'] },
             'yerba mate': { level: 'caution', reason: 'Contains caffeine.', alternatives: ['Herbal teas'] },
             'theobromine': { level: 'caution', reason: 'Stimulant in chocolate.', alternatives: ['Carob'] },
+
+            // ============ CAUTION: VAGUE TERMS ============
             'natural flavor': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
             'natural flavour': { level: 'caution', reason: 'Vague term.', alternatives: ['Whole ingredients'] },
             'artificial flavor': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real vanilla'] },
             'artificial flavour': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real extracts'] },
+            'artificial flavouring substances': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real extracts'] },
+            'artificial flavoring substances': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real extracts'] },
+            'natural flavouring substances': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
+            'natural flavoring substances': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
+            'nature identical flavour': { level: 'caution', reason: 'Synthetic flavour chemically identical to natural.', alternatives: ['Natural extracts'] },
+            'nature-identical flavouring substances': { level: 'caution', reason: 'Synthetic flavours.', alternatives: ['Natural extracts'] },
+            'vanillin': { level: 'caution', reason: 'Synthetic vanilla flavour.', alternatives: ['Real vanilla extract'] },
             'flavoring': { level: 'caution', reason: 'Vague.', alternatives: ['Named spices'] },
             'spices': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
+            'spices & condiments': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
+            'spices and condiments': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
             'seasoning': { level: 'caution', reason: 'Vague term.', alternatives: ['Individual spices'] },
+            'thickeners': { level: 'caution', reason: 'Vague term — check the specific thickener numbers.', alternatives: ['Agar agar', 'Guar gum'] },
+            'thickener': { level: 'caution', reason: 'Vague term.', alternatives: ['Agar agar'] },
+            'acidity regulators': { level: 'caution', reason: 'Vague term — check the numbers.', alternatives: ['Citric acid'] },
+            'acidity regulator': { level: 'caution', reason: 'Vague term.', alternatives: ['Citric acid'] },
+            'humectant': { level: 'caution', reason: 'Moisture-retaining additive (usually INS 422 glycerin).', alternatives: ['Natural alternatives'] },
+            'preservative': { level: 'caution', reason: 'Vague term — check the specific preservative number.', alternatives: ['Fresh foods'] },
+            'preservatives': { level: 'caution', reason: 'Vague term.', alternatives: ['Fresh foods'] },
+            'colour': { level: 'caution', reason: 'Vague term — check for numbers.', alternatives: ['Natural colors'] },
+            'colors': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural colors'] },
+            'colours': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural colors'] },
+            'flavour enhancer': { level: 'harmful', reason: 'Indicates added flavor enhancers.', alternatives: ['Natural spices', 'Herbs'] },
+            'flavor enhancer': { level: 'harmful', reason: 'Indicates added flavor enhancers.', alternatives: ['Natural spices'] },
+            'emulsifier': { level: 'caution', reason: 'Vague term.', alternatives: ['Sunflower lecithin'] },
+            'emulsifiers': { level: 'caution', reason: 'Vague term.', alternatives: ['Sunflower lecithin'] },
+            'stabilizer': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural stabilizers'] },
+            'stabilizers': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural stabilizers'] },
+            'antioxidant': { level: 'caution', reason: 'Vague term.', alternatives: ['Vitamin E'] },
+            'antioxidants': { level: 'caution', reason: 'Vague term.', alternatives: ['Vitamin E'] },
+            'raising agent': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
+            'raising agents': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
+            'leavening agents': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
+            'permitted synthetic food colours': { level: 'harmful', reason: 'Synthetic dyes linked to hyperactivity.', alternatives: ['Natural colors'] },
+            'permitted synthetic food colors': { level: 'harmful', reason: 'Synthetic dyes.', alternatives: ['Natural colors'] },
+            'dough conditioner': { level: 'caution', reason: 'Vague term.', alternatives: ['Fresh baked goods'] },
+            'flour treatment agent': { level: 'caution', reason: 'Vague term. Could be ascorbic acid (safe) or potassium bromate (harmful).', alternatives: ['Unbleached flour'] },
+            'improver': { level: 'caution', reason: 'Vague term.', alternatives: ['Fresh dough'] },
+            'choco covering': { level: 'caution', reason: 'Vague term for chocolate coating.', alternatives: ['Dark chocolate (70%+)'] },
+
+            // ============ CAUTION: ACIDS ============
             'citric acid': { level: 'caution', reason: 'Also called E330 or INS 330.', alternatives: ['Lemon juice'] },
             'phosphoric acid': { level: 'caution', reason: 'Also called E338 or INS 338.', alternatives: ['Citric acid'] },
             'malic acid': { level: 'caution', reason: 'Also called E296 or INS 296.', alternatives: ['Natural fruit acids'] },
             'lactic acid': { level: 'caution', reason: 'Also called E270 or INS 270.', alternatives: ['Yogurt cultures'] },
             'acetic acid': { level: 'caution', reason: 'Also called E260 or INS 260.', alternatives: ['Apple cider vinegar'] },
             'tartaric acid': { level: 'caution', reason: 'Also called E334 or INS 334.', alternatives: ['Cream of tartar'] },
+
+            // ============ CAUTION: STARCHES ============
             'modified corn starch': { level: 'caution', reason: 'Processed starch.', alternatives: ['Tapioca starch'] },
             'modified food starch': { level: 'caution', reason: 'Processed starch.', alternatives: ['Potato starch'] },
             'modified starch': { level: 'caution', reason: 'Processed.', alternatives: ['Arrowroot powder'] },
             'corn starch': { level: 'caution', reason: 'Refined.', alternatives: ['Tapioca starch'] },
             'cornstarch': { level: 'caution', reason: 'Refined carbohydrate.', alternatives: ['Arrowroot'] },
+            'edible starch': { level: 'caution', reason: 'Usually refined corn or tapioca starch.', alternatives: ['Arrowroot'] },
+            'edible maize starch': { level: 'caution', reason: 'Refined corn starch.', alternatives: ['Arrowroot'] },
+            'acetylated distarch adipate': { level: 'caution', reason: 'Also called E1422 or INS 1422.', alternatives: ['Tapioca starch'] },
+            'hydroxypropyl distarch phosphate': { level: 'caution', reason: 'Also called E1442 or INS 1442.', alternatives: ['Potato starch'] },
+            'phosphated distarch phosphate': { level: 'caution', reason: 'Also called E1413 or INS 1413.', alternatives: ['Arrowroot'] },
+            'acetylated starch': { level: 'caution', reason: 'Also called E1420 or INS 1420.', alternatives: ['Arrowroot'] },
+            'hydroxypropyl starch': { level: 'caution', reason: 'Also called E1440 or INS 1440.', alternatives: ['Agar agar'] },
+
+            // ============ CAUTION: SUGAR ALCOHOLS ============
             'maltitol': { level: 'caution', reason: 'Sugar alcohol.', alternatives: ['Stevia'] },
             'sorbitol': { level: 'caution', reason: 'Also called E420 or INS 420.', alternatives: ['Monk fruit'] },
             'xylitol': { level: 'caution', reason: 'Also called E967 or INS 967.', alternatives: ['Stevia'] },
@@ -1114,6 +1216,8 @@ Colour (160c)`
             'mannitol': { level: 'caution', reason: 'Also called E421 or INS 421.', alternatives: ['Stevia'] },
             'isomalt': { level: 'caution', reason: 'Also called E953 or INS 953.', alternatives: ['Natural sweeteners'] },
             'lactitol': { level: 'caution', reason: 'Also called E966.', alternatives: ['Fruit'] },
+
+            // ============ CAUTION: EMULSIFIERS ============
             'lecithin': { level: 'caution', reason: 'Also called E322 or INS 322.', alternatives: ['Sunflower lecithin'] },
             'soy lecithin': { level: 'caution', reason: 'Also called E322 or INS 322.', alternatives: ['Sunflower lecithin'] },
             'mono and diglycerides': { level: 'caution', reason: 'Also called E471 or INS 471.', alternatives: ['Lecithin'] },
@@ -1124,10 +1228,20 @@ Colour (160c)`
             'ssl': { level: 'caution', reason: 'Also called E481 or INS 481.', alternatives: ['Natural alternatives'] },
             'pgpr': { level: 'caution', reason: 'Also called E476.', alternatives: ['Cocoa butter'] },
             'ester gum': { level: 'caution', reason: 'Also called E445.', alternatives: ['Gum arabic'] },
+            'propylene glycol alginate': { level: 'caution', reason: 'Also called E405 or INS 405.', alternatives: ['Sunflower lecithin'] },
+            'methyl cellulose': { level: 'caution', reason: 'Also called E461 or INS 461.', alternatives: ['Agar agar'] },
+            'hydroxypropyl methyl cellulose': { level: 'caution', reason: 'Also called E464 or INS 464.', alternatives: ['Guar gum'] },
+            'calcium silicate': { level: 'caution', reason: 'Also called E552 or INS 552.', alternatives: ['Natural alternatives'] },
+            'magnesium carbonate': { level: 'caution', reason: 'Also called E504 or INS 504.', alternatives: ['Natural alternatives'] },
+            'ammonium carbonate': { level: 'caution', reason: 'Also called E503 or INS 503.', alternatives: ['Baking powder'] },
+            'sodium carbonate': { level: 'caution', reason: 'Also called E500 or INS 500.', alternatives: ['Baking soda'] },
+
+            // ============ CAUTION: ALLERGENS ============
             'soy': { level: 'caution', reason: 'Common allergen.', alternatives: ['Oat'] },
             'soybean': { level: 'caution', reason: 'Common allergen.', alternatives: ['Pea protein'] },
             'soy protein': { level: 'caution', reason: 'Common allergen.', alternatives: ['Hemp protein'] },
             'wheat': { level: 'caution', reason: 'Contains gluten.', alternatives: ['Brown rice', 'Quinoa'] },
+            'wheat gluten': { level: 'caution', reason: 'Contains gluten — avoid if gluten sensitivity or celiac.', alternatives: ['Gluten-free flours'] },
             'gluten': { level: 'caution', reason: 'Avoid if sensitivity.', alternatives: ['Rice', 'Quinoa'] },
             'barley': { level: 'caution', reason: 'Contains gluten.', alternatives: ['Quinoa'] },
             'rye': { level: 'caution', reason: 'Contains gluten.', alternatives: ['Oats (GF)'] },
@@ -1152,6 +1266,7 @@ Colour (160c)`
             'cow milk': { level: 'caution', reason: 'Common allergen.', alternatives: ['Oat milk'] },
             'lactose': { level: 'caution', reason: 'Milk sugar.', alternatives: ['Lactose-free options'] },
             'whey': { level: 'caution', reason: 'Milk protein.', alternatives: ['Pea protein'] },
+            'whey protein': { level: 'caution', reason: 'Milk protein — common allergen.', alternatives: ['Whole milk protein'] },
             'casein': { level: 'caution', reason: 'Milk protein.', alternatives: ['Hemp protein'] },
             'egg': { level: 'caution', reason: 'Common allergen.', alternatives: ['Flax egg'] },
             'eggs': { level: 'caution', reason: 'Common allergen.', alternatives: ['Banana in baking'] },
@@ -1169,6 +1284,8 @@ Colour (160c)`
             'lupin': { level: 'caution', reason: 'Legume allergen.', alternatives: ['Chickpeas'] },
             'mollusks': { level: 'caution', reason: 'Common allergen.', alternatives: ['Other proteins'] },
             'sulfites': { level: 'caution', reason: 'Can trigger asthma.', alternatives: ['Fresh foods'] },
+
+            // ============ CAUTION: HONEY & GRAINS & OILS ============
             'honey': { level: 'caution', reason: 'Safe after age 1 — avoid for infants.', alternatives: ['Maple syrup (age 1+)'] },
             'raw honey': { level: 'caution', reason: 'Not for infants under 1 year.', alternatives: ['Fruit puree'] },
             'white flour': { level: 'caution', reason: 'Refined grain.', alternatives: ['Whole wheat flour'] },
@@ -1176,8 +1293,18 @@ Colour (160c)`
             'bleached flour': { level: 'caution', reason: 'Chemically treated.', alternatives: ['Unbleached flour'] },
             'white rice': { level: 'caution', reason: 'Refined grain.', alternatives: ['Brown rice'] },
             'white bread': { level: 'caution', reason: 'Refined.', alternatives: ['Whole grain bread'] },
-            'palm oil': { level: 'caution', reason: 'High saturated fat.', alternatives: ['Olive oil'] },
+            'refined wheat flour': { level: 'caution', reason: 'Also called Maida. Refined grain — low fiber.', alternatives: ['Whole wheat flour', 'Oat flour'] },
+            'maida': { level: 'caution', reason: 'Refined wheat flour.', alternatives: ['Whole wheat flour'] },
+            'wheat flour': { level: 'caution', reason: 'Usually refers to refined wheat flour (maida).', alternatives: ['Whole wheat flour'] },
+            'corn meal': { level: 'caution', reason: 'Refined corn flour.', alternatives: ['Whole corn'] },
+            'rice meal': { level: 'caution', reason: 'Refined rice flour.', alternatives: ['Brown rice flour'] },
+            'corn flour': { level: 'caution', reason: 'Refined flour.', alternatives: ['Whole wheat flour'] },
+            'palm oil': { level: 'caution', reason: 'High saturated fat.', alternatives: ['Olive oil', 'Avocado oil'] },
             'palm kernel oil': { level: 'caution', reason: 'High saturated fat.', alternatives: ['Coconut oil'] },
+            'palmolein oil': { level: 'caution', reason: 'Refined palm oil.', alternatives: ['Olive oil'] },
+            'edible vegetable oil (palm)': { level: 'caution', reason: 'Refined palm oil.', alternatives: ['Olive oil'] },
+            'edible vegetable oil (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils.', alternatives: ['Olive oil'] },
+            'edible vegetable oils (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils.', alternatives: ['Olive oil'] },
             'canola oil': { level: 'caution', reason: 'Highly processed.', alternatives: ['Olive oil'] },
             'vegetable oil': { level: 'caution', reason: 'Usually highly processed.', alternatives: ['Olive oil'] },
             'soybean oil': { level: 'caution', reason: 'Highly processed.', alternatives: ['Olive oil'] },
@@ -1195,11 +1322,29 @@ Colour (160c)`
             'soy milk': { level: 'caution', reason: 'Soy allergen.', alternatives: ['Oat milk'] },
             'sesame seed butter': { level: 'caution', reason: 'Sesame allergen.', alternatives: ['Sunflower butter'] },
             'tahini': { level: 'caution', reason: 'Sesame allergen.', alternatives: ['Sunflower seed butter'] },
+            'edible vegetable fat': { level: 'caution', reason: 'Usually palm-based.', alternatives: ['Cocoa butter'] },
+            'interesterified vegetable fat': { level: 'caution', reason: 'A processed fat used to replace trans fats.', alternatives: ['Cocoa butter'] },
+            'bakery shortening': { level: 'caution', reason: 'Processed fat.', alternatives: ['Butter (moderation)'] },
             'chili powder': { level: 'caution', reason: 'Spicy.', alternatives: ['Sweet paprika'] },
-            'e100': { level: 'safe', reason: 'Curcumin (INS 100).', alternatives: [] },
+
+            // ============ CAUTION: MISCELLANEOUS ============
+            'cocoa processed with alkali': { level: 'caution', reason: 'Dutched cocoa — reduces beneficial antioxidants.', alternatives: ['Natural cocoa powder'] },
+            'sweet condensed milk': { level: 'caution', reason: 'Milk with high sugar content.', alternatives: ['Plain milk'] },
+            'chocolate chips': { level: 'caution', reason: 'Contains sugar and cocoa. Mostly sugar.', alternatives: ['Dark chocolate (70%+)'] },
+            'fruit preparation': { level: 'caution', reason: 'Usually fruit puree with added sugar and preservatives.', alternatives: ['Fresh fruit'] },
+            'concentrated fruit juice': { level: 'caution', reason: 'Concentrated sugar.', alternatives: ['Fresh juice'] },
+            'breadcrumbs': { level: 'caution', reason: 'Usually from refined wheat flour.', alternatives: ['Whole wheat breadcrumbs'] },
+            'batter': { level: 'caution', reason: 'Usually refined flour + additives.', alternatives: ['Whole grain batter'] },
+            'tempura': { level: 'caution', reason: 'Refined flour coating. Fried.', alternatives: ['Baked versions'] },
+            'potassium iodate': { level: 'caution', reason: 'Source of iodine. Excessive intake can affect thyroid.', alternatives: ['Iodised salt'] },
+            'processed cheese': { level: 'caution', reason: 'Contains sodium phosphates, emulsifiers, and artificial colors.', alternatives: ['Real cheese'] },
+            'cheese slice': { level: 'caution', reason: 'Processed cheese — not real cheese.', alternatives: ['Real cheddar', 'Paneer'] },
+
+            // ============ SAFE: E-NUMBER ADDITIVES ============
+            'e100': { level: 'safe', reason: 'Curcumin (INS 100). Natural yellow from turmeric.', alternatives: [] },
             'curcumin': { level: 'safe', reason: 'Also called E100 or INS 100.', alternatives: [] },
-            'e101': { level: 'caution', reason: 'Riboflavin (INS 101).', alternatives: ['Natural riboflavin'] },
-            'e150': { level: 'caution', reason: 'Caramel Color (INS 150).', alternatives: ['Molasses'] },
+            'e101': { level: 'caution', reason: 'Riboflavin (INS 101). Vitamin B2.', alternatives: ['Natural riboflavin'] },
+            'e150': { level: 'caution', reason: 'Caramel Color (INS 150). Some types contain 4-MEI.', alternatives: ['Molasses'] },
             'caramel color': { level: 'caution', reason: 'Also called E150 or INS 150.', alternatives: ['Molasses'] },
             'e160a': { level: 'safe', reason: 'Beta Carotene (INS 160a).', alternatives: [] },
             'beta carotene': { level: 'safe', reason: 'Also called E160a or INS 160a.', alternatives: [] },
@@ -1265,6 +1410,8 @@ Colour (160c)`
             'e966': { level: 'caution', reason: 'Lactitol (INS 966).', alternatives: ['Fruit'] },
             'e967': { level: 'caution', reason: 'Xylitol (INS 967).', alternatives: ['Stevia'] },
             'e968': { level: 'caution', reason: 'Erythritol (INS 968).', alternatives: ['Monk fruit'] },
+
+            // ============ SAFE: WATER & BASIC ============
             'water': { level: 'safe', reason: 'Essential and safe.', alternatives: [] },
             'filtered water': { level: 'safe', reason: 'Safe.', alternatives: [] },
             'purified water': { level: 'safe', reason: 'Safe.', alternatives: [] },
@@ -1272,799 +1419,10 @@ Colour (160c)`
             'mineral water': { level: 'safe', reason: 'Contains minerals.', alternatives: [] },
             'sparkling water': { level: 'safe', reason: 'Safe.', alternatives: [] },
             'coconut water': { level: 'safe', reason: 'Natural electrolytes.', alternatives: [] },
+            'carbonated water': { level: 'safe', reason: 'Safe, hydrating.', alternatives: [] },
+
+            // ============ SAFE: VEGETABLES ============
             'carrot': { level: 'safe', reason: 'Vegetable; vitamin A.', alternatives: [] },
             'carrots': { level: 'safe', reason: 'Vegetable; vitamin A.', alternatives: [] },
             'spinach': { level: 'safe', reason: 'Leafy green; iron.', alternatives: [] },
-            'broccoli': { level: 'safe', reason: 'Vegetable; nutritious.', alternatives: [] },
-            'sweet potato': { level: 'safe', reason: 'Vegetable; vitamins.', alternatives: [] },
-            'sweet potatoes': { level: 'safe', reason: 'Rich in vitamin A.', alternatives: [] },
-            'potato': { level: 'safe', reason: 'Vegetable; potassium.', alternatives: [] },
-            'potatoes': { level: 'safe', reason: 'Vegetable; potassium.', alternatives: [] },
-            'tomato': { level: 'safe', reason: 'Fruit/vegetable; lycopene.', alternatives: [] },
-            'tomatoes': { level: 'safe', reason: 'Rich in lycopene.', alternatives: [] },
-            'cucumber': { level: 'safe', reason: 'Vegetable; hydrating.', alternatives: [] },
-            'lettuce': { level: 'safe', reason: 'Leafy green.', alternatives: [] },
-            'kale': { level: 'safe', reason: 'Superfood.', alternatives: [] },
-            'cauliflower': { level: 'safe', reason: 'Vegetable; vitamin C.', alternatives: [] },
-            'green beans': { level: 'safe', reason: 'Vegetable; fiber.', alternatives: [] },
-            'peas': { level: 'safe', reason: 'Vegetable; protein.', alternatives: [] },
-            'corn': { level: 'safe', reason: 'Whole grain vegetable.', alternatives: [] },
-            'zucchini': { level: 'safe', reason: 'Vegetable; hydrating.', alternatives: [] },
-            'bell pepper': { level: 'safe', reason: 'Vegetable; vitamin C.', alternatives: [] },
-            'bell peppers': { level: 'safe', reason: 'Rich in vitamin C.', alternatives: [] },
-            'onion': { level: 'safe', reason: 'Vegetable; nutritious.', alternatives: [] },
-            'garlic': { level: 'safe', reason: 'Flavoring; health benefits.', alternatives: [] },
-            'beet': { level: 'safe', reason: 'Vegetable; folate.', alternatives: [] },
-            'beets': { level: 'safe', reason: 'Root vegetable.', alternatives: [] },
-            'cabbage': { level: 'safe', reason: 'Vegetable; vitamin C.', alternatives: [] },
-            'brussels sprouts': { level: 'safe', reason: 'Vegetable; vitamin K.', alternatives: [] },
-            'asparagus': { level: 'safe', reason: 'Vegetable; folate.', alternatives: [] },
-            'mushroom': { level: 'safe', reason: 'Vegetable; vitamin D.', alternatives: [] },
-            'mushrooms': { level: 'safe', reason: 'Rich in B vitamins.', alternatives: [] },
-            'pumpkin': { level: 'safe', reason: 'Vegetable; vitamin A.', alternatives: [] },
-            'butternut squash': { level: 'safe', reason: 'Vegetable; vitamin A.', alternatives: [] },
-            'squash': { level: 'safe', reason: 'Vegetable; vitamins.', alternatives: [] },
-            'eggplant': { level: 'safe', reason: 'Vegetable; fiber.', alternatives: [] },
-            'artichoke': { level: 'safe', reason: 'Vegetable; fiber.', alternatives: [] },
-            'leek': { level: 'safe', reason: 'Vegetable; vitamins.', alternatives: [] },
-            'radish': { level: 'safe', reason: 'Vegetable; vitamin C.', alternatives: [] },
-            'turnip': { level: 'safe', reason: 'Root vegetable.', alternatives: [] },
-            'parsnip': { level: 'safe', reason: 'Root vegetable.', alternatives: [] },
-            'okra': { level: 'safe', reason: 'Vegetable; fiber.', alternatives: [] },
-            'snow peas': { level: 'safe', reason: 'Vegetable; vitamin C.', alternatives: [] },
-            'watercress': { level: 'safe', reason: 'Leafy green.', alternatives: [] },
-            'arugula': { level: 'safe', reason: 'Leafy green.', alternatives: [] },
-            'swiss chard': { level: 'safe', reason: 'Leafy green.', alternatives: [] },
-            'collard greens': { level: 'safe', reason: 'Leafy green; calcium.', alternatives: [] },
-            'frozen vegetables': { level: 'safe', reason: 'Plain frozen veg is safe.', alternatives: [] },
-            'frozen peas': { level: 'safe', reason: 'Plain frozen peas are safe.', alternatives: [] },
-            'frozen corn': { level: 'safe', reason: 'Plain frozen corn is safe.', alternatives: [] },
-            'frozen spinach': { level: 'safe', reason: 'Plain frozen spinach is safe.', alternatives: [] },
-            'apple': { level: 'safe', reason: 'Fruit; nutritious.', alternatives: [] },
-            'apples': { level: 'safe', reason: 'Fruit.', alternatives: [] },
-            'banana': { level: 'safe', reason: 'Fruit; potassium.', alternatives: [] },
-            'bananas': { level: 'safe', reason: 'Fruit; potassium.', alternatives: [] },
-            'orange': { level: 'safe', reason: 'Fruit; vitamin C.', alternatives: [] },
-            'orange juice': { level: 'safe', reason: 'Vitamin C (watch sugar).', alternatives: [] },
-            'lemon': { level: 'safe', reason: 'Fruit; vitamin C.', alternatives: [] },
-            'lime': { level: 'safe', reason: 'Fruit; vitamin C.', alternatives: [] },
-            'strawberry': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'strawberries': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'blueberry': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'blueberries': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'raspberry': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'raspberries': { level: 'safe', reason: 'Berry; fiber.', alternatives: [] },
-            'blackberry': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'blackberries': { level: 'safe', reason: 'Berry; vitamins.', alternatives: [] },
-            'cranberry': { level: 'safe', reason: 'Berry; urinary health.', alternatives: [] },
-            'cranberries': { level: 'safe', reason: 'Berry; antioxidants.', alternatives: [] },
-            'mango': { level: 'safe', reason: 'Fruit; vitamins A and C.', alternatives: [] },
-            'papaya': { level: 'safe', reason: 'Fruit; digestive enzymes.', alternatives: [] },
-            'pear': { level: 'safe', reason: 'Fruit; gentle on tummy.', alternatives: [] },
-            'pears': { level: 'safe', reason: 'Fruit; fiber.', alternatives: [] },
-            'peach': { level: 'safe', reason: 'Fruit; vitamins.', alternatives: [] },
-            'peaches': { level: 'safe', reason: 'Fruit; vitamins.', alternatives: [] },
-            'plum': { level: 'safe', reason: 'Fruit; fiber.', alternatives: [] },
-            'plums': { level: 'safe', reason: 'Fruit; vitamins.', alternatives: [] },
-            'grape': { level: 'safe', reason: 'Fruit (cut for young kids).', alternatives: [] },
-            'grapes': { level: 'safe', reason: 'Cut for young kids.', alternatives: [] },
-            'watermelon': { level: 'safe', reason: 'Fruit; hydrating.', alternatives: [] },
-            'cantaloupe': { level: 'safe', reason: 'Melon; vitamin A.', alternatives: [] },
-            'honeydew': { level: 'safe', reason: 'Melon; hydrating.', alternatives: [] },
-            'pineapple': { level: 'safe', reason: 'Fruit; vitamin C.', alternatives: [] },
-            'kiwi': { level: 'safe', reason: 'Fruit; vitamin C.', alternatives: [] },
-            'cherry': { level: 'safe', reason: 'Fruit (pit for young kids).', alternatives: [] },
-            'cherries': { level: 'safe', reason: 'Pit for young kids.', alternatives: [] },
-            'apricot': { level: 'safe', reason: 'Fruit; vitamin A.', alternatives: [] },
-            'apricots': { level: 'safe', reason: 'Fruit; fiber.', alternatives: [] },
-            'fig': { level: 'safe', reason: 'Fruit; fiber.', alternatives: [] },
-            'figs': { level: 'safe', reason: 'Fruit; calcium.', alternatives: [] },
-            'date': { level: 'safe', reason: 'Natural sweetener; fiber.', alternatives: [] },
-            'dates': { level: 'safe', reason: 'Natural sweetener; potassium.', alternatives: [] },
-            'pomegranate': { level: 'safe', reason: 'Fruit; antioxidants.', alternatives: [] },
-            'avocado': { level: 'safe', reason: 'Healthy fats.', alternatives: [] },
-            'avocados': { level: 'safe', reason: 'Healthy fats.', alternatives: [] },
-            'guava': { level: 'safe', reason: 'Tropical fruit; vitamin C.', alternatives: [] },
-            'passion fruit': { level: 'safe', reason: 'Fruit; fiber.', alternatives: [] },
-            'dragon fruit': { level: 'safe', reason: 'Tropical fruit.', alternatives: [] },
-            'lychee': { level: 'safe', reason: 'Tropical fruit.', alternatives: [] },
-            'persimmon': { level: 'safe', reason: 'Fruit; vitamins.', alternatives: [] },
-            'frozen berries': { level: 'safe', reason: 'Plain frozen berries safe.', alternatives: [] },
-            'frozen mango': { level: 'safe', reason: 'Plain frozen mango safe.', alternatives: [] },
-            'frozen fruit': { level: 'safe', reason: 'Plain frozen fruit safe.', alternatives: [] },
-            'chicken': { level: 'safe', reason: 'Lean protein.', alternatives: [] },
-            'turkey': { level: 'safe', reason: 'Lean protein.', alternatives: [] },
-            'beef': { level: 'safe', reason: 'Protein; iron.', alternatives: [] },
-            'pork': { level: 'safe', reason: 'Protein.', alternatives: [] },
-            'lamb': { level: 'safe', reason: 'Protein; iron.', alternatives: [] },
-            'salmon': { level: 'safe', reason: 'Rich in omega-3.', alternatives: [] },
-            'tuna': { level: 'safe', reason: 'Protein, omega-3 (limit mercury).', alternatives: [] },
-            'sardines': { level: 'safe', reason: 'Omega-3; calcium.', alternatives: [] },
-            'trout': { level: 'safe', reason: 'Omega-3; protein.', alternatives: [] },
-            'cod': { level: 'safe', reason: 'Lean protein.', alternatives: [] },
-            'tilapia': { level: 'safe', reason: 'Lean protein.', alternatives: [] },
-            'tofu': { level: 'safe', reason: 'Plant protein (if no soy allergy).', alternatives: [] },
-            'tempeh': { level: 'safe', reason: 'Fermented soy protein.', alternatives: [] },
-            'edamame': { level: 'safe', reason: 'Soybean; protein.', alternatives: [] },
-            'lentils': { level: 'safe', reason: 'Plant protein; iron.', alternatives: [] },
-            'chickpeas': { level: 'safe', reason: 'Plant protein; fiber.', alternatives: [] },
-            'beans': { level: 'safe', reason: 'Plant protein; fiber.', alternatives: [] },
-            'black beans': { level: 'safe', reason: 'Protein; fiber.', alternatives: [] },
-            'kidney beans': { level: 'safe', reason: 'Protein; iron.', alternatives: [] },
-            'pinto beans': { level: 'safe', reason: 'Protein; fiber.', alternatives: [] },
-            'navy beans': { level: 'safe', reason: 'Protein; fiber.', alternatives: [] },
-            'split peas': { level: 'safe', reason: 'Protein; fiber.', alternatives: [] },
-            'frozen fish': { level: 'safe', reason: 'Plain frozen fish safe.', alternatives: [] },
-            'frozen chicken': { level: 'safe', reason: 'Plain frozen chicken safe.', alternatives: [] },
-            'oat': { level: 'safe', reason: 'Whole grain.', alternatives: [] },
-            'oats': { level: 'safe', reason: 'Whole grain.', alternatives: [] },
-            'oatmeal': { level: 'safe', reason: 'Whole grain; fiber.', alternatives: [] },
-            'rolled oats': { level: 'safe', reason: 'Whole grain; fiber.', alternatives: [] },
-            'steel cut oats': { level: 'safe', reason: 'Whole grain; fiber.', alternatives: [] },
-            'rice': { level: 'safe', reason: 'Safe grain; easy to digest.', alternatives: [] },
-            'brown rice': { level: 'safe', reason: 'Whole grain.', alternatives: [] },
-            'wild rice': { level: 'safe', reason: 'Whole grain; protein.', alternatives: [] },
-            'quinoa': { level: 'safe', reason: 'Nutritious whole grain.', alternatives: [] },
-            'millet': { level: 'safe', reason: 'Gluten-free grain.', alternatives: [] },
-            'buckwheat': { level: 'safe', reason: 'Gluten-free grain.', alternatives: [] },
-            'amaranth': { level: 'safe', reason: 'Ancient grain.', alternatives: [] },
-            'teff': { level: 'safe', reason: 'Gluten-free grain; iron.', alternatives: [] },
-            'sorghum': { level: 'safe', reason: 'Gluten-free grain.', alternatives: [] },
-            'whole wheat': { level: 'safe', reason: 'Whole grain; fiber.', alternatives: [] },
-            'whole grain': { level: 'safe', reason: 'Fiber-rich.', alternatives: [] },
-            'whole wheat flour': { level: 'safe', reason: 'Whole grain flour.', alternatives: [] },
-            'oat flour': { level: 'safe', reason: 'Whole grain flour.', alternatives: [] },
-            'coconut flour': { level: 'safe', reason: 'Gluten-free; fiber.', alternatives: [] },
-            'brown rice flour': { level: 'safe', reason: 'Gluten-free flour.', alternatives: [] },
-            'popcorn': { level: 'safe', reason: 'Whole grain snack (choking hazard under 4).', alternatives: [] },
-            'whole grain bread': { level: 'safe', reason: 'Fiber-rich.', alternatives: [] },
-            'sourdough': { level: 'safe', reason: 'Fermented bread.', alternatives: [] },
-            'yogurt': { level: 'safe', reason: 'Probiotics; calcium.', alternatives: [] },
-            'greek yogurt': { level: 'safe', reason: 'Protein; probiotics.', alternatives: [] },
-            'kefir': { level: 'safe', reason: 'Probiotics; calcium.', alternatives: [] },
-            'cheese': { level: 'safe', reason: 'Calcium, protein.', alternatives: [] },
-            'cottage cheese': { level: 'safe', reason: 'Protein; calcium.', alternatives: [] },
-            'sunflower seed': { level: 'safe', reason: 'Seed; healthy fats.', alternatives: [] },
-            'sunflower seeds': { level: 'safe', reason: 'Healthy fats; vitamin E.', alternatives: [] },
-            'sunflower seed butter': { level: 'safe', reason: 'Nut-free spread.', alternatives: [] },
-            'pumpkin seeds': { level: 'safe', reason: 'Zinc; magnesium.', alternatives: [] },
-            'pepitas': { level: 'safe', reason: 'Pumpkin seeds; zinc.', alternatives: [] },
-            'chia seeds': { level: 'safe', reason: 'Omega-3; fiber.', alternatives: [] },
-            'flaxseed': { level: 'safe', reason: 'Omega-3; fiber.', alternatives: [] },
-            'flax seeds': { level: 'safe', reason: 'Omega-3; fiber.', alternatives: [] },
-            'hemp seeds': { level: 'safe', reason: 'Plant protein; omega-3.', alternatives: [] },
-            'cinnamon': { level: 'safe', reason: 'Spice; generally safe.', alternatives: [] },
-            'turmeric': { level: 'safe', reason: 'Spice; anti-inflammatory.', alternatives: [] },
-            'ginger': { level: 'safe', reason: 'Spice; soothing.', alternatives: [] },
-            'basil': { level: 'safe', reason: 'Herb; antioxidants.', alternatives: [] },
-            'oregano': { level: 'safe', reason: 'Herb; antimicrobial.', alternatives: [] },
-            'thyme': { level: 'safe', reason: 'Herb; vitamins.', alternatives: [] },
-            'rosemary': { level: 'safe', reason: 'Herb; antioxidants.', alternatives: [] },
-            'parsley': { level: 'safe', reason: 'Herb; vitamin K.', alternatives: [] },
-            'cilantro': { level: 'safe', reason: 'Herb; vitamins.', alternatives: [] },
-            'dill': { level: 'safe', reason: 'Herb; flavor.', alternatives: [] },
-            'mint': { level: 'safe', reason: 'Herb; soothing.', alternatives: [] },
-            'peppermint': { level: 'safe', reason: 'Herb; digestive aid.', alternatives: [] },
-            'sage': { level: 'safe', reason: 'Herb; antioxidants.', alternatives: [] },
-            'vanilla': { level: 'safe', reason: 'Natural flavor.', alternatives: [] },
-            'vanilla extract': { level: 'safe', reason: 'Natural flavor.', alternatives: [] },
-            'cocoa': { level: 'safe', reason: 'Antioxidants (small amounts).', alternatives: [] },
-            'cacao': { level: 'safe', reason: 'Antioxidants; minerals.', alternatives: [] },
-            'carob': { level: 'safe', reason: 'Caffeine-free chocolate alternative.', alternatives: [] },
-            'cinnamon powder': { level: 'safe', reason: 'Spice.', alternatives: [] },
-            'nutmeg': { level: 'safe', reason: 'Spice (small amounts).', alternatives: [] },
-            'clove': { level: 'safe', reason: 'Spice.', alternatives: [] },
-            'cardamom': { level: 'safe', reason: 'Spice.', alternatives: [] },
-            'cumin': { level: 'safe', reason: 'Spice; digestion.', alternatives: [] },
-            'coriander': { level: 'safe', reason: 'Spice.', alternatives: [] },
-            'paprika': { level: 'safe', reason: 'Spice; vitamin A.', alternatives: [] },
-            'black pepper': { level: 'safe', reason: 'Spice (mild amounts).', alternatives: [] },
-            'olive oil': { level: 'safe', reason: 'Healthy fat.', alternatives: [] },
-            'extra virgin olive oil': { level: 'safe', reason: 'Heart-healthy fat.', alternatives: [] },
-            'coconut oil': { level: 'safe', reason: 'Healthy fat.', alternatives: [] },
-            'avocado oil': { level: 'safe', reason: 'Healthy fat.', alternatives: [] },
-            'flaxseed oil': { level: 'safe', reason: 'Omega-3 fats.', alternatives: [] },
-            'vitamin c': { level: 'safe', reason: 'Essential vitamin.', alternatives: [] },
-            'vitamin d': { level: 'safe', reason: 'Essential vitamin.', alternatives: [] },
-            'vitamin e': { level: 'safe', reason: 'Antioxidant vitamin.', alternatives: [] },
-            'vitamin a': { level: 'safe', reason: 'Essential vitamin.', alternatives: [] },
-            'vitamin b12': { level: 'safe', reason: 'Essential vitamin.', alternatives: [] },
-            'niacin': { level: 'safe', reason: 'Vitamin B3.', alternatives: [] },
-            'riboflavin': { level: 'safe', reason: 'Vitamin B2.', alternatives: [] },
-            'thiamine': { level: 'safe', reason: 'Vitamin B1.', alternatives: [] },
-            'folate': { level: 'safe', reason: 'Vitamin B9.', alternatives: [] },
-            'folic acid': { level: 'safe', reason: 'Vitamin B9.', alternatives: [] },
-            'calcium': { level: 'safe', reason: 'Essential mineral.', alternatives: [] },
-            'iron': { level: 'safe', reason: 'Essential mineral.', alternatives: [] },
-            'zinc': { level: 'safe', reason: 'Essential mineral.', alternatives: [] },
-            'potassium': { level: 'safe', reason: 'Essential mineral.', alternatives: [] },
-            'magnesium': { level: 'safe', reason: 'Essential mineral.', alternatives: [] },
-            'fiber': { level: 'safe', reason: 'Healthy digestive aid.', alternatives: [] },
-            'probiotics': { level: 'safe', reason: 'Good bacteria for gut health.', alternatives: [] },
-            'inulin': { level: 'safe', reason: 'Prebiotic fiber.', alternatives: [] },
-            'baking powder': { level: 'safe', reason: 'Leavening agent.', alternatives: [] },
-            'yeast': { level: 'safe', reason: 'Natural leavening.', alternatives: [] },
-            'nutritional yeast': { level: 'safe', reason: 'B vitamins; cheesy flavor.', alternatives: [] },
-            'vinegar': { level: 'safe', reason: 'Acidifier; generally safe.', alternatives: [] },
-            'apple cider vinegar': { level: 'safe', reason: 'Generally safe.', alternatives: [] },
-            'balsamic vinegar': { level: 'safe', reason: 'Generally safe.', alternatives: [] },
-            'coconut': { level: 'safe', reason: 'Fruit; healthy fats.', alternatives: [] },
-            'coconut milk': { level: 'safe', reason: 'Dairy alternative.', alternatives: [] },
-            'oat milk': { level: 'safe', reason: 'Dairy alternative.', alternatives: [] },
-            'rice milk': { level: 'safe', reason: 'Dairy alternative (watch arsenic).', alternatives: [] },
-            'hemp milk': { level: 'safe', reason: 'Dairy alternative; omega-3.', alternatives: [] },
-            'pea milk': { level: 'safe', reason: 'Dairy alternative; protein.', alternatives: [] },
-            'seaweed': { level: 'safe', reason: 'Iodine; minerals.', alternatives: [] },
-            'nori': { level: 'safe', reason: 'Seaweed; minerals.', alternatives: [] },
-            'kelp': { level: 'safe', reason: 'Iodine source.', alternatives: [] },
-            'spirulina': { level: 'safe', reason: 'Algae; protein; natural color.', alternatives: [] },
-            'chlorella': { level: 'safe', reason: 'Algae; nutrients.', alternatives: [] },
-            'gelatin': { level: 'safe', reason: 'Protein from collagen.', alternatives: ['Agar for vegetarian'] },
-            'agar agar': { level: 'safe', reason: 'Vegan gelatin alternative.', alternatives: [] },
-            'tapioca starch': { level: 'safe', reason: 'Gluten-free starch.', alternatives: [] },
-            'arrowroot': { level: 'safe', reason: 'Natural thickener.', alternatives: [] },
-            'potato starch': { level: 'safe', reason: 'Gluten-free starch.', alternatives: [] },
-            'monk fruit': { level: 'safe', reason: 'Natural zero-calorie sweetener.', alternatives: [] },
-            'monk fruit extract': { level: 'safe', reason: 'Natural sweetener.', alternatives: [] },
-            'rosemary extract': { level: 'safe', reason: 'Natural preservative.', alternatives: [] },
-            'mixed tocopherols': { level: 'safe', reason: 'Natural vitamin E.', alternatives: [] },
-            'beet juice': { level: 'safe', reason: 'Natural red color.', alternatives: [] },
-            'beet juice concentrate': { level: 'safe', reason: 'Natural food coloring.', alternatives: [] },
-            'annatto': { level: 'safe', reason: 'Natural yellow/orange color.', alternatives: [] },
-            'turmeric extract': { level: 'safe', reason: 'Natural yellow color.', alternatives: [] },
-            'carrot juice': { level: 'safe', reason: 'Natural color.', alternatives: [] },
-            'blueberry juice': { level: 'safe', reason: 'Natural color.', alternatives: [] },
-            'red cabbage extract': { level: 'safe', reason: 'Natural color.', alternatives: [] },
-            'chlorophyll': { level: 'safe', reason: 'Natural green color.', alternatives: [] },
-            'matcha': { level: 'safe', reason: 'Natural green color.', alternatives: [] },
-            'cocoa powder': { level: 'safe', reason: 'Natural brown color; antioxidants.', alternatives: [] },
-            'refined wheat flour': { level: 'caution', reason: 'Also called Maida. Refined grain — low fiber.', alternatives: ['Whole wheat flour', 'Oat flour'] },
-            'maida': { level: 'caution', reason: 'Refined wheat flour.', alternatives: ['Whole wheat flour'] },
-            'wheat gluten': { level: 'caution', reason: 'Contains gluten — avoid if gluten sensitivity or celiac.', alternatives: ['Gluten-free flours'] },
-            'thickeners': { level: 'caution', reason: 'Vague term — check the specific thickener numbers in parentheses.', alternatives: ['Agar agar', 'Guar gum'] },
-            'thickener': { level: 'caution', reason: 'Vague term.', alternatives: ['Agar agar'] },
-            'acidity regulators': { level: 'caution', reason: 'Vague term — check the numbers in parentheses.', alternatives: ['Citric acid'] },
-            'acidity regulator': { level: 'caution', reason: 'Vague term.', alternatives: ['Citric acid'] },
-            'humectant': { level: 'caution', reason: 'Vague term — refers to moisture-retaining additives.', alternatives: ['Natural alternatives'] },
-            'preservative': { level: 'caution', reason: 'Vague term — check the specific preservative number.', alternatives: ['Fresh foods'] },
-            'preservatives': { level: 'caution', reason: 'Vague term.', alternatives: ['Fresh foods'] },
-            'colour': { level: 'caution', reason: 'Vague term — check for numbers.', alternatives: ['Natural colors'] },
-            'colors': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural colors'] },
-            'colours': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural colors'] },
-            'flavour enhancer': { level: 'harmful', reason: 'Indicates added flavor enhancers.', alternatives: ['Natural spices', 'Herbs'] },
-            'flavor enhancer': { level: 'harmful', reason: 'Indicates added flavor enhancers.', alternatives: ['Natural spices'] },
-            'emulsifier': { level: 'caution', reason: 'Vague term.', alternatives: ['Sunflower lecithin'] },
-            'emulsifiers': { level: 'caution', reason: 'Vague term.', alternatives: ['Sunflower lecithin'] },
-            'stabilizer': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural stabilizers'] },
-            'stabilizers': { level: 'caution', reason: 'Vague term.', alternatives: ['Natural stabilizers'] },
-            'antioxidant': { level: 'caution', reason: 'Vague term.', alternatives: ['Vitamin E'] },
-            'antioxidants': { level: 'caution', reason: 'Vague term.', alternatives: ['Vitamin E'] },
-            'raising agent': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
-            'raising agents': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
-            'leavening agents': { level: 'caution', reason: 'Vague term.', alternatives: ['Baking soda'] },
-            'spices & condiments': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
-            'spices and condiments': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
-            'permitted synthetic food colours': { level: 'harmful', reason: 'Synthetic dyes linked to hyperactivity.', alternatives: ['Natural colors'] },
-            'permitted synthetic food colors': { level: 'harmful', reason: 'Synthetic dyes.', alternatives: ['Natural colors'] },
-            'artificial flavouring substances': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real extracts'] },
-            'artificial flavoring substances': { level: 'caution', reason: 'Artificial flavors.', alternatives: ['Real extracts'] },
-            'natural flavouring substances': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
-            'natural flavoring substances': { level: 'caution', reason: 'Vague term.', alternatives: ['Named spices'] },
-            'added cultures': { level: 'safe', reason: 'Probiotic cultures. Safe.', alternatives: [] },
-            'cultures': { level: 'safe', reason: 'Probiotic cultures. Safe.', alternatives: [] },
-            'cocoa solids': { level: 'safe', reason: 'From cocoa beans. Safe.', alternatives: [] },
-            'milk solids': { level: 'safe', reason: 'Dairy solids. Safe.', alternatives: [] },
-            'edible vegetable fat': { level: 'caution', reason: 'Usually palm-based. High saturated fat.', alternatives: ['Cocoa butter'] },
-            'edible common salt': { level: 'caution', reason: 'Sodium — limit.', alternatives: ['Herbs'] },
-            'vitamins': { level: 'safe', reason: 'Added vitamins. Safe.', alternatives: [] },
-            'minerals': { level: 'safe', reason: 'Added minerals. Safe.', alternatives: [] },
-            'malt extract': { level: 'caution', reason: 'Sugar from malted barley. Limit.', alternatives: ['Whole grains'] },
-            'corn flour': { level: 'caution', reason: 'Refined flour. Low fiber.', alternatives: ['Whole wheat flour'] },
-            'mozzarella cheese': { level: 'safe', reason: 'Cheese. Safe if no dairy allergy.', alternatives: [] },
-            'tomato paste': { level: 'safe', reason: 'Concentrated tomatoes. Safe.', alternatives: [] },
-            'breadcrumbs': { level: 'caution', reason: 'Usually from refined wheat. Check ingredients.', alternatives: ['Whole wheat breadcrumbs'] },
-            'concentrated fruit juice': { level: 'caution', reason: 'Concentrated sugar. Limit.', alternatives: ['Fresh juice'] },
-            'carbonated water': { level: 'safe', reason: 'Safe, hydrating.', alternatives: [] },
-            'cocoa butter': { level: 'safe', reason: 'Natural fat from cocoa. Safe.', alternatives: [] }
-        ,
-            // ============ FROZEN FOOD SPECIFIC ============
-            'sodium acid pyrophosphate': { level: 'harmful', reason: 'Also called E450(i) or INS 450(i). A phosphate used in frozen fries and processed potatoes. Disrupts calcium-phosphorus balance in growing children.', alternatives: ['Fresh potatoes'] },
-            'disodium dihydrogen pyrophosphate': { level: 'harmful', reason: 'Also called E450 or INS 450. Phosphate used in frozen fries to prevent discoloration. High intake affects bone health.', alternatives: ['Fresh potatoes'] },
-            'soy sauce': { level: 'caution', reason: 'High sodium — often 900mg+ per tablespoon. Also may contain MSG or preservatives.', alternatives: ['Coconut aminos', 'Low-sodium soy sauce'] },
-            'tomato ketchup': { level: 'caution', reason: 'High sugar and sodium. Often contains HFCS and preservatives.', alternatives: ['Fresh tomato puree'] },
-            'mayonnaise': { level: 'caution', reason: 'Processed oil, egg yolk, and often preservatives. High fat.', alternatives: ['Olive oil mayo', 'Hummus'] },
-            'cheese slice': { level: 'caution', reason: 'Processed cheese — often contains sodium phosphates, emulsifiers, and artificial colors. Not real cheese.', alternatives: ['Real cheddar', 'Paneer'] },
-            'processed cheese': { level: 'caution', reason: 'Contains sodium phosphates (E339), emulsifying salts, and artificial colors. Limit for children.', alternatives: ['Real cheese'] },
-            'whey protein': { level: 'caution', reason: 'Milk protein — common allergen. Processed additive.', alternatives: ['Whole milk protein'] },
-            'yeast': { level: 'safe', reason: 'Natural leavening agent. Safe.', alternatives: [] },
-            'breadcrumbs': { level: 'caution', reason: 'Usually from refined wheat flour. May contain preservatives and emulsifiers.', alternatives: ['Whole wheat breadcrumbs', 'Oat crumbs'] },
-            'batter': { level: 'caution', reason: 'Usually refined flour + additives. Check ingredients.', alternatives: ['Whole grain batter'] },
-            'tempura': { level: 'caution', reason: 'Refined flour coating, often with additives. Fried.', alternatives: ['Baked versions'] },
-            // ============ NEW CATEGORY ENTRIES ============
-            'whole wheat flour': { level: 'safe', reason: 'Whole grain flour — retains fiber and nutrients.', alternatives: [] },
-            'wheat bran': { level: 'safe', reason: 'Fiber-rich outer layer of wheat. Safe and nutritious.', alternatives: [] },
-            'skimmed milk powder': { level: 'safe', reason: 'Dried skim milk. Safe if no dairy allergy.', alternatives: [] },
-            'iodised salt': { level: 'caution', reason: 'Table salt with iodine added. Sodium — limit for children.', alternatives: ['Herbs', 'Spices'] },
-            'butter': { level: 'caution', reason: 'Saturated fat — use in moderation.', alternatives: ['Olive oil'] },
-            'cocoa butter': { level: 'safe', reason: 'Natural fat from cocoa beans. Safe.', alternatives: [] },
-            'chocolate chips': { level: 'caution', reason: 'Contains sugar and cocoa. Small amounts are OK, but chocolate chips are mostly sugar.', alternatives: ['Dark chocolate (70%+)', 'Cacao nibs'] },
-            'fruit preparation': { level: 'caution', reason: 'Usually fruit puree with added sugar and preservatives. Check label.', alternatives: ['Fresh fruit'] },
-            'vanilla extract': { level: 'safe', reason: 'Natural vanilla flavour. Safe.', alternatives: [] },
-            'wheat flour': { level: 'caution', reason: 'Usually refers to refined wheat flour (maida). Low fiber.', alternatives: ['Whole wheat flour'] },
-            'corn meal': { level: 'caution', reason: 'Refined corn flour. Low nutrition.', alternatives: ['Whole corn'] },
-            'rice meal': { level: 'caution', reason: 'Refined rice flour. Low nutrition.', alternatives: ['Brown rice flour'] },
-            'edible vegetable oil (palm)': { level: 'caution', reason: 'Refined palm oil. High in saturated fat.', alternatives: ['Olive oil'] },
-            'edible vegetable oil (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils. High in saturated fat.', alternatives: ['Olive oil'] },
-            'edible vegetable oils (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils. High in saturated fat.', alternatives: ['Olive oil'] },
-            'choco covering': { level: 'caution', reason: 'Vague term for chocolate coating. Usually contains hydrogenated fats and sugar.', alternatives: ['Dark chocolate (70%+)'] },
-            'nature identical flavour': { level: 'caution', reason: 'Synthetic flavour chemically identical to natural. Best to limit.', alternatives: ['Natural extracts'] },
-            'nature-identical flavouring substances': { level: 'caution', reason: 'Synthetic flavours. Best to limit.', alternatives: ['Natural extracts'] },
-            'humectant': { level: 'caution', reason: 'Moisture-retaining additive (usually INS 422 glycerin).', alternatives: ['Natural alternatives'] },
-            'hydrolyzed pea protein': { level: 'caution', reason: 'A "hidden MSG" source. May trigger sensitivity.', alternatives: ['Whole pea protein'] },
-            'vanillin': { level: 'caution', reason: 'Synthetic vanilla flavour. Best to limit.', alternatives: ['Real vanilla extract'] },
-            'liquid glucose': { level: 'caution', reason: 'A refined sugar syrup. Adds empty calories.', alternatives: ['Dates'] },
-            'hydrogenated vegetable fat': { level: 'harmful', reason: 'Source of artificial trans fats. Banned or restricted in many countries.', alternatives: ['Cocoa butter'] },
-            'dough conditioner': { level: 'caution', reason: 'Vague term. May contain emulsifiers or preservatives.', alternatives: ['Fresh baked goods'] },
-            'flour treatment agent': { level: 'caution', reason: 'Vague term. Could be ascorbic acid (safe) or potassium bromate (harmful).', alternatives: ['Unbleached flour'] },
-            'calcium salt': { level: 'safe', reason: 'A general term for calcium-based additives. Safe.', alternatives: [] },
-            'ferrous salt': { level: 'safe', reason: 'A form of iron for fortification. Safe.', alternatives: [] },
-            'potassium iodate': { level: 'caution', reason: 'Source of iodine. Excessive intake can affect thyroid.', alternatives: ['Iodised salt'] },
-            'edible starch': { level: 'caution', reason: 'Usually refined corn or tapioca starch. Low nutritional value.', alternatives: ['Arrowroot'] },
-            'cocoa processed with alkali': { level: 'caution', reason: 'Dutched cocoa — reduces beneficial antioxidants.', alternatives: ['Natural cocoa powder'] },
-            'sweet condensed milk': { level: 'caution', reason: 'Milk with high sugar content. Adds to added sugar intake.', alternatives: ['Plain milk'] },
-            'bakery shortening': { level: 'caution', reason: 'Processed fat, often palm-based. High saturated fat.', alternatives: ['Butter (moderation)'] },
-            'edible maize starch': { level: 'caution', reason: 'Refined corn starch. Low nutritional value.', alternatives: ['Arrowroot'] },
-            'improver': { level: 'caution', reason: 'A mix of enzymes or additives to improve dough. Vague term.', alternatives: ['Fresh dough'] },
-            'amylase': { level: 'safe', reason: 'An enzyme used in baking. Safe.', alternatives: [] },
-            'papain': { level: 'safe', reason: 'An enzyme from papaya used as a dough conditioner. Safe.', alternatives: [] },
-            'cardamom seeds': { level: 'safe', reason: 'Natural spice. Safe.', alternatives: [] },
-            'sodium acid pyrophosphate': { level: 'harmful', reason: 'Also called E450(i) or INS 450(i). Phosphate used in frozen fries. Disrupts calcium balance.', alternatives: ['Fresh potatoes'] },
-            'disodium dihydrogen pyrophosphate': { level: 'harmful', reason: 'Also called E450 or INS 450. Phosphate used in frozen fries.', alternatives: ['Fresh potatoes'] },
-            'soy sauce': { level: 'caution', reason: 'High sodium — often 900mg+ per tablespoon. May contain MSG or preservatives.', alternatives: ['Coconut aminos'] },
-            'processed cheese': { level: 'caution', reason: 'Contains sodium phosphates, emulsifiers, and artificial colors. Not real cheese.', alternatives: ['Real cheese'] },
-            'malt extract': { level: 'caution', reason: 'Sugar from malted barley. Adds to sugar intake.', alternatives: ['Whole grains'] }};
-
-        let currentAge = 'all';
-        let currentFilter = 'all';
-        const HISTORY_KEY = 'foodlens_history_v1';
-        const MAX_HISTORY = 30;
-
-        function switchTab(tabName, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            if (btn) btn.classList.add('active');
-            if (tabName === 'history') renderHistory();
-            if (tabName === 'database') renderDatabase();
-            if (tabName === 'worst') renderWorstOffenders();
-        }
-
-        function selectAge(age, btn) {
-            currentAge = age;
-            document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            try { localStorage.setItem('foodlens_last_age', age); } catch(e) {}
-        }
-
-       function loadPreset(key) {
-    if (!key) return;
-    const ta = document.getElementById('ingredients');
-    ta.value = presets[key];
-    ta.focus();
-    // Explicitly keep the dropdown on the selected option
-    document.getElementById('presetSelect').value = key;
-        }
-
-        function applyAgeRules(name, level) {
-            const normalized = normalizeIngredient(name);
-            const result = { level, ageWarning: null, forceLevel: null };
-            if (currentAge === 'all') return result;
-            const rules = ageRules[currentAge];
-            if (!rules) return result;
-            for (const [key, warning] of Object.entries(rules.forbidden)) {
-                if (normalized === key || normalized.includes(key) || key.includes(normalized)) {
-                    result.ageWarning = warning;
-                    result.forceLevel = 'age-restricted';
-                    return result;
-                }
-            }
-            for (const [key, warning] of Object.entries(rules.warnings)) {
-                if (normalized === key || normalized.includes(key) || key.includes(normalized)) {
-                    result.ageWarning = warning;
-                    return result;
-                }
-            }
-            return result;
-        }
-
-        function getAlternatives(ingredientName, level, dbEntry) {
-            if (dbEntry && dbEntry.alternatives && dbEntry.alternatives.length > 0) return dbEntry.alternatives;
-            const normalized = normalizeIngredient(ingredientName);
-            const categoryAlts = getCategoryAlternatives(normalized, level);
-            if (categoryAlts.length > 0) return categoryAlts;
-            if (level === 'harmful') return ['Look for organic/clean-label version'];
-            if (level === 'caution') return ['Consume in moderation'];
-            return [];
-        }
-
-        function getCategoryAlternatives(name, level) {
-            if (/(red|yellow|blue|green|orange)\s*\d+/.test(name) || name.includes('color')) return ['Beet juice', 'Turmeric', 'Spirulina'];
-            if (/sugar|syrup|sweet|ose$|ol$/.test(name)) return ['Dates', 'Fresh fruit'];
-            if (/benzoate|nitrite|nitrate|sulfite|bha|bht|tbhq|propionate/.test(name)) return ['Vitamin C', 'Vitamin E'];
-            if (/phosphate|phosphates/.test(name)) return ['Fresh, unprocessed meats'];
-            if (/starch/.test(name)) return ['Tapioca starch', 'Arrowroot'];
-            if (/oil|fat|shortening|margarine/.test(name)) return ['Olive oil'];
-            if (/flour|grain/.test(name)) return ['Whole wheat flour', 'Oat flour'];
-            if (/gum|carrageenan|cellulose/.test(name)) return ['Agar agar', 'Guar gum'];
-            if (/lecithin|polysorbate|mono|diglyceride|stearoyl/.test(name)) return ['Sunflower lecithin'];
-            if (/flavor|flavour|msg|glutamate|inosinate|guanylate/.test(name)) return ['Sea salt', 'Herbs'];
-            return [];
-        }
-
-        function parseInput(input) {
-            const lines = input.split(/\n+/).map(s => s.trim()).filter(s => s.length > 0);
-            const queries = [];
-            lines.forEach(line => {
-                if (/\([^)]+\)/.test(line)) {
-                    const baseName = line.replace(/\([^)]*\)/g, '').replace(/[,;]+\s*$/, '').trim();
-                    if (baseName && baseName.length > 1) {
-                        baseName.split(/[,;]+/).forEach(part => {
-                            const p = part.trim();
-                            if (p && p.length > 1) queries.push(p);
-                        });
-                    }
-                    const parenRegex = /\(([^)]+)\)/g;
-                    let match;
-                    while ((match = parenRegex.exec(line)) !== null) {
-                        const inner = match[1];
-                        inner.split(/[,;]+/).forEach(part => {
-                            const p = part.trim();
-                            if (!p) return;
-                            const numMatch = p.match(/^(\d{2,4})/);
-                            if (numMatch) {
-                                queries.push('INS ' + numMatch[1]);
-                            } else if (p.length > 2) {
-                                queries.push(p);
-                            }
-                        });
-                    }
-                } else {
-                    line.split(/[,;]+/).forEach(part => {
-                        const p = part.trim();
-                        if (p && p.length > 1) queries.push(p);
-                    });
-                }
-            });
-            return queries;
-        }
-
-        function normalizeIngredient(str) {
-            let s = str.trim().toLowerCase();
-            const insMatch = s.match(/^(ins|e)[\s\-]?(\d{3,4}[a-z]?)$/i);
-            if (insMatch) return 'e' + insMatch[2].toLowerCase();
-            return s.replace(/\(.*?\)/g, '').replace(/[0-9%]/g, '').replace(/\s+/g, ' ').trim();
-        }
-
-        function findIngredient(rawName) {
-            const raw = rawName.trim().toLowerCase();
-            const normalized = normalizeIngredient(rawName);
-            if (ingredientDB[raw]) return ingredientDB[raw];
-            if (ingredientDB[normalized]) return ingredientDB[normalized];
-            const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
-            if (eMatch) {
-                if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
-                for (const [key, value] of Object.entries(ingredientDB)) {
-                    if (key.includes('e' + eMatch[1])) return value;
-                }
-            }
-            for (const [key, value] of Object.entries(ingredientDB)) {
-                if (raw === key) return value;
-                if (raw.includes(key)) return value;
-                if (key.includes(raw) && raw.length >= 4) return value;
-            }
-            for (const [key, value] of Object.entries(ingredientDB)) {
-                if (normalized.includes(key)) return value;
-                if (key.includes(normalized) && normalized.length >= 3) return value;
-            }
-            return null;
-        }
-
-        function checkIngredients() {
-            const input = document.getElementById('ingredients').value;
-            if (!input.trim()) { alert('Please enter some ingredients to check! 🧐'); return; }
-            const rawIngredients = parseInput(input);
-            const results = rawIngredients.map(name => {
-                const found = findIngredient(name);
-                const baseLevel = found ? found.level : 'unknown';
-                const baseReason = found ? found.reason : 'Not in our database - check with pediatrician if unsure';
-                const dbAlternatives = found ? (found.alternatives || []) : [];
-                const ageResult = applyAgeRules(name, baseLevel);
-                const finalLevel = ageResult.forceLevel || baseLevel;
-                return { name, level: finalLevel, originalLevel: baseLevel, reason: baseReason, ageWarning: ageResult.ageWarning, alternatives: dbAlternatives, dbEntry: found };
-            });
-            displayResults(results);
-            saveToHistory(results);
-        }
-
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('results');
-            const summaryDiv = document.getElementById('summary');
-            const statsBar = document.getElementById('statsBar');
-            const listDiv = document.getElementById('ingredientList');
-            const harmfulCount = results.filter(r => r.level === 'harmful').length;
-            const cautionCount = results.filter(r => r.level === 'caution').length;
-            const safeCount = results.filter(r => r.level === 'safe').length;
-            const unknownCount = results.filter(r => r.level === 'unknown').length;
-            const ageRestrictedCount = results.filter(r => r.level === 'age-restricted').length;
-            const ageLabel = { all: '', infant: '👶 Infant', toddler: '🧒 Toddler', child: '👦 Child' }[currentAge];
-
-            if (ageRestrictedCount > 0) {
-                summaryDiv.className = 'summary age-critical';
-                summaryDiv.innerHTML = `🚨 ${ageRestrictedCount} ingredient${ageRestrictedCount > 1 ? 's' : ''} UNSAFE for ${ageLabel}!`;
-            } else if (harmfulCount > 0) {
-                summaryDiv.className = 'summary has-harmful';
-                summaryDiv.innerHTML = `⚠️ Found ${harmfulCount} harmful ingredient${harmfulCount > 1 ? 's' : ''}!`;
-            } else if (cautionCount > 0) {
-                summaryDiv.className = 'summary has-issues';
-                summaryDiv.innerHTML = `🤔 ${cautionCount} ingredient${cautionCount > 1 ? 's' : ''} to watch.`;
-            } else if (safeCount === results.length) {
-                summaryDiv.className = 'summary all-good';
-                summaryDiv.innerHTML = `✅ All ${safeCount} ingredients look safe${ageLabel ? ' for ' + ageLabel : ''}!`;
-            } else {
-                summaryDiv.className = 'summary has-issues';
-                summaryDiv.innerHTML = `📊 ${safeCount} safe · ${unknownCount} unknown · ${cautionCount} caution`;
-            }
-
-            statsBar.innerHTML = `
-                ${safeCount > 0 ? `<div class="stat-chip safe">✅ ${safeCount} Safe</div>` : ''}
-                ${cautionCount > 0 ? `<div class="stat-chip caution">⚠️ ${cautionCount} Caution</div>` : ''}
-                ${harmfulCount > 0 ? `<div class="stat-chip harmful">🚫 ${harmfulCount} Harmful</div>` : ''}
-                ${ageRestrictedCount > 0 ? `<div class="stat-chip age-restricted">🚨 ${ageRestrictedCount} Age-Unsafe</div>` : ''}
-                ${unknownCount > 0 ? `<div class="stat-chip unknown">❓ ${unknownCount} Unknown</div>` : ''}
-            `;
-
-            listDiv.innerHTML = '';
-            results.forEach(item => {
-                const card = document.createElement('div');
-                card.className = `ingredient-card ${item.level}`;
-                const emoji = { safe: '✅', caution: '⚠️', harmful: '🚫', unknown: '❓', 'age-restricted': '🚨' }[item.level];
-                const badgeLabel = item.level === 'age-restricted' ? 'AGE UNSAFE' : item.level.toUpperCase();
-                const alts = item.alternatives && item.alternatives.length > 0 ? item.alternatives : getAlternatives(item.name, item.level, item.dbEntry);
-                const showAlts = (item.level === 'harmful' || item.level === 'caution' || item.level === 'age-restricted') && alts.length > 0;
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="ingredient-name">${emoji} ${escapeHtml(item.name)}</div>
-                        <span class="badge ${item.level}">${badgeLabel}</span>
-                    </div>
-                    <div class="reason">${escapeHtml(item.reason)}</div>
-                    ${item.ageWarning ? `<div class="age-warning"><div class="age-warning-title">${ageEmoji(currentAge)} ${ageLabel} Warning:</div>${escapeHtml(item.ageWarning)}</div>` : ''}
-                    ${showAlts ? `<div class="alternatives"><div class="alternatives-title">💚 Try these safer alternatives:</div><div class="alternative-list">${alts.map(a => `<span class="alt-chip">${escapeHtml(a)}</span>`).join('')}</div></div>` : ''}
-                `;
-                listDiv.appendChild(card);
-            });
-            resultsDiv.classList.add('show');
-            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function renderWorstOffenders() {
-            const list = document.getElementById('offenderList');
-            list.innerHTML = worstOffenders.map((o, i) => `
-                <div class="offender-card">
-                    <div class="offender-rank">${i + 1}</div>
-                    <div class="offender-content">
-                        <div class="offender-name">${escapeHtml(o.name)}</div>
-                        <div class="offender-aliases">${escapeHtml(o.aliases)}</div>
-                        <div class="offender-why">${escapeHtml(o.why)}</div>
-                        <div class="offender-where"><strong>Found in:</strong> ${escapeHtml(o.where)}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function ageEmoji(age) { return { all: '👨‍👩‍👧', infant: '👶', toddler: '🧒', child: '👦' }[age] || ''; }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function saveToHistory(results) {
-            try {
-                const history = getHistory();
-                const now = new Date();
-                const harmfulCount = results.filter(r => r.level === 'harmful').length;
-                const ageRestrictedCount = results.filter(r => r.level === 'age-restricted').length;
-                const cautionCount = results.filter(r => r.level === 'caution').length;
-                const safeCount = results.filter(r => r.level === 'safe').length;
-                const unknownCount = results.filter(r => r.level === 'unknown').length;
-                const entry = {
-                    id: Date.now(), timestamp: now.toISOString(), age: currentAge,
-                    ingredients: results.map(r => r.name),
-                    counts: { harmful: harmfulCount, caution: cautionCount, safe: safeCount, unknown: unknownCount, ageRestricted: ageRestrictedCount }
-                };
-                history.unshift(entry);
-                if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
-                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-            } catch (e) { console.warn('Could not save history:', e); }
-        }
-
-        function getHistory() {
-            try {
-                const raw = localStorage.getItem(HISTORY_KEY);
-                return raw ? JSON.parse(raw) : [];
-            } catch (e) { return []; }
-        }
-
-        function renderHistory() {
-            const list = document.getElementById('historyList');
-            const history = getHistory();
-            if (history.length === 0) {
-                list.innerHTML = `<div class="empty-state"><span class="empty-emoji">📭</span>No checks yet. Your recent ingredient checks will appear here.</div>`;
-                return;
-            }
-            list.innerHTML = history.map(item => {
-                const date = new Date(item.timestamp);
-                const timeStr = formatTime(date);
-                const ageEmojiVal = ageEmoji(item.age);
-                const ageLabel = { all: 'All Ages', infant: 'Infant', toddler: 'Toddler', child: 'Child' }[item.age];
-                let borderClass = '';
-                if (item.counts.ageRestricted > 0) borderClass = 'age-warn';
-                else if (item.counts.harmful > 0) borderClass = 'bad';
-                else if (item.counts.caution > 0) borderClass = 'warn';
-                return `
-                    <div class="history-item ${borderClass}" onclick='loadHistoryItem(${item.id})'>
-                        <div class="history-top">
-                            <span class="history-age-badge">${ageEmojiVal} ${ageLabel}</span>
-                            <span class="history-time">${timeStr}</span>
-                        </div>
-                        <div class="history-ingredients">${escapeHtml(item.ingredients.join(', '))}</div>
-                        <div class="history-stats">
-                            ${item.counts.safe > 0 ? `<span class="history-stat safe">✅ ${item.counts.safe}</span>` : ''}
-                            ${item.counts.caution > 0 ? `<span class="history-stat caution">⚠️ ${item.counts.caution}</span>` : ''}
-                            ${item.counts.harmful > 0 ? `<span class="history-stat harmful">🚫 ${item.counts.harmful}</span>` : ''}
-                            ${item.counts.unknown > 0 ? `<span class="history-stat unknown">❓ ${item.counts.unknown}</span>` : ''}
-                            ${item.counts.ageRestricted > 0 ? `<span class="history-stat harmful">🚨 ${item.counts.ageRestricted}</span>` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function formatTime(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMin = Math.floor(diffMs / 60000);
-            const diffHr = Math.floor(diffMs / 3600000);
-            const diffDay = Math.floor(diffMs / 86400000);
-            if (diffMin < 1) return 'Just now';
-            if (diffMin < 60) return `${diffMin}m ago`;
-            if (diffHr < 24) return `${diffHr}h ago`;
-            if (diffDay < 7) return `${diffDay}d ago`;
-            return date.toLocaleDateString();
-        }
-
-        function loadHistoryItem(id) {
-            const history = getHistory();
-            const item = history.find(h => h.id === id);
-            if (!item) return;
-            currentAge = item.age;
-            document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b.dataset.age === item.age));
-            document.getElementById('ingredients').value = item.ingredients.join('\n');
-            switchTab('checker', document.querySelector('.tab-btn'));
-            checkIngredients();
-        }
-
-        function clearHistory() {
-            if (!confirm('Clear all history? This cannot be undone.')) return;
-            localStorage.removeItem(HISTORY_KEY);
-            renderHistory();
-        }
-
-        function getCategory(name) {
-            const n = name.toLowerCase();
-            if (/^e1\d{2}/.test(n) || /red \d|yellow \d|blue \d|green \d|orange b|citrus red|tartrazine|allura|sunset yellow|carmoisine|ponceau|indigotine|brilliant blue|annatto|beet juice|beta carotene|paprika extract|turmeric extract|chlorophyll|caramel color|curcumin|beetroot|matcha|red cabbage|fd&c|artificial colou?r|carrot juice|blueberry juice|rhodamine|metanil|malachite|sudan|4-mei/.test(n)) return 'color';
-            if (/^e2\d{2}/.test(n) || /bha|bht|tbhq|benzoate|benzoic|nitrite|nitrate|sulfite|sulfur dioxide|bisulfite|metabisulfite|sorbate|sorbic|propionate|propyl gallate|erythorbate|edta|paraben|formaldehyde|formalin|dimethyl dicarbonate|biphenyl|orthophenyl|thiabendazole|hexamethylene/.test(n)) return 'preservative';
-            if (/phosphate|stpp|^e3[3-4]\d|^e45[0-2]/.test(n)) return 'phosphate';
-            if (/modified.*starch|^e14[1-4]\d/.test(n)) return 'starch';
-            if (/^e6[2-3]\d/.test(n) || /msg|monosodium glutamate|disodium inosinate|disodium guanylate|disodium ribonucleotides|autolyzed yeast|hydrolyzed|yeast extract|glutamic acid|inosinic acid|guanylic acid|flavour enhancer|flavor enhancer/.test(n)) return 'flavor_enhancer';
-            if (/^e9[5-6]\d/.test(n) || /aspartame|sucralose|saccharin|acesulfame|ace-k|neotame|advantame|cyclamate|stevia|monk fruit|thaumatin|sorbitol|xylitol|erythritol|mannitol|isomalt|lactitol|maltitol/.test(n)) return 'sweetener';
-            if (/lecithin|polysorbate|diglyceride|datem|stearoyl|pgpr|ester gum|^e322$|^e43[3-6]$|^e47[1-6]|^e481|emulsifier/.test(n)) return 'emulsifier';
-            if (/carrageenan|xanthan|guar|agar|pectin|cellulose|konjac|^e4[0-6]\d|thickener|stabilizer/.test(n)) return 'thickener';
-            if (/^e3[0-1]\d|ascorbic|tocopherol|vitamin c|vitamin e|antioxidant/.test(n)) return 'antioxidant';
-            if (/citric acid|phosphoric acid|malic acid|lactic acid|acetic acid|tartaric acid|^e26\d|^e27\d|^e29\d|^e33\d|acidity regulator/.test(n)) return 'acid';
-            if (/sugar|syrup|glucose|fructose|dextrose|maltose|honey|molasses|hfcs|high fructose|agave|maltodextrin|jaggery/.test(n)) return 'sugar';
-            if (/^salt$|sea salt|himalayan salt|kosher salt|sodium chloride/.test(n)) return 'sodium';
-            if (/caffeine|guarana|green tea extract|yerba mate|theobromine/.test(n)) return 'caffeine';
-            if (/hydrogenated|margarine|shortening/.test(n)) return 'trans_fat';
-            if (/soy|wheat|gluten|barley|rye|spelt|peanut|tree nut|almond|walnut|cashew|pecan|pistachio|hazelnut|macadamia|brazil nut|dairy|milk|lactose|whey|casein|egg|albumin|shellfish|shrimp|crab|lobster|fish|sesame|mustard|celery|lupin|mollusk/.test(n)) return 'allergen';
-            return 'other';
-        }
-
-        function renderDatabase() {
-            const searchInput = document.getElementById('dbSearch');
-            const clearBtn = document.getElementById('searchClear');
-            const query = searchInput.value.trim().toLowerCase();
-            const listDiv = document.getElementById('dbList');
-            const statsDiv = document.getElementById('dbStats');
-            clearBtn.classList.toggle('show', query.length > 0);
-
-            let entries = Object.entries(ingredientDB).map(([name, data]) => ({ name, level: data.level, reason: data.reason, alternatives: data.alternatives || [] }));
-            if (currentFilter !== 'all') entries = entries.filter(e => e.level === currentFilter);
-
-            const categoryFilter = document.getElementById('categorySelect').value;
-            if (categoryFilter !== 'all') entries = entries.filter(e => getCategory(e.name) === categoryFilter);
-
-            if (query) {
-                const cleanQuery = query.replace(/[\s\-_]/g, '');
-                const insMatch = query.match(/^(ins|e)[\s\-]?(\d{3,4}[a-z]?)$/i);
-                const eNumber = insMatch ? 'e' + insMatch[2].toLowerCase() : null;
-                entries = entries.filter(e => {
-                    const cleanName = e.name.toLowerCase().replace(/[\s\-_]/g, '');
-                    const cleanReason = e.reason.toLowerCase().replace(/[\s\-_]/g, '');
-                    if (cleanName.includes(cleanQuery)) return true;
-                    if (cleanReason.includes(cleanQuery)) return true;
-                    if (eNumber && cleanName.includes(eNumber)) return true;
-                    return false;
-                });
-            }
-
-            const levelOrder = { harmful: 0, caution: 1, safe: 2 };
-            entries.sort((a, b) => {
-                const orderDiff = levelOrder[a.level] - levelOrder[b.level];
-                if (orderDiff !== 0) return orderDiff;
-                return a.name.localeCompare(b.name);
-            });
-
-            const total = Object.keys(ingredientDB).length;
-            statsDiv.textContent = `Showing ${entries.length} of ${total} ingredients`;
-
-            if (entries.length === 0) {
-                listDiv.innerHTML = `<div class="no-results"><div style="font-size:2.5em;">🔍</div><p style="margin-top:10px;">No ingredients match your search.</p></div>`;
-                return;
-            }
-
-            listDiv.innerHTML = entries.map(e => `
-                <div class="db-item ${e.level}">
-                    <div class="db-item-info">
-                        <div class="db-item-name">${escapeHtml(e.name)}</div>
-                        <div class="db-item-reason">${escapeHtml(e.reason)}</div>
-                    </div>
-                    <span class="db-item-badge ${e.level}">${e.level.toUpperCase()}</span>
-                </div>
-            `).join('');
-        }
-
-        function filterDb(filter, btn) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            renderDatabase();
-        }
-
-        function clearSearch() {
-            document.getElementById('dbSearch').value = '';
-            renderDatabase();
-        }
-
-        function clearAll() {
-            document.getElementById('ingredients').value = '';
-            document.getElementById('results').classList.remove('show');
-            document.getElementById('ingredients').focus();
-        }
-
-        document.getElementById('ingredients').addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') checkIngredients();
-        });
-
-        try {
-            const savedAge = localStorage.getItem('foodlens_last_age');
-            if (savedAge && ['all','infant','toddler','child'].includes(savedAge)) {
-                currentAge = savedAge;
-                document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b.dataset.age === savedAge));
-            }
-        } catch (e) {}
-    </script>
-</body>
-</html>
+            'broccoli': { level: 'safe', reason: 'Vegetable; nutritious
