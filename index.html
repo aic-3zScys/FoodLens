@@ -182,21 +182,34 @@
                 <label for="presetSelect">⚡ Quick check:</label>
                 <select id="presetSelect" onchange="loadPreset(this.value)">
     <option value="">-- Pick a common product type --</option>
-    <optgroup label="🍜 Snacks & Packaged Foods">
+    <optgroup label="🍜 Packaged Snacks">
         <option value="noodles">🍜 Instant Noodles</option>
-        <option value="biscuit">🍪 Chocolate Biscuit</option>
         <option value="chips">🍟 Chips / Namkeen</option>
-        <option value="candy">🍬 Candy / Toffee</option>
+        <option value="extruded">🥨 Extruded Snacks (Kurkure-type)</option>
         <option value="cereal">🥣 Breakfast Cereal</option>
+    </optgroup>
+    <optgroup label="🍪 Biscuits & Rusks (Category)">
+        <option value="glucose_biscuit">🍪 Glucose Biscuit</option>
+        <option value="marie_biscuit">🍪 Marie Biscuit</option>
+        <option value="cream_biscuit">🍪 Cream Biscuit (Any flavour)</option>
+        <option value="bourbon_biscuit">🍫 Bourbon / Chocolate Cream</option>
+        <option value="choco_chip_cookie">🍪 Cookies (Butter / Choco Chip)</option>
+        <option value="digestive_biscuit">🌾 Digestive Biscuit</option>
+        <option value="cracker_salt">🧂 Cracker / Salt Biscuit</option>
+        <option value="rusk">🍞 Rusk / Toast</option>
+        <option value="choco_pie">🥮 Choco Pie / Cream-filled Cake</option>
+        <option value="wafer_biscuit">🍫 Wafer Biscuit</option>
     </optgroup>
     <optgroup label="🥤 Beverages">
         <option value="juice">🧃 Fruit Juice</option>
         <option value="softdrink">🥤 Soft Drink / Cola</option>
         <option value="healthdrink">🥛 Health Drink (Malt-based)</option>
+        <option value="flavored_milk">🍫 Flavored Milk</option>
     </optgroup>
-    <optgroup label="🍨 Dairy & Frozen Desserts">
+    <optgroup label="🍨 Dairy & Desserts">
         <option value="icecream">🍨 Ice Cream</option>
         <option value="yogurt">🥣 Flavored Yogurt</option>
+        <option value="candy">🍬 Candy / Toffee</option>
     </optgroup>
     <optgroup label="🧊 Frozen Foods for Kids">
         <option value="fries">🍟 Frozen French Fries</option>
@@ -211,7 +224,7 @@
         <option value="fishfingers">🐟 Fish Fingers</option>
         <option value="pizza">🍕 Frozen Pizza</option>
     </optgroup>
-</select>
+</select>            
             </div>
 
             <div class="input-section">
@@ -404,7 +417,8 @@ Natural Flavors"></textarea>
             { name: 'Propylparaben', aliases: 'E216 · INS 216', why: 'Endocrine disruptor. Banned in EU food.', where: 'Baked goods, jellies, sauces' }
         ];
 
-        const presets = {
+        const presets = {const presets = {
+    // ==================== PACKAGED SNACKS ====================
     noodles: `Refined Wheat Flour (Maida)
 Palm Oil
 Salt
@@ -416,18 +430,183 @@ Sugar
 Spices & Condiments
 Flavour Enhancer (635)
 Colour (150d)
-Preservative (319)`,
-    biscuit: `Refined Wheat Flour
+Preservative (319)
+Antioxidant (319)
+Maltodextrin
+Monosodium Glutamate (621)
+Disodium Inosinate (627)
+Disodium Guanylate (631)`,
+    chips: `Potato
+Edible Vegetable Oil (Palm)
+Spices & Condiments
+Salt
+Sugar
+Acidity Regulator (330)
+Flavour Enhancers (621, 627, 631)
+Antioxidant (319)
+Silicon Dioxide (551)
+Maltodextrin
+Artificial Flavouring Substances
+Colour (110, 102, 160c)`,
+    extruded: `Corn Meal
+Rice Meal
+Edible Vegetable Oil (Palm)
+Spices & Condiments
+Salt
+Sugar
+Flavour Enhancers (621, 627, 631)
+Acidity Regulators (330, 296)
+Antioxidant (319)
+Colour (110, 102, 160c)
+Artificial Flavouring Substances
+Maltodextrin
+
+// ==================== BISCUITS (Category-Based) ====================
+// Each preset below contains ingredients commonly found across ALL brands in that category.
+// Use as a checklist: match against your actual pack.`,
+    glucose_biscuit: `Refined Wheat Flour (Maida)
+Sugar
+Edible Vegetable Oil (Palm)
+Invert Sugar Syrup
+Liquid Glucose
+Raising Agents (500, 503, 341)
+Iodised Salt
+Milk Solids
+Dough Conditioner (223)
+Emulsifier (322, 472e)
+Flour Treatment Agent (1101)
+Artificial Flavouring Substances
+Vitamins
+Calcium Salt
+Ferrous Salt
+Malt Extract`,
+    marie_biscuit: `Refined Wheat Flour (Maida)
+Sugar
+Edible Vegetable Oil (Palm)
+Invert Sugar Syrup
+Milk Solids
+Raising Agents (500, 503)
+Iodised Salt
+Dough Conditioner (223)
+Emulsifier (472e)
+Calcium Salt
+Vitamins
+Ferrous Salt
+Potassium Iodate
+Malt Extract`,
+    cream_biscuit: `Refined Wheat Flour (Maida)
+Sugar
+Edible Vegetable Oil (Palm)
+Invert Sugar Syrup
+Dextrose
+Edible Starch
+Cocoa Solids
+Milk Solids
+Maltodextrin
+Raising Agents (500, 503)
+Iodised Salt
+Emulsifiers (322, 471, 476)
+Stabilizers (415, 407)
+Soy Solids
+Artificial Flavouring Substances
+Nature-Identical Flavouring Substances
+Synthetic Food Colours (102, 110, 122, 124, 129, 133)
+Caramel Colour (150a, 150d)`,
+    bourbon_biscuit: `Refined Wheat Flour (Maida)
+Sugar
+Refined Palm Oil
+Edible Starch
+Cocoa Solids
+Milk Solids
+Raising Agents (500, 503)
+Emulsifiers (322, 471)
+Iodised Salt
+Caramel Colour (150a)
+Artificial Flavouring Substances
+Nature-Identical Flavouring Substances
+Invert Sugar Syrup`,
+    choco_chip_cookie: `Refined Wheat Flour (Maida)
+Sugar
+Edible Vegetable Oil (Palm)
+Butter
+Chocolate Chips [Sugar, Cocoa Solids, Cocoa Butter, Dextrose, Emulsifier (322)]
+Invert Sugar Syrup
+Raising Agents (503, 500, 450)
+Cocoa Solids
+Iodised Salt
+Emulsifiers (322, 472e)
+Milk Solids
+Artificial Flavouring Substances
+Nature-Identical Flavouring Substances`,
+    digestive_biscuit: `Whole Wheat Flour
+Refined Wheat Flour (Maida)
+Sugar
+Edible Vegetable Oil (Palm)
+Wheat Bran
+Invert Sugar Syrup
+Raising Agents (500, 503)
+Iodised Salt
+Milk Solids
+Emulsifier (322)
+Malt Extract
+Vitamins
+Minerals
+Dough Conditioner (223)`,
+    cracker_salt: `Refined Wheat Flour (Maida)
+Edible Vegetable Oils (Palm, Palmolein)
+Sugar
+Raising Agents (503, 500, 341)
+Invert Sugar Syrup
+Iodised Salt
+Yeast
+Acidity Regulators (270, 296)
+Emulsifier (472e)
+Dough Conditioner (223)
+Improver (Amylase, Papain-1101)
+Malt Extract`,
+    rusk: `Refined Wheat Flour (Maida)
+Sugar
+Refined Palm Oil
+Yeast
+Iodised Salt
+Milk Solids
+Cardamom Seeds
+Wheat Gluten
+Colour (150a)
+Stabilizer (472e)
+Nature-Identical Flavouring Substances
+Invert Sugar Syrup
+Emulsifier (322)`,
+    choco_pie: `Refined Wheat Flour (Maida)
+Sugar
+Choco Covering [Sugar, Hydrogenated Vegetable Fat, Cocoa Solids, Milk Solids, Emulsifier (322)]
+Liquid Glucose
+Humectant (422)
+Dextrose
+Raising Agents (500, 503)
+Stabilizers (407, 440, 415, 410)
+Edible Common Salt
+Hydrolyzed Pea Protein
+Preservatives (202, 281)
+Acidity Regulator (341)
+Nature Identical Flavour (Vanillin)
+Skimmed Milk Powder
+Cocoa Powder`,
+    wafer_biscuit: `Refined Wheat Flour (Maida)
 Sugar
 Edible Vegetable Oil (Palm)
 Cocoa Solids
-Invert Sugar Syrup
-Leavening Agents (500, 503)
-Edible Common Salt
-Emulsifier (322)
-Dough Conditioner (223)
+Milk Solids
+Edible Starch
+Emulsifiers (322, 471)
+Raising Agents (500, 503)
+Iodised Salt
 Artificial Flavouring Substances
-Synthetic Food Colour (155)`,
+Nature-Identical Flavouring Substances
+Caramel Colour (150a)
+Skimmed Milk Powder`,
+
+    // ==================== BEVERAGES ====================
     juice: `Water
 Sugar
 Concentrated Fruit Juice
@@ -436,7 +615,10 @@ Antioxidant (300)
 Stabilizer (440)
 Preservative (202)
 Artificial Flavour
-Colour (102, 110)`,
+Colour (102, 110)
+Glucose-Fructose Syrup
+High Fructose Corn Syrup
+Citric Acid`,
     softdrink: `Carbonated Water
 Sugar
 Acidity Regulators (338, 330)
@@ -444,7 +626,11 @@ Caffeine
 Colour (150d)
 Preservative (211)
 Natural Flavouring Substances
-High Fructose Corn Syrup`,
+High Fructose Corn Syrup
+Glucose-Fructose Syrup
+Aspartame (951)
+Acesulfame Potassium (950)
+Sucralose (955)`,
     healthdrink: `Malt Extract
 Sugar
 Cocoa Solids
@@ -455,34 +641,60 @@ Minerals
 Emulsifier (322)
 Salt
 Artificial Flavour
+Maltodextrin
+Glucose Syrup
+Soy Lecithin`,
+    flavored_milk: `Milk
+Sugar
+Milk Solids
+Cocoa Solids
+Stabilizers (407, 412, 415, 466)
+Emulsifier (322)
+Artificial Flavour
+Colour (150d, 155, 102)
+Preservative (202)
 Maltodextrin`,
-    chips: `Potato
-Edible Vegetable Oil (Palm)
-Spices & Condiments
-Salt
-Acidity Regulator (330)
-Flavour Enhancers (621, 627, 631)
-Antioxidant (319)
-Silicon Dioxide (551)`,
+
+    // ==================== DAIRY & DESSERTS ====================
     icecream: `Milk
 Sugar
 Milk Solids
 Edible Vegetable Fat
-Emulsifiers (471, 322)
-Stabilizers (412, 407, 466)
+Emulsifiers (471, 322, 476)
+Stabilizers (412, 407, 466, 415, 410)
 Artificial Flavour
-Colour (102, 110)
-Permitted Synthetic Food Colours`,
+Colour (102, 110, 122, 133)
+Permitted Synthetic Food Colours
+Cocoa Solids
+Vanilla Extract
+Maltodextrin`,
     yogurt: `Milk
 Sugar
 Milk Solids
-Modified Starch (1442)
-Stabilizer (407)
+Modified Starch (1442, 1422)
+Stabilizer (407, 440)
 Artificial Flavour
-Colour (122)
+Colour (122, 110)
 Preservative (202)
-Added Cultures`,
+Added Cultures
+Pectin
+Fruit Preparation`,
+    candy: `Sugar
+Glucose Syrup
+Liquid Glucose
+Edible Vegetable Fat
+Acidity Regulator (330, 296)
+Emulsifier (322)
+Artificial Flavouring Substances
+Synthetic Food Colours (102, 110, 122, 124, 129, 133, 171)
+Antioxidant (319)
+Gelatin
+Pectin
+Starch`,
+
+    // ==================== CEREALS ====================
     cereal: `Whole Wheat Flour
+Refined Wheat Flour (Maida)
 Sugar
 Corn Flour
 Cocoa Solids
@@ -490,18 +702,83 @@ Edible Vegetable Oil (Palm)
 Invert Sugar Syrup
 Salt
 Emulsifier (322)
-Antioxidant (320)
+Antioxidant (320, 321)
 Vitamins
 Minerals
-Artificial Flavour`,
-    candy: `Sugar
-Glucose Syrup
-Edible Vegetable Fat
+Artificial Flavour
+Malt Extract
+Maltodextrin
+Glucose Syrup`,
+
+    // ==================== FROZEN FOODS ====================
+    fries: `Potato
+Edible Vegetable Oil (Palm)
+Dextrose
+Sodium Acid Pyrophosphate (450)
+Disodium Dihydrogen Pyrophosphate (450)
+Salt
+Colour (160c)
+Glucose
+Sodium Phosphates (339)`,
+    alootikki: `Potato
+Edible Vegetable Oil (Palm)
+Refined Wheat Flour
+Salt
+Spices & Condiments
+Corn Flour
+Breadcrumbs
+Stabilizer (415)
 Acidity Regulator (330)
-Emulsifier (322)
-Artificial Flavouring Substances
-Synthetic Food Colours (102, 110, 122, 124, 129)
-Antioxidant (319)`,
+Antioxidant (319)
+Sodium Phosphates (451)
+Emulsifier (471)
+Flavour Enhancer (621)`,
+    cutlet: `Potato
+Edible Vegetable Oil (Palm)
+Refined Wheat Flour
+Breadcrumbs
+Salt
+Spices & Condiments
+Corn Flour
+Stabilizer (415)
+Antioxidant (319)
+Sodium Phosphates (451)
+Flavour Enhancer (621)
+Colour (160c)`,
+    samosa: `Refined Wheat Flour (Maida)
+Potato
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Spices & Condiments
+Acidity Regulator (330)
+Preservative (282)
+Emulsifier (471)
+Antioxidant (319)
+Flavour Enhancer (621)`,
+    momos: `Refined Wheat Flour (Maida)
+Water
+Cabbage
+Carrot
+Onion
+Edible Vegetable Oil (Palm)
+Salt
+Soy Sauce
+Flavour Enhancer (621)
+Stabilizer (412)
+Preservative (211)
+Sodium Phosphates (451)
+Emulsifier (471)`,
+    paratha: `Refined Wheat Flour (Maida)
+Water
+Edible Vegetable Oil (Palm)
+Salt
+Wheat Gluten
+Preservative (282)
+Emulsifier (471)
+Acidity Regulator (297)
+Interesterified Vegetable Fat
+Dough Conditioner (223)`,
     nuggets: `Chicken
 Water
 Sodium Phosphates (451)
@@ -511,7 +788,46 @@ Edible Vegetable Oil (Palm)
 Flavour Enhancer (621)
 Spices & Condiments
 Thickener (412)
+Colour (160c)
+Soy Protein
+Emulsifier (471)
+Preservative (250)`,
+    kebab: `Chicken
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Spices & Condiments
+Sodium Phosphates (451)
+Flavour Enhancer (621)
+Soy Protein
+Stabilizer (415)
+Preservative (250)
+Sodium Erythorbate (316)
 Colour (160c)`,
+    sausages: `Chicken
+Water
+Edible Common Salt
+Spices & Condiments
+Sodium Phosphates (451)
+Sodium Nitrite (250)
+Sodium Erythorbate (316)
+Flavour Enhancer (621)
+Sugar
+Soy Protein
+Colour (160c)
+Potassium Nitrate (252)`,
+    fishfingers: `Fish
+Refined Wheat Flour
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Breadcrumbs
+Sodium Phosphates (451)
+Flavour Enhancer (621)
+Colour (160c)
+Stabilizer (412)
+Emulsifier (471)
+Antioxidant (319)`,
     pizza: `Refined Wheat Flour
 Water
 Tomato Paste
@@ -523,91 +839,10 @@ Yeast
 Sodium Phosphates (450, 451)
 Emulsifier (472e)
 Preservative (282)
-Antioxidant (319)`,
-    fries: `Potato
-Edible Vegetable Oil (Palm)
-Dextrose
-Sodium Acid Pyrophosphate (450)
-Disodium Dihydrogen Pyrophosphate (450)
-Salt
-Colour (160c)`,
-    alootikki: `Potato
-Edible Vegetable Oil (Palm)
-Refined Wheat Flour
-Salt
-Spices & Condiments
-Corn Flour
-Breadcrumbs
-Stabilizer (415)
-Acidity Regulator (330)
-Antioxidant (319)`,
-    sausages: `Chicken
-Water
-Edible Common Salt
-Spices & Condiments
-Sodium Phosphates (451)
-Sodium Nitrite (250)
-Sodium Erythorbate (316)
+Antioxidant (319)
+Processed Cheese
 Flavour Enhancer (621)
-Sugar
-Soy Protein
-Colour (160c)`,
-    paratha: `Refined Wheat Flour
-Water
-Edible Vegetable Oil (Palm)
-Salt
-Wheat Gluten
-Preservative (282)
-Emulsifier (471)
-Acidity Regulator (297)`,
-    momos: `Refined Wheat Flour
-Water
-Cabbage
-Carrot
-Onion
-Edible Vegetable Oil (Palm)
-Salt
-Soy Sauce
-Flavour Enhancer (621)
-Stabilizer (412)
-Preservative (211)`,
-    fishfingers: `Fish
-Refined Wheat Flour
-Edible Vegetable Oil (Palm)
-Water
-Salt
-Breadcrumbs
-Sodium Phosphates (451)
-Flavour Enhancer (621)
-Colour (160c)
-Stabilizer (412)`,
-    cutlet: `Potato
-Edible Vegetable Oil (Palm)
-Refined Wheat Flour
-Breadcrumbs
-Salt
-Spices & Condiments
-Corn Flour
-Stabilizer (415)
-Antioxidant (319)`,
-    samosa: `Refined Wheat Flour
-Potato
-Edible Vegetable Oil (Palm)
-Water
-Salt
-Spices & Condiments
-Acidity Regulator (330)
-Preservative (282)`,
-    kebab: `Chicken
-Edible Vegetable Oil (Palm)
-Water
-Salt
-Spices & Condiments
-Sodium Phosphates (451)
-Flavour Enhancer (621)
-Soy Protein
-Stabilizer (415)
-Preservative (250)`
+Colour (160c)`
 };
 
         const ingredientDB = {
@@ -1345,7 +1580,50 @@ Preservative (250)`
             'yeast': { level: 'safe', reason: 'Natural leavening agent. Safe.', alternatives: [] },
             'breadcrumbs': { level: 'caution', reason: 'Usually from refined wheat flour. May contain preservatives and emulsifiers.', alternatives: ['Whole wheat breadcrumbs', 'Oat crumbs'] },
             'batter': { level: 'caution', reason: 'Usually refined flour + additives. Check ingredients.', alternatives: ['Whole grain batter'] },
-            'tempura': { level: 'caution', reason: 'Refined flour coating, often with additives. Fried.', alternatives: ['Baked versions'] }};
+            'tempura': { level: 'caution', reason: 'Refined flour coating, often with additives. Fried.', alternatives: ['Baked versions'] },
+            // ============ NEW CATEGORY ENTRIES ============
+            'whole wheat flour': { level: 'safe', reason: 'Whole grain flour — retains fiber and nutrients.', alternatives: [] },
+            'wheat bran': { level: 'safe', reason: 'Fiber-rich outer layer of wheat. Safe and nutritious.', alternatives: [] },
+            'skimmed milk powder': { level: 'safe', reason: 'Dried skim milk. Safe if no dairy allergy.', alternatives: [] },
+            'iodised salt': { level: 'caution', reason: 'Table salt with iodine added. Sodium — limit for children.', alternatives: ['Herbs', 'Spices'] },
+            'butter': { level: 'caution', reason: 'Saturated fat — use in moderation.', alternatives: ['Olive oil'] },
+            'cocoa butter': { level: 'safe', reason: 'Natural fat from cocoa beans. Safe.', alternatives: [] },
+            'chocolate chips': { level: 'caution', reason: 'Contains sugar and cocoa. Small amounts are OK, but chocolate chips are mostly sugar.', alternatives: ['Dark chocolate (70%+)', 'Cacao nibs'] },
+            'fruit preparation': { level: 'caution', reason: 'Usually fruit puree with added sugar and preservatives. Check label.', alternatives: ['Fresh fruit'] },
+            'vanilla extract': { level: 'safe', reason: 'Natural vanilla flavour. Safe.', alternatives: [] },
+            'wheat flour': { level: 'caution', reason: 'Usually refers to refined wheat flour (maida). Low fiber.', alternatives: ['Whole wheat flour'] },
+            'corn meal': { level: 'caution', reason: 'Refined corn flour. Low nutrition.', alternatives: ['Whole corn'] },
+            'rice meal': { level: 'caution', reason: 'Refined rice flour. Low nutrition.', alternatives: ['Brown rice flour'] },
+            'edible vegetable oil (palm)': { level: 'caution', reason: 'Refined palm oil. High in saturated fat.', alternatives: ['Olive oil'] },
+            'edible vegetable oil (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils. High in saturated fat.', alternatives: ['Olive oil'] },
+            'edible vegetable oils (palm, palmolein)': { level: 'caution', reason: 'Refined palm oils. High in saturated fat.', alternatives: ['Olive oil'] },
+            'choco covering': { level: 'caution', reason: 'Vague term for chocolate coating. Usually contains hydrogenated fats and sugar.', alternatives: ['Dark chocolate (70%+)'] },
+            'nature identical flavour': { level: 'caution', reason: 'Synthetic flavour chemically identical to natural. Best to limit.', alternatives: ['Natural extracts'] },
+            'nature-identical flavouring substances': { level: 'caution', reason: 'Synthetic flavours. Best to limit.', alternatives: ['Natural extracts'] },
+            'humectant': { level: 'caution', reason: 'Moisture-retaining additive (usually INS 422 glycerin).', alternatives: ['Natural alternatives'] },
+            'hydrolyzed pea protein': { level: 'caution', reason: 'A "hidden MSG" source. May trigger sensitivity.', alternatives: ['Whole pea protein'] },
+            'vanillin': { level: 'caution', reason: 'Synthetic vanilla flavour. Best to limit.', alternatives: ['Real vanilla extract'] },
+            'liquid glucose': { level: 'caution', reason: 'A refined sugar syrup. Adds empty calories.', alternatives: ['Dates'] },
+            'hydrogenated vegetable fat': { level: 'harmful', reason: 'Source of artificial trans fats. Banned or restricted in many countries.', alternatives: ['Cocoa butter'] },
+            'dough conditioner': { level: 'caution', reason: 'Vague term. May contain emulsifiers or preservatives.', alternatives: ['Fresh baked goods'] },
+            'flour treatment agent': { level: 'caution', reason: 'Vague term. Could be ascorbic acid (safe) or potassium bromate (harmful).', alternatives: ['Unbleached flour'] },
+            'calcium salt': { level: 'safe', reason: 'A general term for calcium-based additives. Safe.', alternatives: [] },
+            'ferrous salt': { level: 'safe', reason: 'A form of iron for fortification. Safe.', alternatives: [] },
+            'potassium iodate': { level: 'caution', reason: 'Source of iodine. Excessive intake can affect thyroid.', alternatives: ['Iodised salt'] },
+            'edible starch': { level: 'caution', reason: 'Usually refined corn or tapioca starch. Low nutritional value.', alternatives: ['Arrowroot'] },
+            'cocoa processed with alkali': { level: 'caution', reason: 'Dutched cocoa — reduces beneficial antioxidants.', alternatives: ['Natural cocoa powder'] },
+            'sweet condensed milk': { level: 'caution', reason: 'Milk with high sugar content. Adds to added sugar intake.', alternatives: ['Plain milk'] },
+            'bakery shortening': { level: 'caution', reason: 'Processed fat, often palm-based. High saturated fat.', alternatives: ['Butter (moderation)'] },
+            'edible maize starch': { level: 'caution', reason: 'Refined corn starch. Low nutritional value.', alternatives: ['Arrowroot'] },
+            'improver': { level: 'caution', reason: 'A mix of enzymes or additives to improve dough. Vague term.', alternatives: ['Fresh dough'] },
+            'amylase': { level: 'safe', reason: 'An enzyme used in baking. Safe.', alternatives: [] },
+            'papain': { level: 'safe', reason: 'An enzyme from papaya used as a dough conditioner. Safe.', alternatives: [] },
+            'cardamom seeds': { level: 'safe', reason: 'Natural spice. Safe.', alternatives: [] },
+            'sodium acid pyrophosphate': { level: 'harmful', reason: 'Also called E450(i) or INS 450(i). Phosphate used in frozen fries. Disrupts calcium balance.', alternatives: ['Fresh potatoes'] },
+            'disodium dihydrogen pyrophosphate': { level: 'harmful', reason: 'Also called E450 or INS 450. Phosphate used in frozen fries.', alternatives: ['Fresh potatoes'] },
+            'soy sauce': { level: 'caution', reason: 'High sodium — often 900mg+ per tablespoon. May contain MSG or preservatives.', alternatives: ['Coconut aminos'] },
+            'processed cheese': { level: 'caution', reason: 'Contains sodium phosphates, emulsifiers, and artificial colors. Not real cheese.', alternatives: ['Real cheese'] },
+            'malt extract': { level: 'caution', reason: 'Sugar from malted barley. Adds to sugar intake.', alternatives: ['Whole grains'] }};
 
         let currentAge = 'all';
         let currentFilter = 'all';
