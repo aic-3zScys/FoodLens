@@ -1189,21 +1189,38 @@ Natural Flavors"></textarea>
         }
 
         function findIngredient(rawName) {
-            const normalized = normalizeIngredient(rawName);
-            if (ingredientDB[normalized]) return ingredientDB[normalized];
-            const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
-            if (eMatch) {
-                if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
-                for (const [key, value] of Object.entries(ingredientDB)) {
-                    if (key.includes('e' + eMatch[1])) return value;
-                }
-            }
-            const partial = findPartialMatch(normalized);
-            if (partial) return partial;
-            for (const [key, value] of Object.entries(ingredientDB)) {
-                if (key.includes(normalized) && normalized.length > 3) return value;
-            }
-            return null;
+    const raw = rawName.trim().toLowerCase();
+    const normalized = normalizeIngredient(rawName);
+
+    // 1. Try RAW exact match first (this fixes "red 40", "yellow 5", etc.)
+    if (ingredientDB[raw]) return ingredientDB[raw];
+
+    // 2. Try normalized exact match
+    if (ingredientDB[normalized]) return ingredientDB[normalized];
+
+    // 3. E-number matching
+    const eMatch = normalized.match(/^e(\d{3,4}[a-z]?)$/);
+    if (eMatch) {
+        if (ingredientDB['e' + eMatch[1]]) return ingredientDB['e' + eMatch[1]];
+        for (const [key, value] of Object.entries(ingredientDB)) {
+            if (key.includes('e' + eMatch[1])) return value;
+        }
+    }
+
+    // 4. Partial match against RAW input (handles "red 40" -> "red 40")
+    for (const [key, value] of Object.entries(ingredientDB)) {
+        if (raw === key) return value;
+        if (raw.includes(key)) return value;
+        if (key.includes(raw) && raw.length >= 4) return value;
+    }
+
+    // 5. Fall back to normalized partial (handles "sugar" inside longer strings)
+    for (const [key, value] of Object.entries(ingredientDB)) {
+        if (normalized.includes(key)) return value;
+        if (key.includes(normalized) && normalized.length >= 3) return value;
+    }
+
+    return null;
         }
 
         function checkIngredients() {
