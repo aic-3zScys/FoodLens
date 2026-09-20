@@ -181,20 +181,37 @@
             <div class="preset-row">
                 <label for="presetSelect">⚡ Quick check:</label>
                 <select id="presetSelect" onchange="loadPreset(this.value)">
-                    <option value="">-- Pick a common product type --</option>
-                    <option value="noodles">🍜 Instant Noodles</option>
-                    <option value="biscuit">🍪 Chocolate Biscuit</option>
-                    <option value="juice">🧃 Fruit Juice</option>
-                    <option value="softdrink">🥤 Soft Drink / Cola</option>
-                    <option value="healthdrink">🥛 Health Drink (Malt-based)</option>
-                    <option value="chips">🍟 Chips / Namkeen</option>
-                    <option value="icecream">🍨 Ice Cream</option>
-                    <option value="yogurt">🥣 Flavored Yogurt</option>
-                    <option value="cereal">🥣 Breakfast Cereal</option>
-                    <option value="candy">🍬 Candy / Toffee</option>
-                    <option value="nuggets">🍗 Frozen Chicken Nuggets</option>
-                    <option value="pizza">🍕 Frozen Pizza</option>
-                </select>
+    <option value="">-- Pick a common product type --</option>
+    <optgroup label="🍜 Snacks & Packaged Foods">
+        <option value="noodles">🍜 Instant Noodles</option>
+        <option value="biscuit">🍪 Chocolate Biscuit</option>
+        <option value="chips">🍟 Chips / Namkeen</option>
+        <option value="candy">🍬 Candy / Toffee</option>
+        <option value="cereal">🥣 Breakfast Cereal</option>
+    </optgroup>
+    <optgroup label="🥤 Beverages">
+        <option value="juice">🧃 Fruit Juice</option>
+        <option value="softdrink">🥤 Soft Drink / Cola</option>
+        <option value="healthdrink">🥛 Health Drink (Malt-based)</option>
+    </optgroup>
+    <optgroup label="🍨 Dairy & Frozen Desserts">
+        <option value="icecream">🍨 Ice Cream</option>
+        <option value="yogurt">🥣 Flavored Yogurt</option>
+    </optgroup>
+    <optgroup label="🧊 Frozen Foods for Kids">
+        <option value="fries">🍟 Frozen French Fries</option>
+        <option value="alootikki">🥔 Aloo Tikki</option>
+        <option value="cutlet">🥔 Veg Cutlet</option>
+        <option value="samosa">🥟 Frozen Samosa</option>
+        <option value="momos">🥟 Frozen Momos</option>
+        <option value="paratha">🫓 Frozen Paratha</option>
+        <option value="nuggets">🍗 Chicken Nuggets</option>
+        <option value="kebab">🍢 Frozen Kebabs</option>
+        <option value="sausages">🌭 Sausages</option>
+        <option value="fishfingers">🐟 Fish Fingers</option>
+        <option value="pizza">🍕 Frozen Pizza</option>
+    </optgroup>
+</select>
             </div>
 
             <div class="input-section">
@@ -388,7 +405,7 @@ Natural Flavors"></textarea>
         ];
 
         const presets = {
-            noodles: `Refined Wheat Flour (Maida)
+    noodles: `Refined Wheat Flour (Maida)
 Palm Oil
 Salt
 Wheat Gluten
@@ -400,7 +417,7 @@ Spices & Condiments
 Flavour Enhancer (635)
 Colour (150d)
 Preservative (319)`,
-            biscuit: `Refined Wheat Flour
+    biscuit: `Refined Wheat Flour
 Sugar
 Edible Vegetable Oil (Palm)
 Cocoa Solids
@@ -411,7 +428,7 @@ Emulsifier (322)
 Dough Conditioner (223)
 Artificial Flavouring Substances
 Synthetic Food Colour (155)`,
-            juice: `Water
+    juice: `Water
 Sugar
 Concentrated Fruit Juice
 Acidity Regulator (330)
@@ -420,7 +437,7 @@ Stabilizer (440)
 Preservative (202)
 Artificial Flavour
 Colour (102, 110)`,
-            softdrink: `Carbonated Water
+    softdrink: `Carbonated Water
 Sugar
 Acidity Regulators (338, 330)
 Caffeine
@@ -428,7 +445,7 @@ Colour (150d)
 Preservative (211)
 Natural Flavouring Substances
 High Fructose Corn Syrup`,
-            healthdrink: `Malt Extract
+    healthdrink: `Malt Extract
 Sugar
 Cocoa Solids
 Milk Solids
@@ -439,7 +456,7 @@ Emulsifier (322)
 Salt
 Artificial Flavour
 Maltodextrin`,
-            chips: `Potato
+    chips: `Potato
 Edible Vegetable Oil (Palm)
 Spices & Condiments
 Salt
@@ -447,7 +464,7 @@ Acidity Regulator (330)
 Flavour Enhancers (621, 627, 631)
 Antioxidant (319)
 Silicon Dioxide (551)`,
-            icecream: `Milk
+    icecream: `Milk
 Sugar
 Milk Solids
 Edible Vegetable Fat
@@ -456,7 +473,7 @@ Stabilizers (412, 407, 466)
 Artificial Flavour
 Colour (102, 110)
 Permitted Synthetic Food Colours`,
-            yogurt: `Milk
+    yogurt: `Milk
 Sugar
 Milk Solids
 Modified Starch (1442)
@@ -465,7 +482,7 @@ Artificial Flavour
 Colour (122)
 Preservative (202)
 Added Cultures`,
-            cereal: `Whole Wheat Flour
+    cereal: `Whole Wheat Flour
 Sugar
 Corn Flour
 Cocoa Solids
@@ -477,7 +494,7 @@ Antioxidant (320)
 Vitamins
 Minerals
 Artificial Flavour`,
-            candy: `Sugar
+    candy: `Sugar
 Glucose Syrup
 Edible Vegetable Fat
 Acidity Regulator (330)
@@ -485,7 +502,7 @@ Emulsifier (322)
 Artificial Flavouring Substances
 Synthetic Food Colours (102, 110, 122, 124, 129)
 Antioxidant (319)`,
-            nuggets: `Chicken
+    nuggets: `Chicken
 Water
 Sodium Phosphates (451)
 Salt
@@ -495,7 +512,7 @@ Flavour Enhancer (621)
 Spices & Condiments
 Thickener (412)
 Colour (160c)`,
-            pizza: `Refined Wheat Flour
+    pizza: `Refined Wheat Flour
 Water
 Tomato Paste
 Mozzarella Cheese
@@ -506,8 +523,92 @@ Yeast
 Sodium Phosphates (450, 451)
 Emulsifier (472e)
 Preservative (282)
-Antioxidant (319)`
-        };
+Antioxidant (319)`,
+    fries: `Potato
+Edible Vegetable Oil (Palm)
+Dextrose
+Sodium Acid Pyrophosphate (450)
+Disodium Dihydrogen Pyrophosphate (450)
+Salt
+Colour (160c)`,
+    alootikki: `Potato
+Edible Vegetable Oil (Palm)
+Refined Wheat Flour
+Salt
+Spices & Condiments
+Corn Flour
+Breadcrumbs
+Stabilizer (415)
+Acidity Regulator (330)
+Antioxidant (319)`,
+    sausages: `Chicken
+Water
+Edible Common Salt
+Spices & Condiments
+Sodium Phosphates (451)
+Sodium Nitrite (250)
+Sodium Erythorbate (316)
+Flavour Enhancer (621)
+Sugar
+Soy Protein
+Colour (160c)`,
+    paratha: `Refined Wheat Flour
+Water
+Edible Vegetable Oil (Palm)
+Salt
+Wheat Gluten
+Preservative (282)
+Emulsifier (471)
+Acidity Regulator (297)`,
+    momos: `Refined Wheat Flour
+Water
+Cabbage
+Carrot
+Onion
+Edible Vegetable Oil (Palm)
+Salt
+Soy Sauce
+Flavour Enhancer (621)
+Stabilizer (412)
+Preservative (211)`,
+    fishfingers: `Fish
+Refined Wheat Flour
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Breadcrumbs
+Sodium Phosphates (451)
+Flavour Enhancer (621)
+Colour (160c)
+Stabilizer (412)`,
+    cutlet: `Potato
+Edible Vegetable Oil (Palm)
+Refined Wheat Flour
+Breadcrumbs
+Salt
+Spices & Condiments
+Corn Flour
+Stabilizer (415)
+Antioxidant (319)`,
+    samosa: `Refined Wheat Flour
+Potato
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Spices & Condiments
+Acidity Regulator (330)
+Preservative (282)`,
+    kebab: `Chicken
+Edible Vegetable Oil (Palm)
+Water
+Salt
+Spices & Condiments
+Sodium Phosphates (451)
+Flavour Enhancer (621)
+Soy Protein
+Stabilizer (415)
+Preservative (250)`
+};
 
         const ingredientDB = {
             'red 40': { level: 'harmful', reason: 'Also called E129, Allura Red, or INS 129. Synthetic petroleum dye linked to hyperactivity. Banned in Denmark, Switzerland.', alternatives: ['Beet juice concentrate', 'Paprika extract', 'Annatto'] },
@@ -1231,7 +1332,20 @@ Antioxidant (319)`
             'concentrated fruit juice': { level: 'caution', reason: 'Concentrated sugar. Limit.', alternatives: ['Fresh juice'] },
             'carbonated water': { level: 'safe', reason: 'Safe, hydrating.', alternatives: [] },
             'cocoa butter': { level: 'safe', reason: 'Natural fat from cocoa. Safe.', alternatives: [] }
-        };
+        ,
+            // ============ FROZEN FOOD SPECIFIC ============
+            'sodium acid pyrophosphate': { level: 'harmful', reason: 'Also called E450(i) or INS 450(i). A phosphate used in frozen fries and processed potatoes. Disrupts calcium-phosphorus balance in growing children.', alternatives: ['Fresh potatoes'] },
+            'disodium dihydrogen pyrophosphate': { level: 'harmful', reason: 'Also called E450 or INS 450. Phosphate used in frozen fries to prevent discoloration. High intake affects bone health.', alternatives: ['Fresh potatoes'] },
+            'soy sauce': { level: 'caution', reason: 'High sodium — often 900mg+ per tablespoon. Also may contain MSG or preservatives.', alternatives: ['Coconut aminos', 'Low-sodium soy sauce'] },
+            'tomato ketchup': { level: 'caution', reason: 'High sugar and sodium. Often contains HFCS and preservatives.', alternatives: ['Fresh tomato puree'] },
+            'mayonnaise': { level: 'caution', reason: 'Processed oil, egg yolk, and often preservatives. High fat.', alternatives: ['Olive oil mayo', 'Hummus'] },
+            'cheese slice': { level: 'caution', reason: 'Processed cheese — often contains sodium phosphates, emulsifiers, and artificial colors. Not real cheese.', alternatives: ['Real cheddar', 'Paneer'] },
+            'processed cheese': { level: 'caution', reason: 'Contains sodium phosphates (E339), emulsifying salts, and artificial colors. Limit for children.', alternatives: ['Real cheese'] },
+            'whey protein': { level: 'caution', reason: 'Milk protein — common allergen. Processed additive.', alternatives: ['Whole milk protein'] },
+            'yeast': { level: 'safe', reason: 'Natural leavening agent. Safe.', alternatives: [] },
+            'breadcrumbs': { level: 'caution', reason: 'Usually from refined wheat flour. May contain preservatives and emulsifiers.', alternatives: ['Whole wheat breadcrumbs', 'Oat crumbs'] },
+            'batter': { level: 'caution', reason: 'Usually refined flour + additives. Check ingredients.', alternatives: ['Whole grain batter'] },
+            'tempura': { level: 'caution', reason: 'Refined flour coating, often with additives. Fried.', alternatives: ['Baked versions'] }};
 
         let currentAge = 'all';
         let currentFilter = 'all';
