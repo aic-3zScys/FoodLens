@@ -1424,7 +1424,56 @@ Natural Flavors"></textarea>
             localStorage.removeItem(HISTORY_KEY);
             renderHistory();
         }
+function getCategory(name) {
+    const n = name.toLowerCase();
 
+    // Colors
+    if (/^e1\d{2}/.test(n) || /red \d|yellow \d|blue \d|green \d|orange b|citrus red|tartrazine|allura|sunset yellow|carmoisine|ponceau|indigotine|brilliant blue|annatto|beet juice|beta carotene|paprika extract|turmeric extract|chlorophyll|caramel color|curcumin|beetroot|matcha|red cabbage|fd&c|artificial colou?r|carrot juice|blueberry juice/.test(n)) return 'color';
+
+    // Preservatives
+    if (/^e2\d{2}/.test(n) || /bha|bht|tbhq|benzoate|benzoic|nitrite|nitrate|sulfite|sulfur dioxide|bisulfite|metabisulfite|sorbate|sorbic|propionate|propyl gallate|erythorbate|edta|paraben|formaldehyde|formalin|dimethyl dicarbonate|biphenyl|orthophenyl|thiabendazole|hexamethylene/.test(n)) return 'preservative';
+
+    // Phosphates
+    if (/phosphate|stpp|^e3[3-4]\d|^e45[0-2]/.test(n)) return 'phosphate';
+
+    // Modified starches
+    if (/modified.*starch|^e14[1-4]\d/.test(n)) return 'starch';
+
+    // Flavor enhancers
+    if (/^e6[2-3]\d/.test(n) || /msg|monosodium glutamate|disodium inosinate|disodium guanylate|disodium ribonucleotides|autolyzed yeast|hydrolyzed|yeast extract|glutamic acid|inosinic acid|guanylic acid/.test(n)) return 'flavor_enhancer';
+
+    // Sweeteners
+    if (/^e9[5-6]\d/.test(n) || /aspartame|sucralose|saccharin|acesulfame|ace-k|neotame|advantame|cyclamate|stevia|monk fruit|thaumatin|sorbitol|xylitol|erythritol|mannitol|isomalt|lactitol|maltitol/.test(n)) return 'sweetener';
+
+    // Emulsifiers
+    if (/lecithin|polysorbate|diglyceride|datem|stearoyl|pgpr|^e322$|^e43[3-6]$|^e47[1-6]|^e481/.test(n)) return 'emulsifier';
+
+    // Thickeners
+    if (/carrageenan|xanthan|guar|agar|pectin|cellulose|konjac|^e4[0-6]\d/.test(n)) return 'thickener';
+
+    // Antioxidants
+    if (/^e3[0-1]\d|ascorbic|tocopherol|vitamin c|vitamin e/.test(n)) return 'antioxidant';
+
+    // Acids
+    if (/citric acid|phosphoric acid|malic acid|lactic acid|acetic acid|tartaric acid|^e26\d|^e27\d|^e29\d|^e33\d/.test(n)) return 'acid';
+
+    // Sugars
+    if (/sugar|syrup|glucose|fructose|dextrose|maltose|honey|molasses|hfcs|high fructose|agave|maltodextrin/.test(n)) return 'sugar';
+
+    // Sodium
+    if (/^salt$|sea salt|himalayan salt|kosher salt|sodium chloride/.test(n)) return 'sodium';
+
+    // Caffeine
+    if (/caffeine|guarana|green tea extract|yerba mate|theobromine/.test(n)) return 'caffeine';
+
+    // Trans fats
+    if (/hydrogenated|margarine|shortening/.test(n)) return 'trans_fat';
+
+    // Allergens
+    if (/soy|wheat|gluten|barley|rye|spelt|peanut|tree nut|almond|walnut|cashew|pecan|pistachio|hazelnut|macadamia|brazil nut|dairy|milk|lactose|whey|casein|egg|albumin|shellfish|shrimp|crab|lobster|fish|sesame|mustard|celery|lupin|mollusk/.test(n)) return 'allergen';
+
+    return 'other';
+}
         function renderDatabase() {
             const searchInput = document.getElementById('dbSearch');
             const clearBtn = document.getElementById('searchClear');
@@ -1434,7 +1483,10 @@ Natural Flavors"></textarea>
             clearBtn.classList.toggle('show', query.length > 0);
 
             let entries = Object.entries(ingredientDB).map(([name, data]) => ({ name, level: data.level, reason: data.reason, alternatives: data.alternatives || [] }));
-            if (currentFilter !== 'all') entries = entries.filter(e => e.level === currentFilter);
+if (currentFilter !== 'all') entries = entries.filter(e => e.level === currentFilter);
+
+const categoryFilter = document.getElementById('categorySelect').value;
+if (categoryFilter !== 'all') entries = entries.filter(e => getCategory(e.name) === categoryFilter);
 
             // Apply search with normalization
             if (query) {
